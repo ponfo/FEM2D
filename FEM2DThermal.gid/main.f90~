@@ -1,0 +1,43 @@
+program FEM2DStaticThermal
+  use tools
+  use ElementPtrMOD
+  use DataInputMOD
+  use ThermalMOD
+  use SolverMOD
+  use PostProcessMOD
+  use DataOutputMOD
+  implicit none
+  type(ThermalTYPE) :: problem
+  type(HeatFluxTYPE) :: heatFlux
+  call initFEM2D(problem)
+  call problem%setUp
+  call staticSolver(problem)
+  call heatFlux%calculateFlux(problem)
+  call printResults(resultName = 'Temperature' &
+       , step         = 1                      &
+       , graphType    = 'Scalar'               &
+       , locationName = 'onNodes'              &
+       , resultNumber = problem%getnPoint()    &
+       , component1   = problem%getDof()       )
+  call printResults(resultName   = 'FluxOnTriangs'      &
+       , type         = 'Triangle'                      &
+       , step         = 1                               &
+       , graphType    = 'Vector'                        &
+       , locationName = 'onGaussPoints'                 &
+       , gaussPoints  = heatFlux%triangGPoint            &
+       , resultNumber = size(heatFlux%triangElemID)      &
+       , elemID       = heatFlux%triangElemID            &
+       , component1   = heatFlux%triangQx                &
+       , component2   = heatFlux%triangQy                )
+  call printResults(resultName   = 'FluxOnQuads'        &
+       , type         = 'Quadrilateral'                 &
+       , step         = 1                               &
+       , graphType    = 'Vector'                        &
+       , locationName = 'onGaussPoints'                 &
+       , gaussPoints  = heatFlux%quadGPoint              &
+       , resultNumber = size(heatFlux%quadElemID)        &
+       , elemID       = heatFlux%quadElemID              &
+       , component1   = heatFlux%quadQx                  &
+       , component2   = heatFlux%quadQy                  )
+  call finishProgram() 
+end program FEM2DStaticThermal

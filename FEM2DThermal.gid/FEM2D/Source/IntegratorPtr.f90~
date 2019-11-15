@@ -1,0 +1,11 @@
+module IntegratorPtrMOD
+  use tools
+  use DebuggerMOD
+  use IntegratorMOD
+  implicit none
+  private
+  public :: IntegratorPtrTYPE
+  type :: IntegratorPtrTYPE
+     class(IntegratorTYPE), pointer :: ptr
+  end type IntegratorPtrTYPE
+end module IntegratorPtrMOD
