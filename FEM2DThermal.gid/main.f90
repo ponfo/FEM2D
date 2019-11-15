@@ -21,12 +21,13 @@ program FEM2DStaticThermal
   call printResults(resultName = 'FluxOnLines'          &
        , type         = 'Linear'                        &
        , step         = 1                               &
-       , graphType    = 'Scalar'                        &
+       , graphType    = 'Vector'                        &
        , locationName = 'onGaussPoints'                 &
        , gaussPoints  = heatFlux%lineGPoint              &
        , resultNumber = size(heatFlux%lineElemID)        &
        , elemID       = heatFlux%lineElemID              &
-       , component1   = heatFlux%lineQ                   )
+       , component1   = heatFlux%lineQ                   &
+       , component2   = 0.d0                             )
   call printResults(resultName = 'FluxOnTriangs'        &
        , type         = 'Triangle'                      &
        , step         = 1                               &
@@ -48,5 +49,4 @@ program FEM2DStaticThermal
        , component1   = heatFlux%quadQx                  &
        , component2   = heatFlux%quadQy                  )
   call finishProgram() 
-
 end program FEM2DStaticThermal
