@@ -8,6 +8,7 @@ program FEM2DStaticThermal
   implicit none
   type(ThProblemTYPE) :: problem
   type(HeatFluxTYPE) :: heatFlux
+  real(rkind), dimension(:), allocatable :: zeros
   call initFEM2D(problem)
   call problem%setUp()
   call staticSolver(problem)
@@ -18,6 +19,8 @@ program FEM2DStaticThermal
        , locationName = 'onNodes'              &
        , resultNumber = problem%domain%nPoint   &
        , component1   = problem%dof            )
+  allocate(zeros(size(heatFlux%lineQ)))
+  zeros = 0.d0
   call printResults(resultName = 'FluxOnLines'          &
        , type         = 'Linear'                        &
        , step         = 1                               &
@@ -27,7 +30,7 @@ program FEM2DStaticThermal
        , resultNumber = size(heatFlux%lineElemID)        &
        , elemID       = heatFlux%lineElemID              &
        , component1   = heatFlux%lineQ                   &
-       , component2   = 0.d0                             )
+       , component2   = zeros                            )
   call printResults(resultName = 'FluxOnTriangs'        &
        , type         = 'Triangle'                      &
        , step         = 1                               &
