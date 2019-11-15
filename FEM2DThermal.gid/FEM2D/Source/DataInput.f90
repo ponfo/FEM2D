@@ -1,7 +1,7 @@
 module DataInputMOD
   use tools
   use DebuggerMOD
-  use ThermalMOD
+  use ThProblemMOD
   implicit none
   private
   public :: initFEM2D
@@ -40,7 +40,7 @@ module DataInputMOD
 contains
   subroutine initFEM2D(problemInput)
     implicit none
-    type(ThermalTYPE), intent(inout) :: problemInput
+    type(ThProblemTYPE), intent(inout) :: problemInput
     call initLog(.true., 'log.dat')
     call debugLog('  Reading project data')
     call readProjectData
@@ -74,7 +74,7 @@ contains
   end subroutine readProjectData
   subroutine initMesh(problemInput)
     implicit none
-    type(ThermalTYPE), intent(inout) :: problemInput
+    type(ThProblemTYPE), intent(inout) :: problemInput
     integer(ikind) :: i
     real(rkind)    :: x, y, z
     open(project, file = trim(projectName)//'.dat')
@@ -120,9 +120,9 @@ contains
     call debugLog('    Number of Surfaces with surfaceSource..........: ', nSurfaceSource)
     call debugLog('    Number of Materials............................: ', nMaterial)
     call debugLog('    Gauss cuadrature order.........................: ', nGauss)
-    problemInput = thermalProblem(nPoint, isQuadratic, nLinearElem, nTriangElem, nRectElem, &
-         , nGauss, nMaterial, nPointSource, nLineSource, nSurfaceSource, nDirichlet, &
-         , nNormalFluxOP, nNormalFluxOL, nConvectionOP, nConvectionOL)
+    problemInput = thermalProblem(nPoint, isQuadratic, nLinearElem, nTriangElem, nRectElem &
+         , nGauss, nMaterial, nPointSource, nLineSource, nSurfaceSource, nDirichlet        &
+         , nNormalFluxOP, nNormalFluxOL, nConvectionOP, nConvectionOL                      )
     do i = 1, 6
        read(project,*)
     end do
@@ -136,7 +136,7 @@ contains
   end subroutine initMesh
   subroutine initMaterials(problemInput)
     implicit none
-    type(ThermalTYPE), intent(inout) :: problemInput
+    type(ThProblemTYPE), intent(inout) :: problemInput
     integer(ikind) :: i, iMat
     real(rkind) :: kx, ky
     do i = 1, 7
@@ -150,9 +150,9 @@ contains
     end do
   end subroutine initMaterials
   subroutine initElements(problemInput)
-    type(ThermalTYPE), intent(inout) :: problemInput
+    type(ThProblemTYPE), intent(inout) :: problemInput
     integer(ikind) :: i, j, iElem, iMat, iNode, Conectivities(8)
-    character(leng=13) :: type
+    character(len=13) :: type
     Conectivities = 0
     do i = 1, 28+nSourceOP+nSourceOL+nSourceOS
        read(project,*)
@@ -160,13 +160,13 @@ contains
     if(verbose) print'(A)', 'Element  |      Type      |  material index  |  nNodes  |  connectivities'
     do i = 1, nElem
        read(project,*) iElem, type, iMat, iNode, (Conectivities(j),j=1,iNode)
-       if(verbose) print'(I5,I15,I18,I14,5X,*(I5,X))', iElem, iMat, iSource, iNode, (Conectivities(j),j=1,iNode)
+       if(verbose) print'(I5,A15,I18,I14,5X,*(I5,X))', iElem, type, iMat, iNode, (Conectivities(j),j=1,iNode)
        call problemInput%addElement(type, iNode, iMat, Conectivities)
     end do
   end subroutine initElements
   subroutine readPointLineSurfaceSources(problemInput)
     implicit none
-    type(ThermalTYPE), intent(inout) :: problemInput
+    type(ThProblemTYPE), intent(inout) :: problemInput
     integer(ikind)                   :: i, iNode, iElem, iSource
     do i = 1, 7
        read(project,*)
@@ -201,7 +201,7 @@ contains
   end subroutine readPointLineSurfaceSources
   subroutine readBoundaryConditions(problemInput)
     implicit none
-    type(ThermalTYPE), intent(inout) :: problemInput
+    type(ThProblemTYPE), intent(inout) :: problemInput
     integer(ikind)                   :: i, j, id, elemID, nPointID, iPoint
     integer(ikind), dimension(:), allocatable :: pointID
     real(rkind)                      :: value
@@ -227,7 +227,7 @@ contains
     allocate(pointID(nPointID))
     if(verbose) print'(/,A)', 'Normal Flux On Points conditions'
     if(verbose) print'(A)', 'Nodes     Value'
-    do i = 1, nNormalFlux
+    do i = 1, nNormalFluxOP
        read(Project,*) iPoint, value
        if(verbose) print*, iPoint, value
        call problemInput%addNormalFluxPoint(iPoint, value)
@@ -237,7 +237,7 @@ contains
     end do
     if(verbose) print'(/,A)', 'Normal Flux On Lines conditions'
     if(verbose) print'(A)', 'Elem    Nodes     Value'
-    do i = 1, nNormalFlux
+    do i = 1, nNormalFluxOL
        read(Project,*) elemID, (pointID(j),j=1,nPointID), value
        if(verbose) print*, elemID, (pointID(j),j=1,nPointID), value
        call problemInput%addNormalFluxLine(elemID, pointID, value)
@@ -247,7 +247,7 @@ contains
     end do
     if(verbose) print'(/,A)', 'Convection On Points conditions'
     if(verbose) print'(A)', 'Nodes     Coef     Temp'
-    do i = 1, nConvection
+    do i = 1, nConvectionOP
        read(Project,*) iPoint, coef, temp
        if(verbose) print*, iPoint, coef, temp
        call problemInput%addConvectionPoint(iPoint, coef, temp)
@@ -257,7 +257,7 @@ contains
     end do
     if(verbose) print'(/,A)', 'Convection On Lines conditions'
     if(verbose) print'(A)', 'Elem    Nodes     Coef     Temp'
-    do i = 1, nConvection
+    do i = 1, nConvectionOL
        read(Project,*) elemID, (pointID(j),j=1,nPointID), coef, temp
        if(verbose) print*, elemID, (pointID(j),j=1,nPointID), coef, temp
        call problemInput%addConvectionLine(elemID, pointID, coef, temp)
@@ -277,7 +277,7 @@ contains
   end subroutine checknMaterial
   subroutine autoAsignMaterial(problemInput)
     implicit none
-    type(ThermalTYPE), intent(inout) :: problemInput
+    type(ThProblemTYPE), intent(inout) :: problemInput
     integer(ikind) :: i, iMat
     real(rkind) :: kx, ky
     do i = 1, 7
@@ -294,8 +294,9 @@ contains
   end subroutine autoAsignMaterial
   subroutine initElementsDefaultMat(problemInput)
     implicit none
-    type(ThermalTYPE), intent(inout) :: problemInput
+    type(ThProblemTYPE), intent(inout) :: problemInput
     integer(ikind) :: i, j, iElem, iMat, iSource, iNode, Conectivities(8), auxInt
+    character(len=13) :: type
     iMat = 1
     do i = 1, 28+nSourceOP+nSourceOL+nSourceOS
        read(project,*)
@@ -303,7 +304,7 @@ contains
     if(verbose) print'(A)', 'Element  |      Type      |  material index  |  nNodes  |  connectivities'
     do i = 1, nElem
        read(project,*) iElem, type, iMat, iNode, (Conectivities(j),j=1,iNode)
-       if(verbose) print'(I5,I15,I18,I14,5X,*(I5,X))', iElem, iMat, iSource, iNode, (Conectivities(j),j=1,iNode)
+       if(verbose) print'(I5,A15,I18,I14,5X,*(I5,X))', iElem, type, iMat, iNode, (Conectivities(j),j=1,iNode)
        call problemInput%addElement(type, iNode, iMat, Conectivities)
     end do
   end subroutine initElementsDefaultMat

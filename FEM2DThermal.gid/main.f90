@@ -16,8 +16,8 @@ program FEM2DStaticThermal
        , step         = 1                      &
        , graphType    = 'Scalar'               &
        , locationName = 'onNodes'              &
-       , resultNumber = problem%getnPoint()    &
-       , component1   = problem%getDof()       )
+       , resultNumber = problem%domain%nPoint   &
+       , component1   = problem%dof            )
   call printResults(resultName = 'FluxOnLines'          &
        , type         = 'Linear'                        &
        , step         = 1                               &

@@ -132,13 +132,14 @@ contains
     this%source = source(nPointSource, nLineSource, nSurfaceSource)
   end subroutine init
 
-  subroutine addPoint(this, x, y)
+  subroutine addPoint(this, x, y, z)
     implicit none
     class(ThDomainTYPE), intent(inout) :: this
     real(rkind), intent(in) :: x
     real(rkind), intent(in) :: y
+    real(rkind), intent(in) :: z
     iPoint = iPoint + 1
-    this%point(iPoint) = point(iPoint, x, y)
+    this%point(iPoint) = point(iPoint, x, y, z)
   end subroutine addPoint
 
   subroutine addElement(this, type, nPoint, matID, pointList)

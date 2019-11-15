@@ -34,7 +34,7 @@ module ThProblemMOD
      procedure, public  :: addConvectionPoint
      procedure, public  :: addConvectionLine
 
-     procedure, public  :: assembleSystem
+     procedure, public  :: setUp => assembleSystem
 
      procedure, private :: assembleStiffness
   end type ThProblemTYPE
@@ -45,7 +45,7 @@ module ThProblemMOD
 
 contains
   
-  type(ThDomainTYPE) function constructor(nPoint, isQuadratic           &
+  type(ThProblemTYPE) function constructor(nPoint, isQuadratic           &
        , nLine, nTriang, nQuad, nGauss, nMaterial, nPointSource         &
        , nLineSource, nSurfaceSource, nDirichletPoint, nNormalFluxPoint &
        , nNormalFluxLine, nConvectionPoint, nConvectionLine             )
@@ -111,12 +111,13 @@ contains
     this%dof = 0.d0
   end subroutine init
 
-  subroutine addPoint(this, x, y)
+  subroutine addPoint(this, x, y, z)
     implicit none
     class(ThProblemTYPE), intent(inout) :: this
     real(rkind), intent(in) :: x
     real(rkind), intent(in) :: y
-    call this%domain%addPoint(x, y)
+    real(rkind), intent(in) :: z
+    call this%domain%addPoint(x, y, z)
   end subroutine addPoint
 
   subroutine addElement(this, type, nPoint, matID, pointList)

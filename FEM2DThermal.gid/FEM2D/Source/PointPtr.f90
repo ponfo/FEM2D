@@ -14,6 +14,8 @@ module PointPtrMOD
      procedure, public :: getX
      procedure, public :: setY
      procedure, public :: getY
+     procedure, public :: setZ
+     procedure, public :: getZ
   end type PointPtrTYPE
 contains
   subroutine allocate(this, point)
@@ -55,5 +57,16 @@ contains
     class(PointPtrTYPE), intent(inout) :: this
     getY = this%ptr%getY()
   end function getY
+  subroutine setZ(this, z)
+    implicit none
+    class(PointPtrTYPE), intent(inout) :: this
+    real(rkind), intent(in) :: z
+    call this%ptr%setZ(z)
+  end subroutine setZ
+  real(rkind) function getZ(this)
+    implicit none
+    class(PointPtrTYPE), intent(inout) :: this
+    getZ = this%ptr%getZ()
+  end function getZ
 end module PointPtrMOD
 
