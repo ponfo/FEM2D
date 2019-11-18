@@ -82,7 +82,7 @@ contains
     type(ThElementList2DTYPE), intent(inout) :: elementList
     real(rkind), dimension(:), intent(inout) :: rhs
     type(Element2DPtrTYPE) :: element
-    integer(ikind) :: i, j, idj
+    integer(ikind) :: i, j, id
     real(rkind) :: magicFactor, int
     real(rkind), dimension(this%integrator1D%ptr%integTerms) :: jacobianDet
     element = elementList%getElement(this%elemID)
@@ -93,8 +93,8 @@ contains
           int = int + this%integrator1D%ptr%weight(j)*this%integrator1D%ptr%shapeFunc(i,j) &
                *this%value*magicFactor*jacobianDet(j)
        end do
-       idj = element%getPointID(this%pointID(j))
-       rhs(idj) = rhs(idj) - int
+       id = element%getPointID(this%pointID(i))
+       rhs(id) = rhs(id) - int
     end do
   end subroutine apply
 
@@ -110,7 +110,7 @@ contains
     real(rkind), dimension(this%integrator1D%ptr%integTerms,2,element%ptr%nPoint) :: dsf
     type(PointPtrTYPE), dimension(size(this%pointID)) :: point
     do i = 1, this%getnPoint()
-       point(i) = element%getPoint(this%pointID(j))
+       point(i) = element%getPoint(this%pointID(i))
     end do
     jacobian = 0
     nPoint = element%getnPoint()

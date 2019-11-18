@@ -127,32 +127,4 @@ contains
     print'(A,I0,A,I0,A,I0)', 'Date: ', date_time(3), "/", date_time(2), "/", date_time(1)
     print'(A,I0,A,I0,A,I0)', 'Hour: ', date_time(5), ":", date_time(6), ":", date_time(7)
   end subroutine finishProgram
-!!$  subroutine free()
-!!$    integer(ikind), parameter :: function=1, projectData=2
-!!$    character(50)             :: projectName, path
-!!$    open(projectData, file = 'projectData.dat')
-!!$    read(projectData,'(A50)') projectName
-!!$    read(projectData,'(A50)') path
-!!$    close(projectData)
-!!$    open(function, file = trim(path)//'/FEM2D/Source/Source.f90')
-!!$    write(function,'(A)')       'module SourceMOD'
-!!$    write(function,'(A)')       '  use tools'
-!!$    write(function,'(A)')       '  implicit none'
-!!$    write(function,'(A)')       '  private'
-!!$    write(function,'(A)')       '  public :: sourceTYPE'
-!!$    write(function,'(A)')       '  type sourceTYPE'
-!!$    write(function,'(A)')       '   contains'
-!!$    write(function,'(A)')       '     procedure :: func'
-!!$    write(function,'(A)')       '  end type sourceTYPE'
-!!$    write(function,'(A)')       'contains'
-!!$    write(function,'(A)')       '  function func( this, i, x, y)' 
-!!$    write(function,'(A)')       '    implicit none'
-!!$    write(function,'(A)')       '    class(sourceTYPE) :: this'
-!!$    write(function,'(A)')       '    integer(ikind), intent(in) :: i'
-!!$    write(function,'(A)')       '    real(rkind), intent(in) :: x, y'
-!!$    write(function,'(A)')       '    real(rkind) :: func'
-!!$    write(function,'(A)')       '  end function func'
-!!$    write(function,'(A)')       'end module SourceMOD'
-!!$    close(function)
-!!$  end subroutine free
 end module DataOutputMOD

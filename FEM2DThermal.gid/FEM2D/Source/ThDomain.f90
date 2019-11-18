@@ -175,7 +175,7 @@ contains
     type(PointPtrTYPE), dimension(nPoint) :: point
     type(MaterialPtrTYPE) :: material
     do i = 1, nPoint
-       call point(i)%allocate(this%point(i))
+       call point(i)%allocate(this%point(pointList(i)))
     end do
     call material%allocate(this%material(matID))
     call this%elementList1D%addElement(material, point)
@@ -191,7 +191,7 @@ contains
     type(PointPtrTYPE), dimension(nPoint) :: point
     type(MaterialPtrTYPE) :: material
     do i = 1, nPoint
-       call point(i)%allocate(this%point(i))
+       call point(i)%allocate(this%point(pointList(i)))
     end do
     call material%allocate(this%material(matID))
     call this%elementList2D%addElement(material, point)

@@ -16,6 +16,7 @@ contains
     class(ProblemTYPE), intent(inout) :: problem
     real(rkind) :: start, finish
     call debugLog('Solving linear system')
+    print*, 'Solving linear system'
     call cpu_time(start)
     problem%dof = CGOMP(problem%stiffness, problem%rhs)
     !problem%dof = gmres(problem%stiffness, problem%rhs)

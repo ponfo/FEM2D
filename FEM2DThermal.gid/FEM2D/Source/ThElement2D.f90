@@ -31,6 +31,7 @@ contains
     nPoint = this%getnPoint()
     do i = 1, nPoint
        do j = 1, nPoint
+          getStiffness(i,j) = 0.d0
           do k = 1, integrator%ptr%integTerms
              bi = jacobian(k,2,2)*integrator%ptr%dShapeFunc(k,1,i) &
                   - jacobian(k,1,2)*integrator%ptr%dShapeFunc(k,2,i)

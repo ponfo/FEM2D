@@ -48,10 +48,10 @@ Normal_Flux_Points_Condition_Nodes.....: *condnumentities
 *Set Cond Convection_On_Points *nodes
 Convection_Points_Condition_Nodes......: *condnumentities
 *#---------------------------------------------------------
-*Set Cond Normal_Flux_On_Lines *nodes
+*Set Cond Normal_Flux_On_Lines *elems
 Normal_Flux_Line_Condition_Elements....: *condnumentities
 *#---------------------------------------------------------
-*Set Cond Convection_On_Lines *nodes
+*Set Cond Convection_On_Lines *elems
 Convection_Lines_Condition_Elements....: *condnumentities
 *#---------------------------------------------------------
 *Set Cond Source_On_Points *nodes
@@ -59,7 +59,7 @@ Points_With_Point_Source...............: *condnumentities
 *#---------------------------------------------------------
 Source_Number_On_Points................: *Gendata(Source_Number_On_Points,int)
 *#---------------------------------------------------------
-*Set Cond Source_On_Lines *elems
+*Set Cond Source_On_Lines *nodes
 *#---------------------------------------------------------
 Lines_With_Line_Source.................: *condnumentities
 *#---------------------------------------------------------
@@ -125,6 +125,7 @@ Source   |  Function
 *break
 *endif
 *end for
+
 
 ################## Sources On Surfaces #####################
 

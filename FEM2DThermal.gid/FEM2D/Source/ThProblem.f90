@@ -104,6 +104,9 @@ contains
        this%stiffness = &
             sparse(nnz = nLine*9+nTriang*36+nQuad*64, rows = nPoint)
     end if
+    call debugLog('    Allocated Stiffness')
+    call debugLog('      Estimated nnz: ', this%stiffness%getnnz())
+    call debugLog('      Matrix order: ', this%stiffness%getn())
     allocate(this%rhs(nPoint))
     call debugLog('    Allocated RHS: ', size(this%rhs))
     allocate(this%dof(nPoint))
@@ -209,7 +212,9 @@ contains
   subroutine assembleSystem(this)
     implicit none
     class(ThProblemTYPE), intent(inout) :: this
+    integer(ikind) :: i
     call debugLog('  Assembling stiffness matrix and right hand side vector')
+    print'(A)', 'Assembling stiffness matrix and right hand side vector'
     call this%assembleStiffness()
     call this%domain%applySource(this%rhs)
     call this%domain%applyBC1D(this%stiffness, this%rhs)

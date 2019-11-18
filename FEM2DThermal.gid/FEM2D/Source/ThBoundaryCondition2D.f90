@@ -77,8 +77,7 @@ contains
     integer(ikind) :: i
     real(rkind) :: u
     call debugLog('        Valueing Integrator1D for boundary integrations')
-    allocate(this%integrator1D%shapeFunc(this%integrator1D%integTerms, n))
-    allocate(this%integrator1D%dShapeFunc(this%integrator1D%integTerms, 1, n))
+    allocate(this%integrator1D%shapeFunc(n, this%integrator1D%integTerms))
     if(n == 2) then
        do i = 1, this%integrator1D%integTerms
           this%integrator1D%shapeFunc(1,i) = 0.5*(1-this%integrator1D%gPoint(i,1))

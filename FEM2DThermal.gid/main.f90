@@ -9,6 +9,7 @@ program FEM2DStaticThermal
   type(ThProblemTYPE) :: problem
   type(HeatFluxTYPE) :: heatFlux
   real(rkind), dimension(:), allocatable :: zeros
+  print'(A)', 'Initiating FEM2DThermal'
   call initFEM2D(problem)
   call problem%setUp()
   call staticSolver(problem)

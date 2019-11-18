@@ -2,7 +2,7 @@ module FunctionOnPointsMOD
   use tools
   implicit none
 contains
-  real(rkind) function funcOnPoints(this, i, x, y)
+  real(rkind) function funcOnPoints(i, x, y)
   implicit none
   integer(ikind), intent(in) :: i
   real(rkind), intent(in) :: x

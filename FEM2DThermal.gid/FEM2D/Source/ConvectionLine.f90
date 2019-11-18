@@ -95,7 +95,7 @@ contains
     class(Sparse), intent(inout) :: stiffness
     real(rkind), dimension(:), intent(inout) :: rhs
     type(Element2DPtrTYPE) :: element
-    integer(ikind) :: i, j, k, idj, idk, index
+    integer(ikind) :: i, j, k, id, idi, idj, index
     real(rkind) :: magicFactor, int
     real(rkind), dimension(this%integrator1D%ptr%integTerms) :: jacobianDet
     element = elementList%getElement(this%elemID)
@@ -107,11 +107,11 @@ contains
              int = int + this%integrator1D%ptr%weight(k)*this%integrator1D%ptr%shapeFunc(i,k) &
                   *this%integrator1D%ptr%shapeFunc(j,k)*magicFactor*this%coef*jacobianDet(k)
           end do
+          idi = element%getPointID(this%pointID(i))
           idj = element%getPointID(this%pointID(j))
-          idk = element%getPointID(this%pointID(k))
           index = stiffness%AI(idj)
-          do while(index < stiffness%AI(idj+1))
-             if(stiffness%AJ(index) == idk) then
+          do while(index < stiffness%AI(idi+1))
+             if(stiffness%AJ(index) == idj) then
                 stiffness%A(index) = stiffness%A(index) + int
              end if
              index = index + 1
@@ -124,8 +124,8 @@ contains
           int = int + this%integrator1D%ptr%weight(j)*this%integrator1D%ptr%shapeFunc(i,j) &
                *this%coef*this%temp*magicFactor*jacobianDet(j)
        end do
-       idj = element%getPointID(this%pointID(j))
-       rhs(idj) = rhs(idj) + int
+       id = element%getPointID(this%pointID(i))
+       rhs(id) = rhs(id) + int
     end do
   end subroutine apply
 
@@ -141,7 +141,7 @@ contains
     real(rkind), dimension(this%integrator1D%ptr%integTerms,2,element%ptr%nPoint) :: dsf
     type(PointPtrTYPE), dimension(size(this%pointID)) :: point
     do i = 1, this%getnPoint()
-       point(i) = element%getPoint(this%pointID(j))
+       point(i) = element%getPoint(this%pointID(i))
     end do
     jacobian = 0
     nPoint = element%getnPoint()

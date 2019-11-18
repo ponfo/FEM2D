@@ -58,6 +58,7 @@ contains
     type(IntegratorPtrTYPE) :: integrator
     type(PointPtrTYPE), dimension(:), allocatable :: point
     call debugLog('Calculating heat flux')
+    print'(A)', 'Calculating heat flux'
     call this%valueGPoints(problem)
     nGauss = problem%domain%elementList2D%getGaussOrder()
     nLine = problem%domain%nLine
@@ -81,7 +82,6 @@ contains
        element1D = problem%domain%elementList1D%getElement(iElem)
        nPoint = element1D%getnPoint()
        integrator = element1D%getIntegrator()
-       point = element1D%getPoint()
        do iGauss = 1, integrator%ptr%integTerms
           xi = integrator%ptr%gPoint(i,1)
           jacobian1D = element1D%jacobian(xi)
@@ -105,6 +105,7 @@ contains
     do iElem = 1, nElem
        element2D = problem%domain%elementList2D%getElement(iElem)
        nPoint = element2D%getnPoint()
+       integrator = element2D%getIntegrator()
        if(nPoint == 3 .or. nPoint == 6) then
           triangElemCount = triangElemCount + 1
           addFlux => addTriangFlux
@@ -116,7 +117,6 @@ contains
        else
           print'(A)', '** PostProcess ERROR1 **'
        end if
-       point = element2D%getPoint()
        do iGauss = 1, integrator%ptr%integTerms
           xi = integrator%ptr%gPoint(iGauss,1)
           eta = integrator%ptr%gPoint(iGauss,2)
