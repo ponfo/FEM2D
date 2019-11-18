@@ -50,7 +50,7 @@ Convection_Points_Condition_Nodes......: *condnumentities
 *#---------------------------------------------------------
 *Set Cond Normal_Flux_On_Lines *elems
 Normal_Flux_Line_Condition_Elements....: *condnumentities
-*#---------------------------------------------------------
+*#--------------------------------------------------------- REVISAR ESTAS DOS CONDICIONES DE LINEAR, *ELEMS ESTÁ MAL
 *Set Cond Convection_On_Lines *elems
 Convection_Lines_Condition_Elements....: *condnumentities
 *#---------------------------------------------------------
@@ -240,8 +240,7 @@ Conditions List:
 --------------------------------------------------
 *Set Cond Convection_On_Points *nodes *canrepeat
 *loop nodes *OnlyInCond
-*format "%5i%10.4e%10.4e"
-*nodesnum         *cond(Coeficient,real)          *cond(Temperature,real)
+*nodesnum         *cond(Coeficient)          *cond(Temperature)
 *end 
 
 ########################### Convection On Lines ###########################
@@ -252,8 +251,7 @@ Conditions List:
 -------------------------------------------------------------
 *Set Cond Convection_On_Lines *elems *canrepeat
 *loop elems *OnlyInCond
-*format "%5i%5i%5i%5i"
-*elemsnum   *localnodes  *cond(Coeficient,real)  *cond(Temperature,real)
+*elemsnum   *localnodes  *cond(Coeficient)  *cond(Temperature)
 *end 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

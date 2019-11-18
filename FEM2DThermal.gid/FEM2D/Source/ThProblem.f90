@@ -212,13 +212,12 @@ contains
   subroutine assembleSystem(this)
     implicit none
     class(ThProblemTYPE), intent(inout) :: this
-    integer(ikind) :: i
     call debugLog('  Assembling stiffness matrix and right hand side vector')
     print'(A)', 'Assembling stiffness matrix and right hand side vector'
     call this%assembleStiffness()
     call this%domain%applySource(this%rhs)
-    call this%domain%applyBC1D(this%stiffness, this%rhs)
     call this%domain%applyBC2D(this%stiffness, this%rhs)
+    call this%domain%applyBC1D(this%stiffness, this%rhs)
   end subroutine assembleSystem
 
   subroutine assembleStiffness(this)

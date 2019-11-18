@@ -13,7 +13,7 @@ module SolverMOD
 contains
   subroutine staticSolver(problem)
     implicit none
-    class(ProblemTYPE), intent(inout) :: problem
+    class(ThProblemTYPE), intent(inout) :: problem
     real(rkind) :: start, finish
     call debugLog('Solving linear system')
     print*, 'Solving linear system'

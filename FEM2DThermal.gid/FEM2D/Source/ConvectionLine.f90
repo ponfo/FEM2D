@@ -109,7 +109,7 @@ contains
           end do
           idi = element%getPointID(this%pointID(i))
           idj = element%getPointID(this%pointID(j))
-          index = stiffness%AI(idj)
+          index = stiffness%AI(idi)
           do while(index < stiffness%AI(idi+1))
              if(stiffness%AJ(index) == idj) then
                 stiffness%A(index) = stiffness%A(index) + int

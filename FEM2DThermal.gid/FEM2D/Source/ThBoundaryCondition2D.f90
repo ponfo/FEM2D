@@ -26,7 +26,8 @@ module ThBoundaryCondition2DMOD
 
      procedure :: apply
 
-     procedure, private :: valueIntegrator1D
+     procedure, private :: valueIntegrator1DLinear
+     procedure, private :: valueIntegrator1DQuadratic
   end type ThBoundaryCondition2DTYPE
   
   interface thermalBoundaryCondition2D
@@ -62,36 +63,39 @@ contains
     call debugLog('        Allocated convectionLines: ', size(this%convectionLine))
     iNormalFlux = 0
     iConvection = 0
+    call debugLog('        Valueing Integrator1D for boundary integrations')
     this%integrator1D = integrator(nGauss, 'line')
     if(isQuadratic == 0) then
-       call this%valueIntegrator1D(2)
+       call this%valueIntegrator1DLinear()
     else if(isQuadratic == 1) then
-       call this%valueIntegrator1D(3)
+       call this%valueIntegrator1DQuadratic()
     end if
   end subroutine init
 
-  subroutine valueIntegrator1D(this, n)
+  subroutine valueIntegrator1DLinear(this)
     implicit none
     class(ThBoundaryCondition2DTYPE), intent(inout) :: this
-    integer(ikind), intent(in) :: n
+    integer(ikind) :: i
+    allocate(this%integrator1D%shapeFunc(2, this%integrator1D%integTerms))
+    do i = 1, this%integrator1D%integTerms
+       this%integrator1D%shapeFunc(1,i) = 0.5*(1-this%integrator1D%gPoint(i,1))
+       this%integrator1D%shapeFunc(2,i) = 0.5*(1+this%integrator1D%gPoint(i,1))
+    end do
+  end subroutine valueIntegrator1DLinear
+
+  subroutine valueIntegrator1DQuadratic(this)
+    implicit none
+    class(ThBoundaryCondition2DTYPE), intent(inout) :: this
     integer(ikind) :: i
     real(rkind) :: u
-    call debugLog('        Valueing Integrator1D for boundary integrations')
-    allocate(this%integrator1D%shapeFunc(n, this%integrator1D%integTerms))
-    if(n == 2) then
-       do i = 1, this%integrator1D%integTerms
-          this%integrator1D%shapeFunc(1,i) = 0.5*(1-this%integrator1D%gPoint(i,1))
-          this%integrator1D%shapeFunc(2,i) = 0.5*(1+this%integrator1D%gPoint(i,1))
-       end do
-    else if(n == 3) then
-       do i = 1, this%integrator1D%integTerms
-          u = this%integrator1D%gPoint(i,1)
-          this%integrator1D%shapeFunc(1,i) = 0.5*u*(u-1)
-          this%integrator1D%shapeFunc(3,i) = (1+u)*(1-u)
-          this%integrator1D%shapeFunc(2,i) = 0.5*u*(1+u)
-       end do
-    end if
-  end subroutine valueIntegrator1D
+    allocate(this%integrator1D%shapeFunc(3, this%integrator1D%integTerms))
+    do i = 1, this%integrator1D%integTerms
+       u = this%integrator1D%gPoint(i,1)
+       this%integrator1D%shapeFunc(1,i) = 0.5*u*(u-1)
+       this%integrator1D%shapeFunc(3,i) = (1+u)*(1-u)
+       this%integrator1D%shapeFunc(2,i) = 0.5*u*(1+u)
+    end do
+  end subroutine valueIntegrator1DQuadratic
   
   subroutine addNormalFluxLine(this, elemID, pointID, value)
     implicit none
