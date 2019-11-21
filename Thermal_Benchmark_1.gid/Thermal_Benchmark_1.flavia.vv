@@ -1,6 +1,6 @@
-BeginZE /home/facundo/Documents/FEM2D-LastVersion/FEM2D/Thermal_Benchmark_1.gid/Thermal_Benchmark_1.flavia.vv
-   x -0.825246 1.42525
-   y 1.11919 -0.11919
+BeginZE /home/marco/Gid/problemtypes/FEM2D/Thermal_Benchmark_1.gid/Thermal_Benchmark_1.flavia.vv
+   x -1.18488 1.78487
+   y 2.29237 -1.29237
    z -1.81934 1.81934
    e 0.606447
    v 0 0 0
@@ -15,5 +15,5 @@ BeginZE /home/facundo/Documents/FEM2D-LastVersion/FEM2D/Thermal_Benchmark_1.gid/
    NowUse 2
    DrawingType 3
    LightVector 9.60474 80.1136 122.177 0
-EndZE /home/facundo/Documents/FEM2D-LastVersion/FEM2D/Thermal_Benchmark_1.gid/Thermal_Benchmark_1.flavia.vv
+EndZE /home/marco/Gid/problemtypes/FEM2D/Thermal_Benchmark_1.gid/Thermal_Benchmark_1.flavia.vv
 
