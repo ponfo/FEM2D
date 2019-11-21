@@ -1,0 +1,10 @@
+NUMBER: 1 MATERIAL: Material
+QUESTION: Thermal_Conductivity_X#UNITS#
+VALUE: 0.018N/s/Kel
+QUESTION: Thermal_Conductivity_Y#UNITS#
+VALUE: 0.018N/s/Kel
+QUESTION: Density#UNITS#
+VALUE: 1kg/m^3
+QUESTION: Specific_Heat#UNITS#
+VALUE: 1N*m/kg/Kel
+END MATERIAL

@@ -1,0 +1,40 @@
+NUMBER: 1 MATERIAL: Material
+QUESTION: Thermal_Conductivity_X#UNITS#
+VALUE: 1N/s/Kel
+QUESTION: Thermal_Conductivity_Y#UNITS#
+VALUE: 1N/s/Kel
+QUESTION: Density#UNITS#
+VALUE: 1kg/m^3
+QUESTION: Specific_Heat#UNITS#
+VALUE: 1N*m/kg/Kel
+END MATERIAL
+NUMBER: 2 MATERIAL: Glass
+QUESTION: Thermal_Conductivity_X#UNITS#
+VALUE: .1N/s/Kel
+QUESTION: Thermal_Conductivity_Y#UNITS#
+VALUE: .1N/s/Kel
+QUESTION: Density#UNITS#
+VALUE: 1kg/m^3
+QUESTION: Specific_Heat#UNITS#
+VALUE: 1N*m/kg/Kel
+END MATERIAL
+NUMBER: 3 MATERIAL: Iron
+QUESTION: Thermal_Conductivity_X#UNITS#
+VALUE: .5N/s/Kel
+QUESTION: Thermal_Conductivity_Y#UNITS#
+VALUE: .5N/s/Kel
+QUESTION: Density#UNITS#
+VALUE: 1kg/m^3
+QUESTION: Specific_Heat#UNITS#
+VALUE: 1N*m/kg/Kel
+END MATERIAL
+NUMBER: 4 MATERIAL: Platinum
+QUESTION: Thermal_Conductivity_X#UNITS#
+VALUE: .4N/s/Kel
+QUESTION: Thermal_Conductivity_Y#UNITS#
+VALUE: .4N/s/Kel
+QUESTION: Density#UNITS#
+VALUE: 1kg/m^3
+QUESTION: Specific_Heat#UNITS#
+VALUE: 1N*m/kg/Kel
+END MATERIAL
