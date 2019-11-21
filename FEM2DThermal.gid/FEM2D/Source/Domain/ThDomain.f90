@@ -129,7 +129,7 @@ contains
          thermalElementList2D(isQuadratic, nTriang, nQuad, nGauss)
     this%bc1D = thermalBoundaryCondition1D(nDirichletPoint, nNormalFluxPoint, nConvectionPoint)
     this%bc2D = thermalBoundaryCondition2D(nNormalFluxLine, nConvectionLine, nGauss, isQuadratic)
-    this%source = source(nPointSource, nLineSource, nSurfaceSource)
+    this%source = source(nPointSource, nLineSource, nSurfaceSource, nGauss, isQuadratic)
   end subroutine init
 
   subroutine addPoint(this, x, y, z)
@@ -214,12 +214,12 @@ contains
     call this%source%addPointSource(iPoint, iSource)
   end subroutine addPointSource
 
-  subroutine addLineSource(this, iPoint, iSource)
+  subroutine addLineSource(this, pointID, iSource)
     implicit none
     class(ThDomainTYPE), intent(inout) :: this
-    integer(ikind), intent(in) :: iPoint
+    integer(ikind), dimension(:), intent(in) :: pointID
     integer(ikind), intent(in) :: iSource
-    call this%source%addLineSource(iPoint, iSource)
+    call this%source%addLineSource(pointID, iSource)
   end subroutine addLineSource
 
   subroutine addSurfaceSource(this, iElem, iSource)

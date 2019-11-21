@@ -18,8 +18,7 @@ module SourceMOD
   type SourceTYPE
      type(PointSourceTYPE)  , dimension(:), allocatable :: pointSource
      type(LineSourceTYPE)   , dimension(:), allocatable :: lineSource
-     type(SurfaceSourceTYPE), dimension(:), allocatable :: surfaceSource
-     type(IntegratorTYPE)                               :: integrator1D
+     type(surfaceSourceTYPE), dimension(:), allocatable :: surfaceSource
    contains
      procedure :: init
 
@@ -36,9 +35,6 @@ module SourceMOD
      procedure :: getSurfaceSource
 
      procedure :: apply
-
-     procedure, private :: valueIntegrator1DLinear
-     procedure, private :: valueIntegrator1DQuadratic
   end type SourceTYPE
 
   interface source
@@ -51,31 +47,23 @@ module SourceMOD
 
 contains
 
-  type(SourceTYPE) function constructor(nPointSource, nLineSource, nSurfaceSource, nGauss, isQuadratic)
+  type(SourceTYPE) function constructor(nPointSource, nLineSource, nSurfaceSource)
     implicit none
     integer(ikind), intent(in) :: nPointSource
     integer(ikind), intent(in) :: nLineSource
     integer(ikind), intent(in) :: nSurfaceSource
-    integer(ikind), intent(in) :: nGauss
-    integer(ikind), intent(in) :: isQuadratic
-    call constructor%init(nPointSource, nLineSource, nSurfaceSource, nGauss, isQuadratic)
+    call constructor%init(nPointSource, nLineSource, nSurfaceSource)
   end function constructor
 
-  subroutine init(this, nPointSource, nLineSource, nSurfaceSource, nGauss, isQuadratic)
+  subroutine init(this, nPointSource, nLineSource, nSurfaceSource)
     implicit none
     class(SourceTYPE), intent(inout) :: this
     integer(ikind), intent(in) :: nPointSource
     integer(ikind), intent(in) :: nLineSource
     integer(ikind), intent(in) :: nSurfaceSource
-    integer(ikind), intent(in) :: nGauss
-    integer(ikind), intent(in) :: isQuadratic
     call debugLog('      Initiating Source')
     allocate(this%pointSource(nPointSource))
-    if(isQuadratic == 0) then
-       allocate(this%lineSource(nLineSource-1))
-    else if(isQuadratic == 1) then
-       allocate(this%lineSource(nLineSource-2))
-    end if
+    allocate(this%lineSource(nLineSource))
     allocate(this%surfaceSource(nSurfaceSource))
     call debugLog('        Allocated pointSource: ', size(this%pointSource))
     call debugLog('        Allocated lineSource: ', size(this%lineSource))
@@ -83,46 +71,7 @@ contains
     iPointSource = 0
     iLineSource = 0
     iSurfaceSource = 0
-    call debugLog('        Valueing Integrator1D for source integrations')
-    this%integrator1D = integrator(nGauss, 'line')
-    if(isQuadratic == 0) then
-       call this%valueIntegrator1DLinear()
-    else if(isQuadratic == 1) then
-       call this%valueIntegrator1DQuadratic()
-    end if
   end subroutine init
-
-  subroutine valueIntegrator1DLinear(this)
-    implicit none
-    class(SourceTYPE), intent(inout) :: this
-    integer(ikind) :: i
-    allocate(this%integrator1D%shapeFunc(2, this%integrator1D%integTerms))
-    allocate(this%integrator1D%dShapeFunc(2, 1, this%integrator1D%integTerms))
-    do i = 1, this%integrator1D%integTerms
-       this%integrator1D%shapeFunc(1,i) = 0.5*(1-this%integrator1D%gPoint(i,1))
-       this%integrator1D%shapeFunc(2,i) = 0.5*(1+this%integrator1D%gPoint(i,1))
-       this%integrator1D%dShapeFunc(1,1,i) = -0.5
-       this%integrator1D%dShapeFunc(2,1,i) = 0.5
-    end do
-  end subroutine valueIntegrator1DLinear
-
-  subroutine valueIntegrator1DQuadratic(this)
-    implicit none
-    class(SourceTYPE), intent(inout) :: this
-    integer(ikind) :: i
-    real(rkind) :: u
-    allocate(this%integrator1D%shapeFunc(3, this%integrator1D%integTerms))
-    allocate(this%integrator1D%dShapeFunc(3, 1, this%integrator1D%integTerms))
-    do i = 1, this%integrator1D%integTerms
-       u = this%integrator1D%gPoint(i,1)
-       this%integrator1D%shapeFunc(1,i) = 0.5*u*(u-1)
-       this%integrator1D%shapeFunc(2,i) = (1+u)*(1-u)
-       this%integrator1D%shapeFunc(3,i) = 0.5*u*(1+u)
-       this%integrator1D%dShapeFunc(1,1,i) = u-0.5
-       this%integrator1D%dShapeFunc(2,1,i) = -2*u
-       this%integrator1D%dShapeFunc(3,1,i) = u+0.5
-    end do
-  end subroutine valueIntegrator1DQuadratic
     
   subroutine addPointSource(this, iPoint, iSource)
     implicit none
@@ -146,13 +95,13 @@ contains
     getnPointSource = size(this%pointSource)
   end function getnPointSource
   
-  subroutine addLineSource(this, pointID, iSource)
+  subroutine addLineSource(this, iPoint, iSource)
     implicit none
     class(SourceTYPE), intent(inout) :: this
-    integer(ikind), dimension(:), intent(in) :: pointID
+    integer(ikind), intent(in) :: iPoint
     integer(ikind), intent(in) :: iSource
     iLineSource = iLineSource + 1
-    this%lineSource(iLineSource) = lineSource(pointID, iSource, this%integrator1D)
+    this%lineSource(iLineSource) = lineSource(iPoint, iSource)
   end subroutine addLineSource
   
   type(LineSourceTYPE) function getLineSource(this, i)

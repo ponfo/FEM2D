@@ -27,6 +27,7 @@ contains
     nPoint = this%getnPoint()
     do i = 1, nPoint
        do j = 1, nPoint
+          getStiffness(i,j) = 0.d0
           do k = 1, integrator%ptr%integTerms
              getStiffness(i,j) = getStiffness(i,j)   &
                   + integrator%ptr%weight(k)          &

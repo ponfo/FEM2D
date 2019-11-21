@@ -139,14 +139,14 @@ contains
     class(Sparse), intent(inout) :: stiffness
     real(rkind), dimension(:), intent(inout) :: rhs
     integer(ikind) :: i
-    do i = 1, this%getnDirichlet()
-       call this%dirichletPoint(i)%apply(stiffness, rhs)
-    end do
     do i = 1, this%getnNormalFlux()
        call this%normalFluxPoint(i)%apply(rhs)
     end do
     do i = 1, this%getnConvection()
        call this%convectionPoint(i)%apply(stiffness, rhs)
+    end do
+    do i = 1, this%getnDirichlet()
+       call this%dirichletPoint(i)%apply(stiffness, rhs)
     end do
   end subroutine apply
 

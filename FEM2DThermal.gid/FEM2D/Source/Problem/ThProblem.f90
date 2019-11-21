@@ -109,6 +109,7 @@ contains
     call debugLog('      Matrix order: ', this%stiffness%getn())
     allocate(this%rhs(nPoint))
     call debugLog('    Allocated RHS: ', size(this%rhs))
+    this%rhs = 0.d0
     allocate(this%dof(nPoint))
     call debugLog('    Allocated DOF: ', size(this%dof))
     this%dof = 0.d0
@@ -149,12 +150,12 @@ contains
     call this%domain%addPointSource(iPoint, iSource)
   end subroutine addPointSource
 
-  subroutine addLineSource(this, iPoint, iSource)
+  subroutine addLineSource(this, pointID, iSource)
     implicit none
     class(ThProblemTYPE), intent(inout) :: this
-    integer(ikind), intent(in) :: iPoint
+    integer(ikind), dimension(:), intent(in) :: pointID
     integer(ikind), intent(in) :: iSource
-    call this%domain%addLineSource(iPoint, iSource)
+    call this%domain%addLineSource(pointID, iSource)
   end subroutine addLineSource
 
   subroutine addSurfaceSource(this, iElem, iSource)
