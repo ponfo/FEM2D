@@ -149,16 +149,18 @@ contains
     end do
   end subroutine valueQuad
   
-  subroutine addElement(this, material, point)
+  subroutine addElement(this, id, material, point)
     implicit none
     class(ThElementList2DTYPE), intent(inout) :: this
+    integer(ikind), intent(in) :: id
     type(MaterialPtrTYPE), intent(inout) :: material
     type(PointPtrTYPE), dimension(:), intent(in) :: point
-    call addElementPtr(this, material, point)
+    call addElementPtr(this, id, material, point)
   end subroutine addElement
   
-  subroutine addElementLin(this, material, point)
+  subroutine addElementLin(this, id, material, point)
     class(ThElementList2DTYPE), intent(inout) :: this
+    integer(ikind), intent(in) :: id
     type(MaterialPtrTYPE), intent(inout) :: material
     type(PointPtrTYPE), dimension(:), intent(in) :: point
     integer(ikind) :: i
@@ -166,18 +168,19 @@ contains
     if(size(point) == 3) then
        iTriang = iTriang + 1
        linTriangElem(iTriang) = &
-            thermalLinearTriangElement(material, point, this%triangIntegrator)
+            thermalLinearTriangElement(id, material, point, this%triangIntegrator)
        this%element(iElem)%ptr => linTriangElem(iTriang)
     else if(size(point) == 4) then
        iQuad = iQuad + 1
        linQuadElem(iQuad) = &
-            thermalLinearQuadElement(material, point, this%quadIntegrator)
+            thermalLinearQuadElement(id, material, point, this%quadIntegrator)
        this%element(iElem)%ptr => linQuadElem(iQuad)
     end if
   end subroutine addElementLin
 
-  subroutine addElementQuad(this, material, point)
+  subroutine addElementQuad(this, id, material, point)
     class(ThElementList2DTYPE), intent(inout) :: this
+    integer(ikind), intent(in) :: id
     type(MaterialPtrTYPE), intent(inout) :: material
     type(PointPtrTYPE), dimension(:), intent(in) :: point
     integer(ikind) :: i
@@ -185,12 +188,12 @@ contains
     if(size(point) == 6) then
        iTriang = iTriang + 1
        quadTriangElem(iTriang) = &
-            thermalQuadTriangElement(material, point, this%triangIntegrator)
+            thermalQuadTriangElement(id, material, point, this%triangIntegrator)
        this%element(iElem)%ptr => quadTriangElem(iTriang)
     else if(size(point) == 8) then
        iQuad = iQuad + 1
        quadQuadElem(iQuad) = &
-            thermalQuadQuadElement(material, point, this%quadIntegrator)
+            thermalQuadQuadElement(id, material, point, this%quadIntegrator)
        this%element(iElem)%ptr => quadQuadElem(iQuad)
     end if
   end subroutine addElementQuad

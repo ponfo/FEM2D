@@ -14,6 +14,7 @@ module Element2DPtrMOD
   type :: Element2DPtrTYPE
      class(Element2DTYPE), pointer :: ptr
    contains
+     procedure, public  :: getID
      procedure, public  :: getnPoint
      procedure, public  :: getnDof
      procedure, public  :: getPointID
@@ -21,6 +22,7 @@ module Element2DPtrMOD
      procedure, public  :: getGeometry
      procedure, public  :: getIntegrator
      procedure, public  :: getArea
+     procedure, public  :: setID
      procedure, public  :: setnPoint
      procedure, public  :: setnDof
      procedure, public  :: setPoint
@@ -37,6 +39,12 @@ module Element2DPtrMOD
   end type Element2DPtrTYPE
 
 contains
+
+  integer(ikind) function getID(this)
+    implicit none
+    class(Element2DPtrTYPE), intent(inout) :: this
+    getID = this%ptr%id
+  end function getID
 
   integer(ikind) function getnPoint(this)
     implicit none
@@ -91,6 +99,13 @@ contains
     type(IntegratorPtrTYPE) :: getIntegrator
     getIntegrator = this%ptr%integrator
   end function getIntegrator
+
+  subroutine setID(this, id)
+    implicit none
+    class(Element2DPtrTYPE), intent(inout) :: this
+    integer(ikind), intent(in) :: id
+    this%ptr%id = id
+  end subroutine setID
 
   subroutine setnPoint(this, nPoint)
     implicit none

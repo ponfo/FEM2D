@@ -7,7 +7,8 @@ contains
   integer(ikind), intent(in) :: i
   real(rkind), intent(in) :: x
   real(rkind), intent(in) :: y
-  real(rkind) :: vecFunSource(0)
+  real(rkind) :: vecFunSource(1)
+  vecFunSource(1)=  3.0
   funcOnLines = vecfunSource(i)
   end function funcOnLines
 end module FunctionOnLinesMOD

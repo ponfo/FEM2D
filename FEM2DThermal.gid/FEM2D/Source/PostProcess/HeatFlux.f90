@@ -75,8 +75,8 @@ contains
     lineCount = 0
     nElem = problem%domain%getnLine()
     do iElem = 1, nElem
-       this%lineElemID(iElem) = iElem
        element1D = problem%domain%elementList1D%getElement(iElem)
+       this%lineElemID(iElem) = element1D%getID()
        nPoint = element1D%getnPoint()
        integrator = element1D%getIntegrator()
        do iGauss = 1, integrator%ptr%integTerms
@@ -117,11 +117,11 @@ contains
        if(nPoint == 3 .or. nPoint == 6) then
           triangElemCount = triangElemCount + 1
           addFlux => addTriangFlux
-          this%triangElemID(triangElemCount) = iElem
+          this%triangElemID(triangElemCount) = element2D%getID()
        else if(nPoint == 4 .or. nPoint == 8) then
           quadElemCount = quadElemCount + 1
           addFlux => addQuadFlux
-          this%quadElemID(quadElemCount) = iElem
+          this%quadElemID(quadElemCount) = element2D%getID()
        else
           print'(A)', '** PostProcess ERROR1 **'
        end if

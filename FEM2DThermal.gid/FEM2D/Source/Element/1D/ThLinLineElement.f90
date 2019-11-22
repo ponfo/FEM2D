@@ -20,20 +20,23 @@ module ThLinLineElementMOD
   end interface thermalLinearLineElement
 
 contains
-  type(ThLinLineElementTYPE) function constructor(material, point, integrator)
+  type(ThLinLineElementTYPE) function constructor(id, material, point, integrator)
     implicit none
+    integer(ikind), intent(in) :: id
     type(MaterialPtrTYPE), intent(in) :: material
     type(PointPtrTYPE), dimension(:), intent(in) :: point
     type(IntegratorTYPE), intent(in) :: integrator
-    call constructor%init(material, point, integrator)
+    call constructor%init(id, material, point, integrator)
   end function constructor
 
-  subroutine init(this, material, point, integrator)
+  subroutine init(this, id, material, point, integrator)
     implicit none
     class(ThLinLineElementTYPE), intent(inout) :: this
+    integer(ikind), intent(in) :: id
     type(MaterialPtrTYPE), intent(in) :: material
     type(PointPtrTYPE), dimension(:), intent(in) :: point
     type(IntegratorTYPE), intent(in) :: integrator
+    call this%setID(id)
     call this%setnPoint(2)
     call this%setnDof(1)
     allocate(this%point(this%nPoint))

@@ -60,7 +60,7 @@ contains
     call init()
     write(results,'(/,3A)') 'GaussPoints "Points'//trim(resultName), '" ElemType ', trim(type)
     write(results,'(A,I0)') 'Number of GaussPoints: ', size(gaussPoints)
-!!$    write(results,'(A)') 'Nodes not included'
+    write(results,'(A)') 'Nodes not included'
     write(results,'(A)') 'Natural Coordinates: Internal'
 !!$    do i = 1, size(gaussPoints,1)
 !!$       write(results,'(F26.16,2X,F26.16)') gaussPoints(i), 0.0
@@ -72,10 +72,10 @@ contains
     count = 0
     do i = 1, resultNumber
        count = count + 1
-       write(results,'(I0,2X,F26.16,2X,F26.16)') elemID(i), component1(count)
+       write(results,'(I0,2X,F26.16,2X,F26.16)') elemID(i), component1(count), 0.0
        do j = 2, size(gaussPoints)
           count = count + 1
-          write(results,'(6X,F26.16,2X,F26.16)') component1(count)
+          write(results,'(6X,F26.16,2X,F26.16)') component1(count), 0.0
        end do
     end do
     write(results,'(A)') 'End Values'

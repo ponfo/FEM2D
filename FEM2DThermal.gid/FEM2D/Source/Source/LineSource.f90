@@ -52,11 +52,12 @@ contains
     real(rkind), dimension(:), allocatable :: integral
     real(rkind), dimension(:), allocatable :: jacobian
     real(rkind), dimension(:), allocatable :: valuedSource
-    if(.not.allocated(integral)) allocate(integral(size(this%pointID)))
-    if(.not.allocated(jacobian)) allocate(jacobian(this%integrator1D%ptr%integTerms))
-    if(.not.allocated(valuedSource)) allocate(valuedSource(this%integrator1D%ptr%integTerms))
+    allocate(integral(size(this%pointID)))
+    allocate(jacobian(this%integrator1D%ptr%integTerms))
+    allocate(valuedSource(this%integrator1D%ptr%integTerms))
     integral = 0
     jacobian = 0
+    valuedSource = 0
     do i = 1, this%integrator1D%ptr%integTerms
        x = 0
        y = 0
@@ -72,8 +73,11 @@ contains
        end do
     end do
     do i = 1, size(this%pointID)
-       rhs(point(this%pointID(i))%getID()) = rhs(point(this%pointID(i))%getID()) + integral(i)
+       rhs(this%pointID(i)) = rhs(this%pointID(i)) + integral(i)
     end do
+    deallocate(integral)
+    deallocate(jacobian)
+    deallocate(valuedSource)
   end subroutine apply
     
 end module LineSourceMOD

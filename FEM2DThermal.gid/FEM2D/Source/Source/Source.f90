@@ -74,7 +74,7 @@ contains
     if(isQuadratic == 0) then
        allocate(this%lineSource(nLineSource-1))
     else if(isQuadratic == 1) then
-       allocate(this%lineSource(nLineSource-2))
+       allocate(this%lineSource((nLineSource-1)/2))
     end if
     allocate(this%surfaceSource(nSurfaceSource))
     call debugLog('        Allocated pointSource: ', size(this%pointSource))

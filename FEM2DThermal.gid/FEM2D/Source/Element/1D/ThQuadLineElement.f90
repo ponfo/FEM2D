@@ -20,20 +20,23 @@ module ThQuadLineElementMOD
   end interface thermalQuadLineElement
 
 contains
-  type(ThQuadLineElementTYPE) function constructor(material, point, integrator)
+  type(ThQuadLineElementTYPE) function constructor(id, material, point, integrator)
     implicit none
+    integer(ikind), intent(in) :: id
     type(MaterialPtrTYPE), intent(in) :: material
     type(PointPtrTYPE), dimension(:), intent(in) :: point
     type(IntegratorTYPE), intent(in) :: integrator
-    call constructor%init( material, point, integrator)
+    call constructor%init(id, material, point, integrator)
   end function constructor
 
-  subroutine init(this, material, point, integrator)
+  subroutine init(this, id, material, point, integrator)
     implicit none
     class(ThQuadLineElementTYPE), intent(inout) :: this
+    integer(ikind), intent(in) :: id
     type(MaterialPtrTYPE), intent(in) :: material
     type(PointPtrTYPE), dimension(:), intent(in) :: point
     type(IntegratorTYPE), intent(in) :: integrator
+    call this%setID(id)
     call this%setnPoint(3)
     call this%setnDof(1)
     allocate(this%point(this%nPoint))
@@ -49,8 +52,8 @@ contains
     real(rkind), intent(in) :: u
     real(rkind), dimension(this%nPoint*this%nDof) :: shapeFunc
     shapeFunc(1) = 0.5*u*(u-1)
-    shapeFunc(2) = (1+u)*(1-u)
-    shapeFunc(3) = 0.5*u*(1+u)
+    shapeFunc(3) = (1+u)*(1-u)
+    shapeFunc(2) = 0.5*u*(1+u)
   end function shapeFunc
 
   function dShapeFunc(this, u)
@@ -59,8 +62,8 @@ contains
     real(rkind), intent(in) :: u
     real(rkind), dimension(this%nPoint*this%nDof) :: dShapeFunc
     dShapeFunc(1) = u-0.5
-    dShapeFunc(2) = -2*u
-    dShapeFunc(3) = u+0.5
+    dShapeFunc(3) = -2*u
+    dShapeFunc(2) = u+0.5
   end function dShapeFunc
 
 end module ThQuadLineElementMOD

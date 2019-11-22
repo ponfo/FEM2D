@@ -4,7 +4,7 @@ COMPILER	:=  ifort
 VPATH		:=  $(PWD)/FEM2D/Source
 BINDIR		:=  $(PWD)/FEM2D/Bin
 OBJECTDIR	:=  $(PWD)/FEM2D/Objects
-FFLAGS		:=  -Ofast -free -static -module $(OBJECTDIR)
+FFLAGS		:=  -Ofast -free -static -check bounds -traceback -module $(OBJECTDIR)
 FFLAGSDebug 	:=  -O0 -fpp -check bounds -traceback -warn nounused -module $(OBJECTDIR)
 
 OBJECTS := $(BINDIR)/Debugger.o                 \

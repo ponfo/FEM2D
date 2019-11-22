@@ -196,7 +196,7 @@ contains
           call problemInput%addLineSource(iNode(i:i+1), iSource(i))
        end do
     else if(isQuadratic == 1) then
-       do i = 1, nLineSource-2
+       do i = 1, nLineSource-2, 2
           call problemInput%addLineSource(iNode(i:i+2), iSource(i))
        end do
     end if

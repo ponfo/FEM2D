@@ -97,33 +97,36 @@ contains
     end do
   end subroutine valueElement
   
-  subroutine addElement(this, material, point)
+  subroutine addElement(this, id, material, point)
     implicit none
     class(ThElementList1DTYPE), intent(inout) :: this
+    integer(ikind), intent(in) :: id
     type(MaterialPtrTYPE), intent(inout) :: material
     type(PointPtrTYPE), dimension(:), intent(in) :: point
-    call addElementPtr(this, material, point)
+    call addElementPtr(this, id, material, point)
   end subroutine addElement
   
-  subroutine addElementLin(this, material, point)
+  subroutine addElementLin(this, id, material, point)
     class(ThElementList1DTYPE), intent(inout) :: this
+    integer(ikind), intent(in) :: id
     type(MaterialPtrTYPE), intent(inout) :: material
     type(PointPtrTYPE), dimension(:), intent(in) :: point
     integer(ikind) :: i
     iElem = iElem + 1
     linLineElem(iElem) = &
-         thermalLinearLineElement(material, point, this%integrator)
+         thermalLinearLineElement(id, material, point, this%integrator)
     this%element(iElem)%ptr => linLineElem(iElem)
   end subroutine addElementLin
 
-  subroutine addElementQuad(this, material, point)
+  subroutine addElementQuad(this, id, material, point)
     class(ThElementList1DTYPE), intent(inout) :: this
+    integer(ikind), intent(in) :: id
     type(MaterialPtrTYPE), intent(inout) :: material
     type(PointPtrTYPE), dimension(:), intent(in) :: point
     integer(ikind) :: i
     iElem = iElem + 1
     quadLineElem(iElem) = &
-         thermalquadLineElement(material, point, this%integrator)
+         thermalquadLineElement(id, material, point, this%integrator)
     this%element(iElem)%ptr => quadLineElem(iElem)
   end subroutine addElementQuad
     
