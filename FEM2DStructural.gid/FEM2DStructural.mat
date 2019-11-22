@@ -1,14 +1,12 @@
 NUMBER: 1 MATERIAL: Material
-QUESTION: Thermal_Conductivity_X#UNITS#
-VALUE: 1N/s/Kel
-QUESTION: Thermal_Conductivity_Y#UNITS#
-VALUE: 1N/s/Kel
+QUESTION: Area#UNITS#
+VALUE: 1m^2
+QUESTION: Thickness
+VALUE: 1
 QUESTION: Young_Modulus#UNITS#
 VALUE: 1Pa
 QUESTION: Poisson's_Ratio
-VALUE: 0.5
-QUESTION: Density#UNITS#
-VALUE: 1kg/m^3
-QUESTION: Specific_Heat#UNITS#
-VALUE: 1N*m/kg/Kel
+VALUE: 0.33
+QUESTION: Thermal_Expansion#UNITS#
+VALUE: 1Cel^-1
 END MATERIAL

@@ -1,5 +1,5 @@
 ###########################################################
-              PROGRAM POISSON'S 2D ANALYSIS
+           PROGRAM STRUCTURAL 1D AND 2D ANALYSIS
 ###########################################################
 
 ##################### PROBLEM DATA ########################
@@ -34,41 +34,36 @@ Rectangular_Elements_Number............: *k
 Materials_Number.......................: *nmats
 Gauss_Order............................: *GenData(Gauss_Order)
 *#---------------------------------------------------------
-*Set Cond Fix_Temperature_On_Lines *nodes
+*Set Cond Fix_Displacement_X_On_Line *nodes
 *Set var a = condnumentities
-*Set Cond Fix_Temperature_On_Points *nodes
+*Set Cond Fix_Displacement_X_On_Point *nodes
 *Set var b = condnumentities
 *Set var c = operation(a+b)
 *#---------------------------------------------------------
-Dirichlet_Conditions_Number............: *c
+Fix_Displacement_X_Number..............: *c
 *#---------------------------------------------------------
-*Set Cond Normal_Flux_On_Points *nodes
-Normal_Flux_Points_Condition_Nodes.....: *condnumentities
+*Set Cond Fix_Displacement_Y_On_Line *nodes
+*Set var a = condnumentities
+*Set Cond Fix_Displacement_Y_On_Point *nodes
+*Set var b = condnumentities
+*Set var c = operation(a+b)
 *#---------------------------------------------------------
-*Set Cond Convection_On_Points *nodes
-Convection_Points_Condition_Nodes......: *condnumentities
+Fix_Displacement_Y_Number..............: *c
 *#---------------------------------------------------------
-*Set Cond Normal_Flux_On_Lines *elems
-Normal_Flux_Line_Condition_Elements....: *condnumentities
-*#--------------------------------------------------------- REVISAR ESTAS DOS CONDICIONES DE LINEAR, *ELEMS ESTÁ MAL
-*Set Cond Convection_On_Lines *elems
-Convection_Lines_Condition_Elements....: *condnumentities
+*Set Cond Loads_On_Points *nodes
+Points_With_Loads_On_Points............: *condnumentities
 *#---------------------------------------------------------
-*Set Cond Source_On_Points *nodes
-Points_With_Point_Source...............: *condnumentities
+Load_Number_On_Points..................: *Gendata(Load_Number_On_Points,int)
 *#---------------------------------------------------------
-Source_Number_On_Points................: *Gendata(Source_Number_On_Points,int)
+*Set Cond Loads_On_Lines *nodes
+Lines_With_Loads_On_Lines..............: *condnumentities
 *#---------------------------------------------------------
-*Set Cond Source_On_Lines *nodes
+Load_Number_On_Lines...................: *Gendata(Load_Number_On_Lines,int)
 *#---------------------------------------------------------
-Lines_With_Line_Source.................: *condnumentities
+*Set Cond Loads_On_Surfaces *elems
+Surfaces_With_Loads_On_Surfaces........: *condnumentities
 *#---------------------------------------------------------
-Source_Number_On_Lines.................: *Gendata(Source_Number_On_Lines,int)
-*#---------------------------------------------------------
-*Set Cond Source_On_Surfaces *elems
-Surfaces_With_Surface_Source...........: *condnumentities
-*#---------------------------------------------------------
-Source_Number_On_Surfaces..............: *Gendata(Source_Number_On_Surfaces,int)
+Load_Number_On_Surfaces................: *Gendata(Load_Number_On_Surfaces,int)
 *#---------------------------------------------------------
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -86,59 +81,59 @@ Coordinates:
 
 Materials List:
 
-Material | Thermal conductivity X | Thermal conductivity Y
------------------------------------------------------------
+Material | Thermal expansion | Young's modulus | Poisson's ratio |  Area  |  Thickness
+-----------------------------------------------------------------------------------------------------------------------------
 *loop materials
-*format "%5i%10.4e%10.4e"
-*matnum            *matprop(Thermal_Conductivity_X)               *matprop(Thermal_Conductivity_Y)
+*format "%5i%10.4e%10.4e%10.4e%10.4e%10.4e"
+*matnum          *matprop(Thermal_Expansion)         *matprop(Young_Modulus)       *matprop(Poisson's_Ratio)    *matprop(Area)  *matprop(Thickness)
 *end
 
-################### Sources On Points ######################
+################### Loads On Points ######################
 
 Conditions List:
 
-Source   |  Function
+  Load   |  Function
 ----------------------
-*Set cond Source_On_Points *nodes
-*for(i=1;i<=Gendata(Source_Number_On_Points,int);i=i+1))
+*Set cond Loads_On_Points *nodes
+*for(i=1;i<=Gendata(Load_Number_On_Points,int);i=i+1))
 *loop nodes *OnlyInCond
-*if(i==cond(Source_Number_On_Points,real))
+*if(i==cond(Load_Number_On_Points,real))
 *format "%5i%10s"
-*cond(Source_Number_On_Points) *cond(SourceOP)
+*cond(Load_Number_On_Points) *cond(LoadOP)
 *break
 *endif
 *end
 *end for
 
-################### Sources On Lines #######################
+################### Loads On Lines #######################
 
 Conditions List:
 
-Source   |  Function
+  Load   |  Function
 ----------------------
-*Set cond Source_On_Lines *nodes
-*for(i=1;i<=Gendata(Source_Number_On_Lines,int);i=i+1))
+*Set cond Loads_On_Lines *nodes
+*for(i=1;i<=Gendata(Load_Number_On_Lines,int);i=i+1))
 *loop nodes *OnlyInCond
-*if(i==cond(Source_Number_On_Lines,real))
+*if(i==cond(Load_Number_On_Lines,real))
 *format "%5i%10s"
-*cond(Source_Number_On_Lines) *cond(SourceOL) 
+*cond(Load_Number_On_Lines) *cond(LoadOL) 
 *break
 *endif
+*end
 *end for
 
-
-################## Sources On Surfaces #####################
+################## Loads On Surfaces #####################
 
 Conditions List:
 
-Source   |  Function
+  Load   |  Function
 ----------------------
-*Set cond Source_On_Surfaces
-*for(i=1;i<=Gendata(Source_Number_On_Surfaces,int);i=i+1))
+*Set cond Loads_On_Surfaces
+*for(i=1;i<=Gendata(Load_Number_On_Surfaces,int);i=i+1))
 *loop elems
-*if(i==cond(Source_Number_On_Surfaces,real))
+*if(i==cond(Load_Number_On_Surfaces,real))
 *format "%5i%10s"
-*cond(Source_Number_On_Surfaces) *cond(SourceOS) 
+*cond(Load_Number_On_Surfaces) *cond(LoadOS) 
 *break
 *endif
 *end
@@ -150,108 +145,79 @@ Element List:
 
       Element  |      Type      |  Material  |   Nodes  |      Conectivities
 -----------------------------------------------------------------------------------
-*Set Cond Source_On_Surfaces *elems
 *loop elems
 *format "%10i%10i%9i%9i%9i"
 *elemsnum         *ElemstypeName  *elemsmat  *ElemsNnode  *elemsconec
 *end elems
 
-###################### point Sources ######################
+###################### point Loads ######################
 
 Conditions List:
 
-  Node   |  Source
+  Node   |  Load
 --------------------------
-*Set Cond Source_On_Points *nodes
+*Set Cond Loads_On_Points *nodes
 *loop nodes *OnlyInCond
 *format "%5i%5i"
-*NodesNum      *cond(Source_Number_On_Points) 
+*NodesNum      *cond(Load_Number_On_Points) 
 *end
 
-###################### line Sources ######################
+###################### line Loads ######################
 
 Conditions List:
 
-  Node   |  Source
+  Node   |  Load
 --------------------------
-*Set Cond Source_On_Lines *nodes
+*Set Cond Loads_On_Lines *nodes
 *loop nodes *OnlyInCond
 *format "%5i%5i"
-*NodesNum     *cond(Source_Number_On_Lines) 
+*NodesNum     *cond(Load_Number_On_Lines) 
 *end
 
-###################### surface Sources ######################
+###################### surface Loads ######################
 
 Conditions List:
 
-  Element   |  Source
+  Element   |  Load
 --------------------------
-*Set Cond Source_On_Surfaces *elems
+*Set Cond Loads_On_Surfaces *elems
 *loop elems *OnlyInCond
 *format "%8i%8i"
-*elemsnum  *cond(Source_Number_On_Surfaces)
+*elemsnum  *cond(Load_Number_On_Surfaces)
 *end
 
-####################### Temperatures ######################
+####################### Displacements X ######################
 
 Conditions List:
 
-  Node    |    Temperature
-------------------------------
-*Set Cond Fix_Temperature_On_Lines *nodes
+  Node    |    Displacement X
+--------------------------------
+*Set Cond Fix_Displacement_X_On_Line *nodes
 *loop nodes *OnlyInCond
 *format "%5i%10.4e"
-*NodesNum           *cond(Temperature) 
+*NodesNum           *cond(Displacement_X) 
 *end
-*Set Cond Fix_Temperature_On_Points *nodes
+*Set Cond Fix_Displacement_X_On_Point *nodes
 *loop nodes *OnlyInCond
 *format "%5i%10.4e"
-*NodesNum           *cond(Temperature) 
+*NodesNum           *cond(Displacement_X) 
 *end
 
-########################## Normal Fluxs On Points ##########################
+####################### Displacements Y ######################
 
 Conditions List:
 
-  Nodes   |   Normal Flux
------------------------------------
-*Set Cond Normal_Flux_On_Points *nodes *canrepeat
+  Node    |    Displacement Y
+--------------------------------
+*Set Cond Fix_Displacement_Y_On_Line *nodes
 *loop nodes *OnlyInCond
-  *nodesnum   *cond(Flux)
+*format "%5i%10.4e"
+*NodesNum           *cond(Displacement_Y) 
 *end
-
-########################## Normal Fluxs On Lines ##########################
-
-Conditions List:
-
- Element |       Nodes      |   Normal Flux
---------------------------------------------
-*Set Cond Normal_Flux_On_Lines *elems *canrepeat
-*loop elems *OnlyInCond
-*format "%5i%7i%7i"
-*elemsnum  *localnodes  *cond(Flux,real)
-*end
-
-########################### Convection On Points ###########################
-
-Conditions List:
-
-  Nodes   |   Coeficient  |      Temperature
---------------------------------------------------
-*Set Cond Convection_On_Points *nodes *canrepeat
+*Set Cond Fix_Displacement_Y_On_Point *nodes
 *loop nodes *OnlyInCond
-*nodesnum         *cond(Coeficient)          *cond(Temperature)
-*end 
-
-########################### Convection On Lines ###########################
-
-Conditions List:
-
- Element |       Nodes      |   Coeficient  |  Temperature
--------------------------------------------------------------
-*Set Cond Convection_On_Lines *elems *canrepeat
-*loop elems *OnlyInCond
-*elemsnum   *localnodes  *cond(Coeficient)  *cond(Temperature)
-*end 
+*format "%5i%10.4e"
+*NodesNum           *cond(Displacement_Y) 
+*end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

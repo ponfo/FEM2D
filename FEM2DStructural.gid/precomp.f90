@@ -25,7 +25,7 @@ program precomp
   read(functionData,*)  
   read(functionData,*)
   read(functionData,*)  aux, nMat
-  do i = 1, 7
+  do i = 1, 4
      read(functionData,*)
   end do
   read(functionData,*)  aux, nSourceOP
@@ -38,7 +38,7 @@ program precomp
      read(functionData,*)
   end do
 
-  open(function, file = trim(path)//'/FEM2D/Source/functionOnPoints.f90')
+  open(function, file = trim(path)//'/FEM2D/Source/Load/functionOnPoints.f90')
   write(function,'(A)')       'module FunctionOnPointsMOD'
   write(function,'(A)')       '  use tools'
   write(function,'(A)')       '  implicit none'
@@ -65,7 +65,7 @@ program precomp
      read(functionData,*)
   end do
 
-  open(function, file = trim(path)//'/FEM2D/Source/functionOnLines.f90')
+  open(function, file = trim(path)//'/FEM2D/Source/Load/functionOnLines.f90')
   write(function,'(A)')       'module FunctionOnLinesMOD'
   write(function,'(A)')       '  use tools'
   write(function,'(A)')       '  implicit none'
@@ -92,7 +92,7 @@ program precomp
      read(functionData,*)
   end do
 
-  open(function, file = trim(path)//'/FEM2D/Source/functionOnSurfaces.f90')
+  open(function, file = trim(path)//'/FEM2D/Source/Load/functionOnSurfaces.f90')
   write(function,'(A)')       'module FunctionOnSurfacesMOD'
   write(function,'(A)')       '  use tools'
   write(function,'(A)')       '  implicit none'
