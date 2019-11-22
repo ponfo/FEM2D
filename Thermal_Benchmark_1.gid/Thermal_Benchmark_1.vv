@@ -1,6 +1,6 @@
-BeginZE /home/marco/Gid/problemtypes/FEM2D/Thermal_Benchmark_1.gid/Thermal_Benchmark_1.vv
-   x -0.965618 1.56562
-   y 1.96772 -0.967716
+BeginZE /home/marco/FEM2D/Thermal_Benchmark_1.gid/Thermal_Benchmark_1.vv
+   x -0.153942 0.786991
+   y 1.04229 -0.0488986
    z -1.81934 1.81934
    e 0.606447
    v 0 0 0
@@ -15,5 +15,5 @@ BeginZE /home/marco/Gid/problemtypes/FEM2D/Thermal_Benchmark_1.gid/Thermal_Bench
    NowUse 1
    DrawingType 0
    LightVector 9.60474 80.1136 122.177 0
-EndZE /home/marco/Gid/problemtypes/FEM2D/Thermal_Benchmark_1.gid/Thermal_Benchmark_1.vv
+EndZE /home/marco/FEM2D/Thermal_Benchmark_1.gid/Thermal_Benchmark_1.vv
 

@@ -1,5 +1,5 @@
 ###########################################################
-              PROGRAM POISSON'S 2D ANALYSIS
+            PROGRAM POISSON'S 1D AND 2D ANALYSIS
 ###########################################################
 
 ##################### PROBLEM DATA ########################
@@ -121,11 +121,11 @@ Source   |  Function
 *loop nodes *OnlyInCond
 *if(i==cond(Source_Number_On_Lines,real))
 *format "%5i%10s"
-*cond(Source_Number_On_Lines) *cond(SourceOL) 
+*cond(Source_Number_On_Lines) *cond(SourceOL)
 *break
 *endif
+*end
 *end for
-
 
 ################## Sources On Surfaces #####################
 

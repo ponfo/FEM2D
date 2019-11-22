@@ -1,61 +1,64 @@
-11:49:50  Initiating Program
-11:49:50    Reading project data
-11:49:50      Project name: Thermal_Benchmark_1
-11:49:50      Path: /home/marco/Gid/problemtypes/FEM2D/FEM2DThermal.gid
-11:49:50    Reading mesh data
-11:49:50      Number of Elements.............................: 361
-11:49:50      Are Elements Quadratic.........................: 1
-11:49:50      Number of linear elements......................: 0
-11:49:50      Number of Triangular elements..................: 361
-11:49:50      Number of Rectangular elements.................: 0
-11:49:50      Number of Nodes................................: 776
-11:49:50      Number of Dirichlet conditions.................: 22
-11:49:50      Number of NormalFluxOnPoints conditions........: 0
-11:49:50      Number of NormalFluxOnLines conditions.........: 0
-11:49:50      Number of ConvectionOnPoints conditions........: 0
-11:49:50      Number of ConvectionOnLines conditions.........: 25
-11:49:50      Number of Sources on points....................: 0
-11:49:50      Number of points with pointSource..............: 0
-11:49:50      Number of Sources on lines.....................: 0
-11:49:50      Number of points with lineSource...............: 0
-11:49:50      Number of Sources on surfaces..................: 0
-11:49:50      Number of Surfaces with surfaceSource..........: 0
-11:49:50      Number of Materials............................: 1
-11:49:50      Gauss cuadrature order.........................: 3
-11:49:50    Initiating Thermal Problem
-11:49:50      Initiating Thermal Domain
-11:49:50      Allocated points: 776
-11:49:50      Allocated materials: 1
-11:49:50      Initiating ElementList2D
-11:49:50        Allocated Quadratic Triangs: 361
-11:49:50          Allocated weights: 4
-11:49:50          Allocated gPoints: 8
-11:49:50        Allocated element pointers: 361
-11:49:50        Initiating boundary conditions 1D
-11:49:50          Allocated dirichletPoints: 22
-11:49:50          Allocated normalFluxPoint: 0
-11:49:50          Allocated convectionPoint: 0
-11:49:50        Initiating boundary conditions 2D
-11:49:50          Allocated normalFluxLines: 0
-11:49:50          Allocated convectionLines: 25
-11:49:50          Valueing Integrator1D for boundary integrations
-11:49:50          Allocated weights: 3
-11:49:50          Allocated gPoints: 3
-11:49:50        Initiating Source
-11:49:50          Allocated pointSource: 0
-11:49:50          Allocated lineSource: 0
-11:49:50          Allocated surfaceSource: 0
-11:49:50      Allocated Stiffness
-11:49:50        Estimated nnz: 12996
-11:49:50        Matrix order: 776
-11:49:50      Allocated RHS: 776
-11:49:50      Allocated DOF: 776
-11:49:50    Reading materials properties
-11:49:50    Reading elements
-11:49:50    Reading point and line Sources
-11:49:50    Reading Boundary Conditions
-11:49:50  End loading data
-11:49:50    Assembling stiffness matrix and right hand side vector
-11:49:50  Solving linear system
-11:49:50  Done solving
-11:49:50  Calculating heat flux
+11: 7:33  Initiating Program
+11: 7:33    Reading project data
+11: 7:33      Project name: Thermal_Benchmark_1
+11: 7:33      Path: /home/marco/Gid/problemtypes/FEM2DThermal.gid
+11: 7:33    Reading mesh data
+11: 7:33      Number of Elements.............................: 361
+11: 7:33      Are Elements Quadratic.........................: 1
+11: 7:33      Number of linear elements......................: 0
+11: 7:33      Number of Triangular elements..................: 361
+11: 7:33      Number of Rectangular elements.................: 0
+11: 7:33      Number of Nodes................................: 776
+11: 7:33      Number of Dirichlet conditions.................: 22
+11: 7:33      Number of NormalFluxOnPoints conditions........: 0
+11: 7:33      Number of NormalFluxOnLines conditions.........: 0
+11: 7:33      Number of ConvectionOnPoints conditions........: 0
+11: 7:33      Number of ConvectionOnLines conditions.........: 25
+11: 7:33      Number of Sources on points....................: 0
+11: 7:33      Number of points with pointSource..............: 0
+11: 7:33      Number of Sources on lines.....................: 0
+11: 7:33      Number of points with lineSource...............: 0
+11: 7:33      Number of Sources on surfaces..................: 0
+11: 7:33      Number of Surfaces with surfaceSource..........: 0
+11: 7:33      Number of Materials............................: 1
+11: 7:33      Gauss cuadrature order.........................: 3
+11: 7:33    Initiating Thermal Problem
+11: 7:33      Initiating Thermal Domain
+11: 7:33      Allocated points: 776
+11: 7:33      Allocated materials: 1
+11: 7:33      Initiating ElementList2D
+11: 7:33        Allocated Quadratic Triangs: 361
+11: 7:33          Allocated weights: 4
+11: 7:33          Allocated gPoints: 8
+11: 7:33        Allocated element pointers: 361
+11: 7:33        Initiating boundary conditions 1D
+11: 7:33          Allocated dirichletPoints: 22
+11: 7:33          Allocated normalFluxPoint: 0
+11: 7:33          Allocated convectionPoint: 0
+11: 7:33        Initiating boundary conditions 2D
+11: 7:33          Allocated normalFluxLines: 0
+11: 7:33          Allocated convectionLines: 25
+11: 7:33          Valueing Integrator1D for boundary integrations
+11: 7:33          Allocated weights: 3
+11: 7:33          Allocated gPoints: 3
+11: 7:33        Initiating Source
+11: 7:33          Allocated pointSource: 0
+11: 7:33          Allocated lineSource: 0
+11: 7:33          Allocated surfaceSource: 0
+11: 7:33          Valueing Integrator1D for source integrations
+11: 7:33          Allocated weights: 3
+11: 7:33          Allocated gPoints: 3
+11: 7:33      Allocated Stiffness
+11: 7:33        Estimated nnz: 12996
+11: 7:33        Matrix order: 776
+11: 7:33      Allocated RHS: 776
+11: 7:33      Allocated DOF: 776
+11: 7:33    Reading materials properties
+11: 7:33    Reading elements
+11: 7:33    Reading point and line Sources
+11: 7:33    Reading Boundary Conditions
+11: 7:33  End loading data
+11: 7:33    Assembling stiffness matrix and right hand side vector
+11: 7:33  Solving linear system
+11: 7:33  Done solving
+11: 7:33  Calculating heat flux

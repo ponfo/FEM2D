@@ -28,6 +28,7 @@ BEGIN TABLE
  DENSITY : kg/m^3 {reference}
  THERMAL_CONDUCTIVITY : N/s/Kel {reference}
  SPECIFIC_HEAT : N*m/kg/Kel {reference}
+ YOUNG_MODULUS : N/m^2 {reference}, 1 Pa, 0.1450377904e-3 psi
 END
 
 BEGIN SYSTEM(INTERNATIONAL)

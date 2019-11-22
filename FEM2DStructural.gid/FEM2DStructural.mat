@@ -3,6 +3,10 @@ QUESTION: Thermal_Conductivity_X#UNITS#
 VALUE: 1N/s/Kel
 QUESTION: Thermal_Conductivity_Y#UNITS#
 VALUE: 1N/s/Kel
+QUESTION: Young_Modulus#UNITS#
+VALUE: 1Pa
+QUESTION: Poisson's_Ratio
+VALUE: 0.5
 QUESTION: Density#UNITS#
 VALUE: 1kg/m^3
 QUESTION: Specific_Heat#UNITS#
