@@ -8,25 +8,24 @@ module ElementMOD
   use IntegratorPtrMOD
   
   use MaterialPtrMOD
-
-  use GeometryPtrMOD
   implicit none
   private
   public :: ElementTYPE
   type, abstract :: ElementTYPE
+     integer(ikind)                                :: id
      integer(ikind)                                :: nPoint
      integer(ikind)                                :: nDof
      type(PointPtrTYPE), dimension(:), allocatable :: point
      type(IntegratorPtrTYPE)                       :: integrator
      type(MaterialPtrTYPE)                         :: material
-     type(GeometryPtrTYPE)                         :: geometry
    contains
+     procedure, public  :: getID
      procedure, public  :: getnPoint
      procedure, public  :: getnDof
      procedure, public  :: getPointID
      procedure, public  :: getIntegrator
      procedure, public  :: getMaterial
-     procedure, public  :: getGeometry
+     procedure, public  :: setID
      procedure, public  :: setnPoint
      procedure, public  :: setnDof
      procedure, public  :: setPoint
@@ -36,6 +35,12 @@ module ElementMOD
   end type ElementTYPE
   
 contains
+
+  integer(ikind) function getID(this)
+    implicit none
+    class(ElementTYPE), intent(inout) :: this
+    getID = this%id
+  end function getID
   
   integer(ikind) function getnPoint(this)
     implicit none
@@ -82,11 +87,12 @@ contains
     getMaterial = this%material
   end function getMaterial
 
-  type(GeometryPtrTYPE) function getGeometry(this)
+  subroutine setID(this, id)
     implicit none
     class(ElementTYPE), intent(inout) :: this
-    getGeometry = this%geometry
-  end function getGeometry
+    integer(ikind), intent(in) :: id
+    this%id = id
+  end subroutine setID
 
   subroutine setnPoint(this, nPoint)
     implicit none

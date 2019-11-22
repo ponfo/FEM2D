@@ -1,12 +1,12 @@
 module MaterialPtrMOD
   use tools
   use MaterialMOD
-  use ThMaterialMOD
+  use StructMaterialMOD
   implicit none
   private
   public :: MaterialPtrTYPE
   type MaterialPtrTYPE
-     class(ThMaterialTYPE), pointer :: ptr
+     class(StructMaterialTYPE), pointer :: ptr
    contains
      procedure, public :: allocate
   end type MaterialPtrTYPE
@@ -16,7 +16,7 @@ contains
   subroutine allocate(this, material)
     implicit none
     class(MaterialPtrTYPE) :: this
-    type(ThMaterialTYPE), target, intent(in) :: material
+    type(StructMaterialTYPE), target, intent(in) :: material
     this%ptr => material
   end subroutine allocate
   

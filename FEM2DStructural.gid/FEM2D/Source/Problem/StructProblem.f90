@@ -24,7 +24,7 @@ module StructProblemMOD
 
      procedure, public :: addPoint
      procedure, public :: addElement
-     generic  , public :: addMaterial => addMaterialWithThermalCoef, addMaterialWithoutThermalCoef
+     procedure, public :: addMaterial
      procedure, public :: addPointLoad
      procedure, public :: addLineLoad
      procedure, public :: addSurfaceLoad
@@ -35,8 +35,6 @@ module StructProblemMOD
      procedure, public :: setUp => assembleSystem
 
      procedure, private :: assembleStiffness
-     procedure, private :: addMaterialWithThermalCoef
-     procedure, private :: addMaterialWithoutThermalCoef
   end type StructProblemTYPE
 
   interface structProblem
@@ -125,22 +123,16 @@ contains
     call this%domain%addElement(type, nPoint, matID, pointList)
   end subroutine addElement
 
-  subroutine addMaterialWithoutThermalCoef(this, young, poissonCoef)
-    implicit none
-    class(StructProblemTYPE), intent(inout) :: this
-    real(rkind), intent(in) :: young
-    real(rkind), intent(in) :: poissonCoef
-    call this%domain%addMaterial(this, young, poissonCoef)
-  end subroutine addMaterialWithoutThermalCoef
-
-  subroutine addMaterialWithThermalCoef(this, young, poissonCoef, thermalCoef)
+  subroutine addMaterial(this, young, poissonCoef, thermalCoef, area, thickness)
     implicit none
     class(StructProblemTYPE), intent(inout) :: this
     real(rkind), intent(in) :: young
     real(rkind), intent(in) :: poissonCoef
     real(rkind), intent(in) :: thermalCoef
-    call this%domain%addMaterial(this, young, poissonCoef, thermalCoef)
-  end subroutine addMaterialWithThermalCoef
+    real(rkind), intent(in) :: area
+    real(rkind), intent(in) :: thickness
+    call this%domain%addMaterial(this, young, poissonCoef, thermalCoef, area, thickness)
+  end subroutine addMaterial
 
   subroutine addPointLoad(this, iPoint, iLoad)
     implicit none
