@@ -2,7 +2,7 @@ module SolverMOD
   use tools
   use DebuggerMOD
   use ProblemMOD
-  use ThProblemMOD
+  use StructProblemMOD
   use SparseKit
   implicit none
   private
@@ -13,7 +13,7 @@ module SolverMOD
 contains
   subroutine staticSolver(problem)
     implicit none
-    class(ThProblemTYPE), intent(inout) :: problem
+    class(StructProblemTYPE), intent(inout) :: problem
     real(rkind) :: start, finish
     call debugLog('Solving linear system')
     print*, 'Solving linear system'

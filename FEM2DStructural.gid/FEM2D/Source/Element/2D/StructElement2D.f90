@@ -60,6 +60,7 @@ contains
           end do
        end do
     end do
+    getStiffness = getStiffness * this%material%ptr%thickness
   end function getStiffness
 
 end module StructElement2DMOD

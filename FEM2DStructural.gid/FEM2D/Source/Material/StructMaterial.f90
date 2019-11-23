@@ -10,6 +10,7 @@ module StructMaterialMOD
      real(rkind) :: thermalCoef
      real(rkind) :: area
      real(rkind) :: thickness
+     real(rkind) :: d11, d12, d21, d22, d33
    contains
      procedure :: init
   end type StructMaterialTYPE
@@ -38,11 +39,26 @@ contains
     real(rkind), intent(in) :: thermalCoef
     real(rkind), intent(in) :: area
     real(rkind), intent(in) :: thickness
+    real(rkind) :: factor
     this%young       = young
     this%poissonCoef = poissonCoef
     this%thermalCoef = thermalCoef
     this%area        = area
     this%thickness   = thickness
+    !Deformación plana:
+    factor = young/((1+poissonCoef)*(1-2*poissonCoef))
+    this%d11 = factor*(1-poissonCoef)
+    this%d12 = factor*poissonCoef
+    this%d21 = factor*poissonCoef
+    this%d22 = factor*(1-poissonCoef)
+    this%d33 = factor*(1-2*poissonCoef)
+!!$    !Tensión plana
+!!$    factor = young/(1-poissonCoef**2)
+!!$    this%d11 = factor
+!!$    this%d12 = factor*poissonCoef
+!!$    this%d21 = factor*poissonCoef
+!!$    this%d22 = factor
+!!$    this%d33 = factor*(1-poissonCoef)/2.d0
   end subroutine init
 
 end module StructMaterialMOD

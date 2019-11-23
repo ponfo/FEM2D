@@ -2,9 +2,9 @@ program precomp
   use tools
   implicit none
   integer(ikind), parameter :: functionData=1 , function=2, projectData=3
-  integer(ikind)            :: i, iSource, nmat, numberSource , nPoints ,iPoint, date_time(8)
-  integer(ikind)            :: nSourceOS, nSourceOL, nSourceOP
-  character(100)            :: sourceFun, projectName, path
+  integer(ikind)            :: i, iLoad, nmat, numberLoad , nPoints ,iPoint, date_time(8)
+  integer(ikind)            :: nLoadOS, nLoadOL, nLoadOP
+  character(100)            :: loadFunX, loadFunY, projectName, path
   character(40)             :: aux
   open(projectData, file = 'projectData.dat')
   read(projectData,'(*(A))') projectName
@@ -28,35 +28,40 @@ program precomp
   do i = 1, 4
      read(functionData,*)
   end do
-  read(functionData,*)  aux, nSourceOP
+  read(functionData,*)  aux, nLoadOP
   read(functionData,*)
-  read(functionData,*)  aux, nSourceOL
+  read(functionData,*)  aux, nLoadOL
   read(functionData,*)
-  read(functionData,*)  aux, nSourceOS
+  read(functionData,*)  aux, nLoadOS
   
   do iPoint = 1, 20+nPoints+nMat
      read(functionData,*)
   end do
 
-  open(function, file = trim(path)//'/FEM2D/Source/Load/functionOnPoints.f90')
+  open(function, file = trim(path)//'/FEM2D/Load/Load/functionOnPoints.f90')
   write(function,'(A)')       'module FunctionOnPointsMOD'
   write(function,'(A)')       '  use tools'
   write(function,'(A)')       '  implicit none'
-  write(function,'(A)')       'contains'
-  write(function,'(A)')       '  real(rkind) function funcOnPoints(i, x, y)' 
+  write(function,'(A)')       ' contains'
+  write(function,'(A)')       '  function funcOnPoints(i, x, y)' 
   write(function,'(A)')       '  implicit none'
   write(function,'(A)')       '  integer(ikind), intent(in) :: i'
   write(function,'(A)')       '  real(rkind), intent(in) :: x'
   write(function,'(A)')       '  real(rkind), intent(in) :: y'
-  write(function,'(A,I0,A)')  '  real(rkind) :: vecFunSource(',nSourceOP,')'
+  write(function,'(A,I0,A)')  '  real(rkind) :: vecFunX(',nLoadOP,')'
+  write(function,'(A,I0,A)')  '  real(rkind) :: vecFunY(',nLoadOP,')'
+  write(function,'(A)')       '  real(rkind), dimension(2) :: funcOnPoints'
   
-  do iSource = 1, nSourceOP
-     read(functionData,'(I10,X,A)') numberSource, sourceFun
-     write(function,'(A,I0,A)')'  vecFunSource(',numberSource,')='//trim(sourceFun)
-     print'(A,I0,A)','pointFunc(',numberSource,')='//trim(sourceFun)
+  do iLoad = 1, nLoadOP
+     read(functionData,'(I5,X,A10,X,A10)') numberLoad, loadFunX, loadFunY
+     write(function,'(A,I0,A)')'  vecFunX(',numberLoad,')='//trim(loadFunX)
+     write(function,'(A,I0,A)')'  vecFunX(',numberLoad,')='//trim(loadFunY)
+     write(*,'(A,I0,A)')'  vecFunX(',numberLoad,')='//trim(loadFunX)
+     write(*,'(A,I0,A)')'  vecFunY(',numberLoad,')='//trim(loadFunY)
   end do
   
-  write(function,'(A)')       '  funcOnPoints = vecfunSource(i)'
+  write(function,'(A)')       '  funcOnPoints(1) = vecFunX(i)'
+  write(function,'(A)')       '  funcOnPoints(2) = vecFunY(i)'
   write(function,'(A)')       '  end function funcOnPoints'
   write(function,'(A)')       'end module FunctionOnPointsMOD'
   close(function)
@@ -65,25 +70,30 @@ program precomp
      read(functionData,*)
   end do
 
-  open(function, file = trim(path)//'/FEM2D/Source/Load/functionOnLines.f90')
+  open(function, file = trim(path)//'/FEM2D/Load/Load/functionOnLines.f90')
   write(function,'(A)')       'module FunctionOnLinesMOD'
   write(function,'(A)')       '  use tools'
   write(function,'(A)')       '  implicit none'
-  write(function,'(A)')       'contains'
-  write(function,'(A)')       '  real(rkind) function funcOnLines(i, x, y)' 
+  write(function,'(A)')       ' contains'
+  write(function,'(A)')       '  function funcOnLines(i, x, y)' 
   write(function,'(A)')       '  implicit none'
   write(function,'(A)')       '  integer(ikind), intent(in) :: i'
   write(function,'(A)')       '  real(rkind), intent(in) :: x'
   write(function,'(A)')       '  real(rkind), intent(in) :: y'
-  write(function,'(A,I0,A)')  '  real(rkind) :: vecFunSource(',nSourceOL,')'
+  write(function,'(A,I0,A)')  '  real(rkind) :: vecFunX(',nLoadOP,')'
+  write(function,'(A,I0,A)')  '  real(rkind) :: vecFunY(',nLoadOP,')'
+  write(function,'(A)')       '  real(rkind), dimension(2) :: funcOnLines'
   
-  do iSource = 1, nSourceOL
-     read(functionData,'(I10,X,A)') numberSource, sourceFun
-     write(function,'(A,I0,A)')'  vecFunSource(',numberSource,')='//trim(sourceFun)
-     print'(A,I0,A)','lineFunc(',numberSource,')='//trim(sourceFun)
+  do iLoad = 1, nLoadOL
+     read(functionData,'(I5,X,A10,X,A10)') numberLoad, loadFunX, loadFunY
+     write(function,'(A,I0,A)')'  vecFunX(',numberLoad,')='//trim(loadFunX)
+     write(function,'(A,I0,A)')'  vecFunX(',numberLoad,')='//trim(loadFunY)
+     write(*,'(A,I0,A)')'  vecFunX(',numberLoad,')='//trim(loadFunX)
+     write(*,'(A,I0,A)')'  vecFunY(',numberLoad,')='//trim(loadFunY)
   end do
   
-  write(function,'(A)')       '  funcOnLines = vecfunSource(i)'
+  write(function,'(A)')       '  funcOnLines(1) = vecFunX(i)'
+  write(function,'(A)')       '  funcOnLines(2) = vecFunY(i)'
   write(function,'(A)')       '  end function funcOnLines'
   write(function,'(A)')       'end module FunctionOnLinesMOD'
   close(function)
@@ -92,25 +102,30 @@ program precomp
      read(functionData,*)
   end do
 
-  open(function, file = trim(path)//'/FEM2D/Source/Load/functionOnSurfaces.f90')
+  open(function, file = trim(path)//'/FEM2D/Load/Load/functionOnSurfaces.f90')
   write(function,'(A)')       'module FunctionOnSurfacesMOD'
   write(function,'(A)')       '  use tools'
   write(function,'(A)')       '  implicit none'
-  write(function,'(A)')       'contains'
-  write(function,'(A)')       '  real(rkind) function funcOnSurfaces(i, x, y)' 
+  write(function,'(A)')       ' contains'
+  write(function,'(A)')       '  function funcOnSurfaces(i, x, y)' 
   write(function,'(A)')       '  implicit none'
   write(function,'(A)')       '  integer(ikind), intent(in) :: i'
   write(function,'(A)')       '  real(rkind), intent(in) :: x'
   write(function,'(A)')       '  real(rkind), intent(in) :: y'
-  write(function,'(A,I0,A)')  '  real(rkind) :: vecFunSource(',nSourceOS,')'
-
-  do iSource = 1, nSourceOS
-     read(functionData,'(I10,X,A)') numberSource, sourceFun
-     write(function,'(A,I0,A)')'  vecFunSource(',numberSource,')='//trim(sourceFun)
-     print'(A,I0,A)','surfaceFunc(',numberSource,')='//trim(sourceFun)
+  write(function,'(A,I0,A)')  '  real(rkind) :: vecFunX(',nLoadOP,')'
+  write(function,'(A,I0,A)')  '  real(rkind) :: vecFunY(',nLoadOP,')'
+  write(function,'(A)')       '  real(rkind), dimension(2) :: funcOnSurfaces'
+  
+  do iLoad = 1, nLoadOS
+     read(functionData,'(I5,X,A10,X,A10)') numberLoad, loadFunX, loadFunY
+     write(function,'(A,I0,A)')'  vecFunX(',numberLoad,')='//trim(loadFunX)
+     write(function,'(A,I0,A)')'  vecFunY(',numberLoad,')='//trim(loadFunY)
+     write(*,'(A,I0,A)')'  vecFunX(',numberLoad,')='//trim(loadFunX)
+     write(*,'(A,I0,A)')'  vecFunX(',numberLoad,')='//trim(loadFunY)
   end do
   
-  write(function,'(A)')       '  funcOnSurfaces = vecfunSource(i)'
+  write(function,'(A)')       '  funcOnSurfaces(1) = vecFunX(i)'
+  write(function,'(A)')       '  funcOnSurfaces(2) = vecFunY(i)'
   write(function,'(A)')       '  end function funcOnSurfaces'
   write(function,'(A)')       'end module FunctionOnSurfacesMOD'
   close(function)

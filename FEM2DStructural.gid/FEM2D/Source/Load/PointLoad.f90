@@ -40,9 +40,10 @@ contains
     class(PointLoadTYPE), intent(inout) :: this
     type(PointTYPE), dimension(:), intent(inout) :: point
     real(rkind), dimension(:), intent(inout) :: rhs
-    real(rkind) :: val
+    real(rkind), dimension(2) :: val
     val = funcOnPoints(this%iLoad, point(this%iPoint)%getx(), point(this%iPoint)%gety())
-    rhs(this%iPoint) = rhs(this%iPoint) + val
+    rhs(2*this%iPoint-1) = rhs(2*this%iPoint-1) + val(1)
+    rhs(2*this%iPoint) = rhs(2*this%iPoint) + val(2)
   end subroutine apply
 
 end module PointLoadMOD

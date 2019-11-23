@@ -14,11 +14,12 @@ module LoadMOD
   use ThElementList2DMOD
   implicit none
   private
-  public :: LoadTYPE, source
+  public :: LoadTYPE, load
   type LoadTYPE
      type(PointLoadTYPE)  , dimension(:), allocatable :: pointLoad
      type(LineLoadTYPE)   , dimension(:), allocatable :: lineLoad
-     type(surfaceLoadTYPE), dimension(:), allocatable :: surfaceLoad
+     type(SurfaceLoadTYPE), dimension(:), allocatable :: surfaceLoad
+     type(IntegratorTYPE)                             :: integrator1D
    contains
      procedure :: init
 
@@ -35,11 +36,14 @@ module LoadMOD
      procedure :: getSurfaceLoad
 
      procedure :: apply
+
+     procedure, private :: valueIntegrator1DLinear
+     procedure, private :: valueIntegrator1DQuadratic
   end type LoadTYPE
 
-  interface source
+  interface load
      procedure constructor
-  end interface source
+  end interface load
 
   integer(ikind), save :: iPointLoad
   integer(ikind), save :: iLineLoad
@@ -47,23 +51,31 @@ module LoadMOD
 
 contains
 
-  type(LoadTYPE) function constructor(nPointLoad, nLineLoad, nSurfaceLoad)
+  type(LoadTYPE) function constructor(nPointLoad, nLineLoad, nSurfaceLoad, nGauss, isQuadratic)
     implicit none
     integer(ikind), intent(in) :: nPointLoad
     integer(ikind), intent(in) :: nLineLoad
     integer(ikind), intent(in) :: nSurfaceLoad
-    call constructor%init(nPointLoad, nLineLoad, nSurfaceLoad)
+    integer(ikind), intent(in) :: nGauss
+    integer(ikind), intent(in) :: isQuadratic
+    call constructor%init(nPointLoad, nLineLoad, nSurfaceLoad, nGauss, isQuadratic)
   end function constructor
 
-  subroutine init(this, nPointLoad, nLineLoad, nSurfaceLoad)
+  subroutine init(this, nPointLoad, nLineLoad, nSurfaceLoad, nGauss, isQuadratic)
     implicit none
     class(LoadTYPE), intent(inout) :: this
     integer(ikind), intent(in) :: nPointLoad
     integer(ikind), intent(in) :: nLineLoad
     integer(ikind), intent(in) :: nSurfaceLoad
+    integer(ikind), intent(in) :: nGauss
+    integer(ikind), intent(in) :: isQuadratic
     call debugLog('      Initiating Load')
     allocate(this%pointLoad(nPointLoad))
-    allocate(this%lineLoad(nLineLoad))
+    if(isQuadratic == 0) then
+       allocate(this%lineLoad(nLineLoad-1))
+    else if(isQuadratic == 1) then
+       allocate(this%lineLoad((nLineLoad-1)/2))
+    end if
     allocate(this%surfaceLoad(nSurfaceLoad))
     call debugLog('        Allocated pointLoad: ', size(this%pointLoad))
     call debugLog('        Allocated lineLoad: ', size(this%lineLoad))
@@ -71,7 +83,46 @@ contains
     iPointLoad = 0
     iLineLoad = 0
     iSurfaceLoad = 0
+    call debugLog('        Valueing Integrator1D for load integrations')
+    this%integrator1D = integrator(nGauss, 'line')
+    if(isQuadratic == 0) then
+       call this%valueIntegrator1DLinear()
+    else if(isQuadratic == 1) then
+       call this%valueIntegrator1DQuadratic()
+    end if
   end subroutine init
+
+  subroutine valueIntegrator1DLinear(this)
+    implicit none
+    class(LoadTYPE), intent(inout) :: this
+    integer(ikind) :: i
+    allocate(this%integrator1D%shapeFunc(2, this%integrator1D%integTerms))
+    allocate(this%integrator1D%dShapeFunc(2, 1, this%integrator1D%integTerms))
+    do i = 1, this%integrator1D%integTerms
+       this%integrator1D%shapeFunc(1,i) = 0.5*(1-this%integrator1D%gPoint(i,1))
+       this%integrator1D%shapeFunc(2,i) = 0.5*(1+this%integrator1D%gPoint(i,1))
+       this%integrator1D%dShapeFunc(1,1,i) = -0.5
+       this%integrator1D%dShapeFunc(2,1,i) = 0.5
+    end do
+  end subroutine valueIntegrator1DLinear
+
+  subroutine valueIntegrator1DQuadratic(this)
+    implicit none
+    class(LoadTYPE), intent(inout) :: this
+    integer(ikind) :: i
+    real(rkind) :: u
+    allocate(this%integrator1D%shapeFunc(3, this%integrator1D%integTerms))
+    allocate(this%integrator1D%dShapeFunc(3, 1, this%integrator1D%integTerms))
+    do i = 1, this%integrator1D%integTerms
+       u = this%integrator1D%gPoint(i,1)
+       this%integrator1D%shapeFunc(1,i) = 0.5*u*(u-1)
+       this%integrator1D%shapeFunc(2,i) = (1+u)*(1-u)
+       this%integrator1D%shapeFunc(3,i) = 0.5*u*(1+u)
+       this%integrator1D%dShapeFunc(1,1,i) = u-0.5
+       this%integrator1D%dShapeFunc(2,1,i) = -2*u
+       this%integrator1D%dShapeFunc(3,1,i) = u+0.5
+    end do
+  end subroutine valueIntegrator1DQuadratic
     
   subroutine addPointLoad(this, iPoint, iLoad)
     implicit none
@@ -95,13 +146,13 @@ contains
     getnPointLoad = size(this%pointLoad)
   end function getnPointLoad
   
-  subroutine addLineLoad(this, iPoint, iLoad)
+  subroutine addLineLoad(this, pointID, iLoad)
     implicit none
     class(LoadTYPE), intent(inout) :: this
-    integer(ikind), intent(in) :: iPoint
+    integer(ikind), dimension(:), intent(in) :: pointID
     integer(ikind), intent(in) :: iLoad
     iLineLoad = iLineLoad + 1
-    this%lineLoad(iLineLoad) = lineLoad(iPoint, iLoad)
+    this%lineLoad(iLineLoad) = lineLoad(pointID, iLoad, this%integrator1D)
   end subroutine addLineLoad
   
   type(LineLoadTYPE) function getLineLoad(this, i)
@@ -128,7 +179,7 @@ contains
 
   type(SurfaceLoadTYPE) function getSurfaceLoad(this, i)
     implicit none
-    class(sourceTYPE), intent(inout) :: this
+    class(LoadTYPE), intent(inout) :: this
     integer(ikind), intent(in) :: i
     getSurfaceLoad = this%surfaceLoad(i)
   end function getSurfaceLoad
@@ -158,12 +209,3 @@ contains
   end subroutine apply
 
 end module LoadMOD
-
-  
-    
-    
-    
-    
-     
-     
-  
