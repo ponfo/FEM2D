@@ -1,0 +1,28 @@
+15:48:21  Initiating Program
+15:48:21    Reading project data
+15:48:21      Project name: Structural_Benchmark_1
+15:48:21      Path: /home/marco/FEM2D/FEM2DStructural.gid
+15:48:21    Reading mesh data
+15:48:21      Number of Elements.............................: 8
+15:48:21      Are Elements Quadratic.........................: 1
+15:48:21      Number of linear elements......................: 0
+15:48:21      Number of Triangular elements..................: 8
+15:48:21      Number of Rectangular elements.................: 0
+15:48:21      Number of Nodes................................: 25
+15:48:21      Number of Dirichlet X conditions...............: 5
+15:48:21      Number of Dirichlet Y conditions...............: 0
+15:48:21      Number of Loads on points......................: 0
+15:48:21      Number of points with pointLoad................: 0
+15:48:21      Number of Loads on lines.......................: 1
+15:48:21      Number of points with lineLoad.................: 5
+15:48:21      Number of Loads on surfaces....................: 0
+15:48:21      Number of Surfaces with surfaceLoad............: 0
+15:48:21      Number of Materials............................: 1
+15:48:21      Gauss cuadrature order.........................: 3
+15:48:21    Initiating Structural Problem
+15:48:21      Allocated points: 50
+15:48:21      Allocated materials: 1
+15:48:21      Initiating ElementList2D
+15:48:21        Allocated Quadratic Triangs: 8
+15:48:21          Allocated weights: 4
+15:48:21          Allocated gPoints: 8

@@ -38,7 +38,7 @@ program precomp
      read(functionData,*)
   end do
 
-  open(function, file = trim(path)//'/FEM2D/Load/Load/functionOnPoints.f90')
+  open(function, file = trim(path)//'/FEM2D/Source/Load/functionOnPoints.f90')
   write(function,'(A)')       'module FunctionOnPointsMOD'
   write(function,'(A)')       '  use tools'
   write(function,'(A)')       '  implicit none'
@@ -70,7 +70,7 @@ program precomp
      read(functionData,*)
   end do
 
-  open(function, file = trim(path)//'/FEM2D/Load/Load/functionOnLines.f90')
+  open(function, file = trim(path)//'/FEM2D/Source/Load/functionOnLines.f90')
   write(function,'(A)')       'module FunctionOnLinesMOD'
   write(function,'(A)')       '  use tools'
   write(function,'(A)')       '  implicit none'
@@ -80,8 +80,8 @@ program precomp
   write(function,'(A)')       '  integer(ikind), intent(in) :: i'
   write(function,'(A)')       '  real(rkind), intent(in) :: x'
   write(function,'(A)')       '  real(rkind), intent(in) :: y'
-  write(function,'(A,I0,A)')  '  real(rkind) :: vecFunX(',nLoadOP,')'
-  write(function,'(A,I0,A)')  '  real(rkind) :: vecFunY(',nLoadOP,')'
+  write(function,'(A,I0,A)')  '  real(rkind) :: vecFunX(',nLoadOL,')'
+  write(function,'(A,I0,A)')  '  real(rkind) :: vecFunY(',nLoadOL,')'
   write(function,'(A)')       '  real(rkind), dimension(2) :: funcOnLines'
   
   do iLoad = 1, nLoadOL
@@ -102,7 +102,7 @@ program precomp
      read(functionData,*)
   end do
 
-  open(function, file = trim(path)//'/FEM2D/Load/Load/functionOnSurfaces.f90')
+  open(function, file = trim(path)//'/FEM2D/Source/Load/functionOnSurfaces.f90')
   write(function,'(A)')       'module FunctionOnSurfacesMOD'
   write(function,'(A)')       '  use tools'
   write(function,'(A)')       '  implicit none'
@@ -112,8 +112,8 @@ program precomp
   write(function,'(A)')       '  integer(ikind), intent(in) :: i'
   write(function,'(A)')       '  real(rkind), intent(in) :: x'
   write(function,'(A)')       '  real(rkind), intent(in) :: y'
-  write(function,'(A,I0,A)')  '  real(rkind) :: vecFunX(',nLoadOP,')'
-  write(function,'(A,I0,A)')  '  real(rkind) :: vecFunY(',nLoadOP,')'
+  write(function,'(A,I0,A)')  '  real(rkind) :: vecFunX(',nLoadOS,')'
+  write(function,'(A,I0,A)')  '  real(rkind) :: vecFunY(',nLoadOS,')'
   write(function,'(A)')       '  real(rkind), dimension(2) :: funcOnSurfaces'
   
   do iLoad = 1, nLoadOS
