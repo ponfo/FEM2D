@@ -71,7 +71,7 @@ contains
     dsf = this%dShapeFunc(u)
     term1 = 0
     term2 = 0
-    do i = 1, this%getnPoint()
+    do i = 1, this%nPoint*this%nDof, this%nDof
        term1 = term1 + dsf(i)*this%point(i)%getx()
        term2 = term2 + dsf(i)*this%point(i)%gety()
     end do

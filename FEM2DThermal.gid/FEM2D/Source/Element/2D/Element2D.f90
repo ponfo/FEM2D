@@ -75,7 +75,7 @@ contains
     real(rkind), dimension(2,this%nPoint*this%nDof) :: dsf
     jacobian = 0.d0
     dsf = this%dShapeFunc(x,y)
-    do i = 1, this%nPoint
+    do i = 1, this%nPoint*this%nDof, this%nDof
        jacobian(1,1) = jacobian(1,1) + dsf(1,i)*this%point(i)%getx() !dx/d(xi)
        jacobian(1,2) = jacobian(1,2) + dsf(1,i)*this%point(i)%gety() !dy/d(xi)
        jacobian(2,1) = jacobian(2,1) + dsf(2,i)*this%point(i)%getx() !dx/d(eta)
