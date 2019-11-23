@@ -45,8 +45,8 @@ contains
     call debugLog('      Initiating boundary conditions 1D')
     allocate(this%fixDisplacementX(nFixDisplacementX))
     allocate(this%fixDisplacementY(nFixDisplacementY))
-    call debugLog('        Allocated Fix Displacement in X: ', size(this%fixDisplacementX)
-    call debugLog('        Allocated Fix Displacement in Y: ', size(this%fixDisplacementY)
+    call debugLog('        Allocated Fix Displacement in X: ', size(this%fixDisplacementX))
+    call debugLog('        Allocated Fix Displacement in Y: ', size(this%fixDisplacementY))
     iFixDisplacementX = 0
     iFixDisplacementY = 0
   end subroutine init
@@ -78,7 +78,7 @@ contains
   integer(ikind) function getnFixDisplacementY(this)
     implicit none
     class(StructBoundaryCondition1DTYPE), intent(inout) :: this
-    getnFixDisplacementY = size(this%fixDisplacementY
+    getnFixDisplacementY = size(this%fixDisplacementY)
   end function getnFixDisplacementY
 
   subroutine apply(this, stiffness, rhs)

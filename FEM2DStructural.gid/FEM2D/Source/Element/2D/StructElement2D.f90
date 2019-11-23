@@ -16,10 +16,11 @@ contains
     implicit none
     class(StructElement2DTYPE), intent(inout) :: this
     real(rkind), dimension(this%nPoint*this%nDof,this%nPoint*this%nDof) :: getStiffness
-    integer(ikind) :: i, j, k, nPoint
+    integer(ikind) :: i, j, k, nPoint, nDof
     real(rkind) :: bi, bj, ci, cj
     real(rkind), dimension(:,:,:), allocatable :: jacobian
     real(rkind), dimension(:), allocatable :: jacobianDet
+    real(rkind), dimension(2,2) :: Kij
     type(IntegratorPtrTYPE) :: integrator
     integrator = this%getIntegrator()
     allocate(jacobian(integrator%ptr%integTerms,2,2))

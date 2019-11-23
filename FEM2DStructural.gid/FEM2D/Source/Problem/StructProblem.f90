@@ -30,7 +30,7 @@ module StructProblemMOD
      procedure, public :: addSurfaceLoad
      procedure, public :: addFixDisplacementX
      procedure, public :: addFixDisplacementY
-     procedure, public :: setTemperatureLoad
+     !procedure, public :: setTemperatureLoad
 
      procedure, public :: setUp => assembleSystem
 
@@ -84,7 +84,7 @@ contains
     integer(ikind)             :: nDof
     call debugLog('  Initiating Structural Problem')
     nDof = 2
-    this%domain = structProblem(nPoint, isQuadratic                          &
+    this%domain = structDomain(nPoint, isQuadratic                           &
        , nLine, nTriang, nQuad, nGauss, nMaterial, nPointLoad                &
        , nLineLoad, nSurfaceLoad, nFixDisplacementX, nFixDisplacementY       )
     if(isQuadratic == 0) then
@@ -131,7 +131,7 @@ contains
     real(rkind), intent(in) :: thermalCoef
     real(rkind), intent(in) :: area
     real(rkind), intent(in) :: thickness
-    call this%domain%addMaterial(this, young, poissonCoef, thermalCoef, area, thickness)
+    call this%domain%addMaterial(young, poissonCoef, thermalCoef, area, thickness)
   end subroutine addMaterial
 
   subroutine addPointLoad(this, iPoint, iLoad)
@@ -142,12 +142,12 @@ contains
     call this%domain%addPointLoad(iPoint, iLoad)
   end subroutine addPointLoad
 
-  subroutine addLineLoad(this, iPoint, iLoad)
+  subroutine addLineLoad(this, pointID, iLoad)
     implicit none
     class(StructProblemTYPE), intent(inout) :: this
-    integer(ikind), intent(in) :: iPoint
+    integer(ikind), dimension(:), intent(in) :: pointID
     integer(ikind), intent(in) :: iLoad
-    call this%domain%addLineLoad(iPoint, iLoad)
+    call this%domain%addLineLoad(pointID, iLoad)
   end subroutine addLineLoad
 
   subroutine addSurfaceLoad(this, iElem, iLoad)
@@ -173,13 +173,13 @@ contains
     real(rkind), intent(in) :: value
     call this%domain%addFixDisplacementY(id, value)
   end subroutine addFixDisplacementY
-    
-  subroutine setTemperatureLoad(this, thermalDof)
-    implicit none
-    class(StructProblemTYPE), intent(inout) :: this
-    real(rkind), dimension(this%domain%nPoint) :: thermalDof
-    call this%domain%setTemperatureLoad(thermalDof)
-  end subroutine setTemperatureLoad
+!!$    
+!!$  subroutine setTemperatureLoad(this, thermalDof)
+!!$    implicit none
+!!$    class(StructProblemTYPE), intent(inout) :: this
+!!$    real(rkind), dimension(this%domain%nPoint) :: thermalDof
+!!$    call this%domain%setTemperatureLoad(thermalDof)
+!!$  end subroutine setTemperatureLoad
 
   subroutine assembleSystem(this)
     implicit none
@@ -187,15 +187,14 @@ contains
     call debugLog('  Assembling stiffness matrix and right hand side vector')
     print'(A)', 'Assembling stiffness matrix and right hand side vector'
     call this%assembleStiffness()
-    call this%domain%applySource(this%rhs)
-    call this%domain%applyBC2D(this%stiffness, this%rhs)
+    call this%domain%applyLoad(this%rhs)
     call this%domain%applyBC1D(this%stiffness, this%rhs)
   end subroutine assembleSystem
 
   subroutine assembleStiffness(this)
     implicit none
     class(StructProblemTYPE), intent(inout) :: this
-    integer(ikind) :: i, j, iElem, nElem1D, nElem2D, nPoint, nDof
+    integer(ikind) :: i, j, ii, jj, iElem, nElem1D, nElem2D, nPoint, nDof
     real(rkind), dimension(:,:), allocatable :: localStiffness
     type(Element1DPtrTYPE) :: element1D
     type(Element2DPtrTYPE) :: element2D

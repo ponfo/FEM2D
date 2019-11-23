@@ -15,7 +15,6 @@ module StructDomainMOD
   use LoadMOD
 
   use StructBoundaryCondition1DMOD
-  use StructBoundaryCondition2DMOD
 
   use Element1DPtrMOD
   use Element2DPtrMOD
@@ -32,7 +31,6 @@ module StructDomainMOD
      type(StructElementList1DTYPE)                       :: elementList1D
      type(StructElementList2DTYPE)                       :: elementList2D
      type(StructBoundaryCondition1DTYPE)                 :: bc1D
-     type(StructBoundaryCondition2DTYPE)                 :: bc2D
    contains
      procedure, public :: init
 
@@ -44,11 +42,10 @@ module StructDomainMOD
      procedure, public :: addSurfaceLoad
      procedure, public :: addFixDisplacementX
      procedure, public :: addFixDisplacementY
-     procedure, public :: setTemperatureLoad
+     !procedure, public :: setTemperatureLoad
 
      procedure, public :: applyLoad
      procedure, public :: applyBC1D
-     procedure, public :: applyBC2D
 
      procedure, private :: addElement1D
      procedure, private :: addElement2D
@@ -119,7 +116,7 @@ contains
     if(nTriang > 0 .or. nQuad > 0) this%elementList2D = &
          structElementList2D(isQuadratic, nTriang, nQuad, nGauss)
     this%bc1D = structBoundaryCondition1D(nFixDisplacementX, nFixDisplacementY)
-    this%load = load(nPointLoad, nLineLoad, nSurfaceLoad)
+    this%load = load(nPointLoad, nLineLoad, nSurfaceLoad, nGauss, isQuadratic)
   end subroutine init
 
   subroutine addPoint(this, x, y, z)
@@ -210,12 +207,12 @@ contains
     call this%load%addPointLoad(iPoint, iLoad)
   end subroutine addPointLoad
 
-  subroutine addLineLoad(this, iPoint, iLoad)
+  subroutine addLineLoad(this, pointID, iLoad)
     implicit none
     class(StructDomainTYPE), intent(inout) :: this
-    integer(ikind), intent(in) :: iPoint
+    integer(ikind), dimension(:), intent(in) :: pointID
     integer(ikind), intent(in) :: iLoad
-    call this%load%addLineLoad(iPoint, iLoad)
+    call this%load%addLineLoad(pointID, iLoad)
   end subroutine addLineLoad
 
   subroutine addSurfaceLoad(this, iElem, iLoad)
@@ -256,14 +253,6 @@ contains
     real(rkind), dimension(:), intent(inout) :: rhs
     call this%bc1D%apply(stiffness, rhs)
   end subroutine applyBC1D
-
-  subroutine applyBC2D(this, stiffness, rhs)
-    implicit none
-    class(StructDomainTYPE), intent(inout) :: this
-    class(Sparse), intent(inout) :: stiffness
-    real(rkind), dimension(:), intent(inout) :: rhs
-    call this%bc2D%apply(stiffness, rhs)
-  end subroutine applyBC2D
 
 end module StructDomainMOD
   

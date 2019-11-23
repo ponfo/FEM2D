@@ -8,6 +8,7 @@ module DomainMOD
   private
   public :: DomainTYPE
   type :: DomainTYPE
+     integer(ikind)                                :: nDof
      integer(ikind)                                :: nPoint
      integer(ikind)                                :: nLine
      integer(ikind)                                :: nTriang

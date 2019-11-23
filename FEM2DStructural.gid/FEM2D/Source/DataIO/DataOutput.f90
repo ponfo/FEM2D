@@ -36,9 +36,15 @@ contains
     write(results,*)   'Result "',trim(resultName),'" "',trim(projectName)&
          ,'" ',step,' ',trim(graphType),' ',trim(locationName)
     write(results,*)   'Values'
-    Do iPoint = 1, resultNumber
-       Write(results,*) iPoint, component1(iPoint)
-    End Do
+    if(trim(graphType) == 'Scalar') then
+       Do iPoint = 1, resultNumber
+          Write(results,*) iPoint, component1(iPoint)
+       End Do
+    else if (trim(graphType) == 'Vector') then
+       do iPoint = 1, resultNumber, 2
+          write(results,*) iPoint, component1(iPoint), component1(iPoint+1)
+       end do
+    end if
     write(results,*)   'End Values'
   end subroutine printResultsVec1
   subroutine printResults1DVec2(resultName, type, step, graphType, locationName, gaussPoints &

@@ -37,7 +37,7 @@ module DataInputMOD
 contains
   subroutine initFEM2D(problemInput)
     implicit none
-    type(StrcutProblemTYPE), intent(inout) :: problemInput
+    type(StructProblemTYPE), intent(inout) :: problemInput
     call initLog(.true., 'log.dat')
     call debugLog('  Reading project data')
     call readProjectData
@@ -213,20 +213,20 @@ contains
     end do
     if(verbose) print'(/,A)', 'Dirichlet X conditions'
     if(verbose) print'(A)', 'Node    Value'
-    do i = 1, nDirichlet
+    do i = 1, nDirichletX
        read(Project,*) id, value
        if(verbose) print'(I0,5X,E10.3)', id, value
-       call problemInput%addDirichletXPoint(id, value)
+       call problemInput%addFixDisplacementX(id, value)
     end do
     do i = 1, 7
        read(project,*)
     end do
     if(verbose) print'(/,A)', 'Dirichlet Y conditions'
     if(verbose) print'(A)', 'Node    Value'
-    do i = 1, nDirichlet
+    do i = 1, nDirichletY
        read(Project,*) id, value
        if(verbose) print'(I0,5X,E10.3)', id, value
-       call problemInput%addDirichletYPoint(id, value)
+       call problemInput%addFixDisplacementY(id, value)
     end do
     close(project)
   end subroutine readBoundaryConditions

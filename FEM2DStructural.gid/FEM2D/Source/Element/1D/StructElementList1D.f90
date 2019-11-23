@@ -39,7 +39,7 @@ module StructElementList1DMOD
 
   integer(ikind)                 , save                                    :: iElem
   type(StructLinLineElementTYPE) , save, dimension(:), allocatable, target :: linLineElem
-  type(thQuadLineElementTYPE)    , save, dimension(:), allocatable, target :: quadLineElem
+  type(StructQuadLineElementTYPE), save, dimension(:), allocatable, target :: quadLineElem
   
 contains
 

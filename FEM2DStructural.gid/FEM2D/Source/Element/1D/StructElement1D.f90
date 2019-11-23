@@ -16,7 +16,7 @@ contains
     implicit none
     class(StructElement1DTYPE), intent(inout) :: this
     real(rkind), dimension(this%nPoint*this%nDof,this%nPoint*this%nDof) :: getStiffness
-        integer(ikind) :: i, j, k, ii, jj, nPoint
+        integer(ikind) :: i, j, k, ii, jj, nPoint, nDof
     real(rkind), dimension(:), allocatable :: jacobian
     type(IntegratorPtrTYPE) :: integrator
     integrator = this%getIntegrator()
@@ -39,7 +39,7 @@ contains
                         * this%material%ptr%area                            &
                         * integrator%ptr%dShapeFunc(k,1,i*nDof-(nDof-ii))   &
                         * integrator%ptr%dShapeFunc(k,1,j*nDof-(nDof-jj))   &
-                        \ jacobian(k)
+                        / jacobian(k)
                 end do
              end do
           end do

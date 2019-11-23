@@ -18,11 +18,11 @@ module FixDisplacementMOD
 
 contains
 
-  type(DirichletPointTYPE) function constructor(id, value)
+  type(FixDisplacementTYPE) function constructor(id, value)
     implicit none
     integer(ikind), intent(in) :: id
     real(rkind)   , intent(in) :: value
-    call constructor%initX(id, value)
+    call constructor%init(id, value)
   end function constructor
 
   subroutine init(this, id, value)

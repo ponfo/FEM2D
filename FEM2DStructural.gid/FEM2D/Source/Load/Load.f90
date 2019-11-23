@@ -11,7 +11,7 @@ module LoadMOD
   use IntegratorMOD
   use IntegratorPtrMOD
 
-  use ThElementList2DMOD
+  use StructElementList2DMOD
   implicit none
   private
   public :: LoadTYPE, load
@@ -193,7 +193,7 @@ contains
   subroutine apply(this, elementList, point, rhs)
     implicit none
     class(LoadTYPE), intent(inout) :: this
-    type(ThElementList2DTYPE), intent(inout) :: elementList
+    type(StructElementList2DTYPE), intent(inout) :: elementList
     type(PointTYPE), dimension(:), intent(inout) :: point
     real(rkind), dimension(:), intent(inout) :: rhs
     integer(ikind) :: i
