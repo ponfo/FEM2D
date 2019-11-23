@@ -14,7 +14,7 @@ program FEM2DStaticStruct
        , step         = 1                                       &
        , graphType    = 'Vector'                                &
        , locationName = 'onNodes'                               &
-       , resultNumber = problem%domain%nPoint*problem%domain%nDof &
-       , component1   = problem%dof            )
+       , resultNumber = problem%domain%nPoint                    &
+       , component1   = problem%dof                              )
   call finishProgram() 
 end program FEM2DStaticStruct

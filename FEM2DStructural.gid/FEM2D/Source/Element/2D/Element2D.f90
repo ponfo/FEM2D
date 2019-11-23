@@ -71,15 +71,17 @@ contains
     real(rkind), intent(in) :: x
     real(rkind), intent(in) :: y
     real(rkind), dimension(2,2) :: jacobian
-    integer(ikind) :: i
+    integer(ikind) :: i, iPoint
     real(rkind), dimension(2,this%nPoint*this%nDof) :: dsf
     jacobian = 0.d0
     dsf = this%dShapeFunc(x,y)
-    do i = 1, this%nPoint
-       jacobian(1,1) = jacobian(1,1) + dsf(1,i)*this%point(i)%getx() !dx/d(xi)
-       jacobian(1,2) = jacobian(1,2) + dsf(1,i)*this%point(i)%gety() !dy/d(xi)
-       jacobian(2,1) = jacobian(2,1) + dsf(2,i)*this%point(i)%getx() !dx/d(eta)
-       jacobian(2,2) = jacobian(2,2) + dsf(2,i)*this%point(i)%gety() !dy/d(eta)
+    iPoint = 0
+    do i = 1, this%nPoint*this%nDof, this%nDof !Uses first dof of every point
+       iPoint = iPoint + 1
+       jacobian(1,1) = jacobian(1,1) + dsf(1,i)*this%point(iPoint)%getx() !dx/d(xi)
+       jacobian(1,2) = jacobian(1,2) + dsf(1,i)*this%point(iPoint)%gety() !dy/d(xi)
+       jacobian(2,1) = jacobian(2,1) + dsf(2,i)*this%point(iPoint)%getx() !dx/d(eta)
+       jacobian(2,2) = jacobian(2,2) + dsf(2,i)*this%point(iPoint)%gety() !dy/d(eta)
     end do
   end function jacobian
 

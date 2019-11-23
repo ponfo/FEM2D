@@ -65,15 +65,17 @@ contains
     implicit none
     class(Element1DTYPE), intent(inout) :: this
     real(rkind), intent(in) :: u
-    integer(ikind) :: i
+    integer(ikind) :: i, iPoint
     real(rkind) :: term1, term2
     real(rkind), dimension(this%nPoint*this%nDof) :: dsf
     dsf = this%dShapeFunc(u)
     term1 = 0
     term2 = 0
-    do i = 1, this%getnPoint()
-       term1 = term1 + dsf(i)*this%point(i)%getx()
-       term2 = term2 + dsf(i)*this%point(i)%gety()
+    iPoint = 0
+    do i = 1, this%nPoint*this%nDof, this%nDof !Uses first dof of every point
+       iPoint = iPoint + 1
+       term1 = term1 + dsf(i)*this%point(iPoint)%getx()
+       term2 = term2 + dsf(i)*this%point(iPoint)%gety()
     end do
     jacobian = sqrt(term1**2+term2**2)
   end function jacobian

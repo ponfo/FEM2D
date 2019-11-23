@@ -28,7 +28,7 @@ contains
     implicit none
     integer(ikind)                 :: iPoint
     integer(ikind), intent(in)     :: step, resultNumber
-    real(rkind), intent(in), dimension(resultNumber) :: component1
+    real(rkind), intent(in), dimension(resultNumber*2) :: component1
     character(*), intent(in) :: resultName, graphType, locationName
     call init()
     open(results, file = trim(projectName)//'.flavia.res')
@@ -41,11 +41,11 @@ contains
           Write(results,*) iPoint, component1(iPoint)
        End Do
     else if (trim(graphType) == 'Vector') then
-       do iPoint = 1, resultNumber, 2
-          write(results,*) iPoint, component1(iPoint), component1(iPoint+1)
+       do iPoint = 1, resultNumber
+          write(results,*) iPoint, component1(2*iPoint-1), component1(2*iPoint)
        end do
     end if
-    write(results,*)   'End Values'
+    write(results,'(A)')   'End Values'
   end subroutine printResultsVec1
   subroutine printResults1DVec2(resultName, type, step, graphType, locationName, gaussPoints &
        , resultNumber, elemID, component1, component2)

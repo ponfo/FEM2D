@@ -52,11 +52,11 @@ contains
              Kij(2,2) = bi*bj*this%material%ptr%d33 + ci*cj*this%material%ptr%d22                   
              getStiffness(i,j) = getStiffness(i,j)                  &
                   + integrator%ptr%weight(k)*Kij(1,1)/jacobianDet(k)
-             getStiffness(i,j) = getStiffness(i,j+1)                &
+             getStiffness(i,j+1) = getStiffness(i,j+1)                &
                   + integrator%ptr%weight(k)*Kij(1,2)/jacobianDet(k)
-             getStiffness(i,j) = getStiffness(i+1,j)                &
+             getStiffness(i+1,j) = getStiffness(i+1,j)                &
                   + integrator%ptr%weight(k)*Kij(2,1)/jacobianDet(k)
-             getStiffness(i,j) = getStiffness(i+1,j+1)              &
+             getStiffness(i+1,j+1) = getStiffness(i+1,j+1)              &
                   + integrator%ptr%weight(k)*Kij(2,2)/jacobianDet(k)
           end do
        end do
