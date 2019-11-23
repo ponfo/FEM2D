@@ -135,7 +135,7 @@ contains
     if(verbose) print'(A)', 'Material         alpha        E        nu       A       t    '
     do i = 1, nMaterial
        read(project,*) iMat, alpha, E, nu, A, t
-       call problemInput%addMaterial(alpha, E, nu, A, t)
+       call problemInput%addMaterial(E, nu, alpha, A, t)
        if(verbose) print'(4X,I0,7X,2(E10.3,3X))', iMat, alpha, E, nu, A, t 
     end do
   end subroutine initMaterials

@@ -191,16 +191,16 @@ contains
     call debugLog('  Assembling stiffness matrix and right hand side vector')
     print'(A)', 'Assembling stiffness matrix and right hand side vector'
     call this%assembleStiffness()
+    print*, 'stiffness1'
+    call this%stiffness%printNonZeros()
     call this%domain%applyLoad(this%rhs)
-    print*, 'rhs2'
-    do i = 1, size(this%rhs)
-       print'(A,I0,A,E16.8)', 'rhs(', i, ') = ', this%rhs(i)
-    end do
     call this%domain%applyBC1D(this%stiffness, this%rhs)
-    print*, 'rhs3'
-    do i = 1, size(this%rhs)
-       print'(A,I0,A,E16.8)', 'rhs(', i, ') = ', this%rhs(i)
-    end do
+    print*, 'stiffness2'
+    call this%stiffness%printNonZeros()
+!!$    print*, 'rhs3'
+!!$    do i = 1, size(this%rhs)
+!!$       print'(A,I0,A,E16.8)', 'rhs(', i, ') = ', this%rhs(i)
+!!$    end do
   end subroutine assembleSystem
 
   subroutine assembleStiffness(this)
