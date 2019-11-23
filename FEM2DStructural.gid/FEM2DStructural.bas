@@ -82,7 +82,7 @@ Coordinates:
 Materials List:
 
 Material | Thermal expansion | Young's modulus | Poisson's ratio |  Area  |  Thickness
------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------
 *loop materials
 *format "%5i%10.4e%10.4e%10.4e%10.4e%10.4e"
 *matnum          *matprop(Thermal_Expansion)         *matprop(Young_Modulus)       *matprop(Poisson's_Ratio)    *matprop(Area)  *matprop(Thickness)
@@ -98,8 +98,8 @@ Conditions List:
 *for(i=1;i<=Gendata(Load_Number_On_Points,int);i=i+1))
 *loop nodes *OnlyInCond
 *if(i==cond(Load_Number_On_Points,real))
-*format "%5i%10s"
-*cond(Load_Number_On_Points) *cond(LoadOP)
+*format "%5i%10s%10s"
+*cond(Load_Number_On_Points) *cond(LoadXOP) *cond(LoadYOP)
 *break
 *endif
 *end
@@ -115,8 +115,8 @@ Conditions List:
 *for(i=1;i<=Gendata(Load_Number_On_Lines,int);i=i+1))
 *loop nodes *OnlyInCond
 *if(i==cond(Load_Number_On_Lines,real))
-*format "%5i%10s"
-*cond(Load_Number_On_Lines) *cond(LoadOL) 
+*format "%5i%10s%10s"
+*cond(Load_Number_On_Lines) *cond(LoadXOL) *cond(LoadYOL) 
 *break
 *endif
 *end
@@ -132,8 +132,8 @@ Conditions List:
 *for(i=1;i<=Gendata(Load_Number_On_Surfaces,int);i=i+1))
 *loop elems
 *if(i==cond(Load_Number_On_Surfaces,real))
-*format "%5i%10s"
-*cond(Load_Number_On_Surfaces) *cond(LoadOS) 
+*format "%5i%10s%10s"
+*cond(Load_Number_On_Surfaces) *cond(LoadXOS) *cond(LoadYOS) 
 *break
 *endif
 *end
