@@ -190,7 +190,7 @@ contains
     integer(ikind) :: i
     call debugLog('  Assembling stiffness matrix and right hand side vector')
     print'(A)', 'Assembling stiffness matrix and right hand side vector'
-    call this%stiffness%printNonZeros()
+    call this%assembleStiffness()
     call this%domain%applyLoad(this%rhs)
     call this%domain%applyBC1D(this%stiffness, this%rhs)
 !!$    print*, 'stiffness'
