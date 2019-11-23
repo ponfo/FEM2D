@@ -101,6 +101,7 @@ contains
     call debugLog('      Matrix order: ', this%stiffness%getn())
     allocate(this%rhs(nPoint*nDof))
     call debugLog('    Allocated RHS: ', size(this%rhs))
+    this%rhs = 0.d0
     allocate(this%dof(nPoint*nDof))
     call debugLog('    Allocated DOF: ', size(this%dof))
     this%dof = 0.d0
@@ -190,12 +191,6 @@ contains
     call debugLog('  Assembling stiffness matrix and right hand side vector')
     print'(A)', 'Assembling stiffness matrix and right hand side vector'
     call this%assembleStiffness()
-    print*, 'stiffness1'
-    call this%stiffness%printNonZeros()
-    print*, 'rhs1'
-    do i = 1, size(this%rhs)
-       print'(A,I0,A,E16.8)', 'rhs(', i, ') = ', this%rhs(i)
-    end do
     call this%domain%applyLoad(this%rhs)
     print*, 'rhs2'
     do i = 1, size(this%rhs)
@@ -206,8 +201,6 @@ contains
     do i = 1, size(this%rhs)
        print'(A,I0,A,E16.8)', 'rhs(', i, ') = ', this%rhs(i)
     end do
-    print*, 'stiffness2'
-    call this%stiffness%printNonZeros()
   end subroutine assembleSystem
 
   subroutine assembleStiffness(this)

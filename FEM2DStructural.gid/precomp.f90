@@ -55,7 +55,7 @@ program precomp
   do iLoad = 1, nLoadOP
      read(functionData,'(I5,X,A10,X,A10)') numberLoad, loadFunX, loadFunY
      write(function,'(A,I0,A)')'  vecFunX(',numberLoad,')='//trim(loadFunX)
-     write(function,'(A,I0,A)')'  vecFunX(',numberLoad,')='//trim(loadFunY)
+     write(function,'(A,I0,A)')'  vecFunY(',numberLoad,')='//trim(loadFunY)
      write(*,'(A,I0,A)')'  vecFunX(',numberLoad,')='//trim(loadFunX)
      write(*,'(A,I0,A)')'  vecFunY(',numberLoad,')='//trim(loadFunY)
   end do
@@ -87,7 +87,7 @@ program precomp
   do iLoad = 1, nLoadOL
      read(functionData,'(I5,X,A10,X,A10)') numberLoad, loadFunX, loadFunY
      write(function,'(A,I0,A)')'  vecFunX(',numberLoad,')='//trim(loadFunX)
-     write(function,'(A,I0,A)')'  vecFunX(',numberLoad,')='//trim(loadFunY)
+     write(function,'(A,I0,A)')'  vecFunY(',numberLoad,')='//trim(loadFunY)
      write(*,'(A,I0,A)')'  vecFunX(',numberLoad,')='//trim(loadFunX)
      write(*,'(A,I0,A)')'  vecFunY(',numberLoad,')='//trim(loadFunY)
   end do
@@ -121,7 +121,7 @@ program precomp
      write(function,'(A,I0,A)')'  vecFunX(',numberLoad,')='//trim(loadFunX)
      write(function,'(A,I0,A)')'  vecFunY(',numberLoad,')='//trim(loadFunY)
      write(*,'(A,I0,A)')'  vecFunX(',numberLoad,')='//trim(loadFunX)
-     write(*,'(A,I0,A)')'  vecFunX(',numberLoad,')='//trim(loadFunY)
+     write(*,'(A,I0,A)')'  vecFunY(',numberLoad,')='//trim(loadFunY)
   end do
   
   write(function,'(A)')       '  funcOnSurfaces(1) = vecFunX(i)'

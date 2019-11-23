@@ -61,7 +61,7 @@ Source_Number_On_Points................: *Gendata(Source_Number_On_Points,int)
 *#---------------------------------------------------------
 *Set Cond Source_On_Lines *nodes
 *#---------------------------------------------------------
-Lines_With_Line_Source.................: *condnumentities
+Points_With_Line_Source.................: *condnumentities
 *#---------------------------------------------------------
 Source_Number_On_Lines.................: *Gendata(Source_Number_On_Lines,int)
 *#---------------------------------------------------------
