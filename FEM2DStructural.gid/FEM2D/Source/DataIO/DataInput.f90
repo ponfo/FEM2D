@@ -1,7 +1,7 @@
 module DataInputMOD
   use tools
   use DebuggerMOD
-  use ThProblemMOD
+  use StructProblemMOD
   implicit none
   private
   public :: initFEM2D
@@ -15,20 +15,17 @@ module DataInputMOD
   integer(ikind)               :: nRectElem
   integer(ikind)               :: nPoint
   integer(ikind)               :: iPoint
-  integer(ikind)               :: nNormalFluxOP
-  integer(ikind)               :: nNormalFluxOL
-  integer(ikind)               :: nDirichlet
+  integer(ikind)               :: nDirichletX
+  integer(ikind)               :: nDirichletY
   integer(ikind)               :: nMaterial
   integer(ikind)               :: nGauss
-  integer(ikind)               :: nConvectionOP
-  integer(ikind)               :: nConvectionOL
   integer(ikind)               :: isQuadratic
-  integer(ikind)               :: nSourceOP
-  integer(ikind)               :: nSourceOL
-  integer(ikind)               :: nSourceOS
-  integer(ikind)               :: nPointSource
-  integer(ikind)               :: nLineSource
-  integer(ikind)               :: nSurfaceSource
+  integer(ikind)               :: nLoadOP
+  integer(ikind)               :: nLoadOL
+  integer(ikind)               :: nLoadOS
+  integer(ikind)               :: nPointLoad
+  integer(ikind)               :: nLineLoad
+  integer(ikind)               :: nSurfaceLoad
   character(100)               :: projectName
   character(100)               :: path
   character(100)               :: aux
@@ -40,7 +37,7 @@ module DataInputMOD
 contains
   subroutine initFEM2D(problemInput)
     implicit none
-    type(ThProblemTYPE), intent(inout) :: problemInput
+    type(StrcutProblemTYPE), intent(inout) :: problemInput
     call initLog(.true., 'log.dat')
     call debugLog('  Reading project data')
     call readProjectData
@@ -57,8 +54,8 @@ contains
        call debugLog('  Reading elements')
        call initElementsDefaultMat(problemInput)
     end if
-    call debugLog('  Reading point and line Sources')
-    call readPointLineSurfaceSources(problemInput)
+    call debugLog('  Reading point and line Loads')
+    call readPointLineSurfaceLoads(problemInput)
     call debugLog('  Reading Boundary Conditions')
     call readBoundaryConditions(problemInput)
     call debugLog('End loading data')
@@ -74,7 +71,7 @@ contains
   end subroutine readProjectData
   subroutine initMesh(problemInput)
     implicit none
-    type(ThProblemTYPE), intent(inout) :: problemInput
+    type(StructProblemTYPE), intent(inout) :: problemInput
     integer(ikind) :: i
     real(rkind)    :: x, y, z
     open(project, file = trim(projectName)//'.dat')
@@ -90,39 +87,32 @@ contains
     read(project,*)  aux, nMaterial
     call checknMaterial(nMaterial)
     read(project,*)  aux, nGauss    
-    read(project,*)  aux, nDirichlet
-    read(project,*)  aux, nNormalFluxOP
-    read(project,*)  aux, nConvectionOP
-    read(project,*)  aux, nNormalFluxOL
-    read(project,*)  aux, nConvectionOL
-    read(project,*)  aux, nPointSource
-    read(project,*)  aux, nSourceOP
-    read(project,*)  aux, nLineSource
-    read(project,*)  aux, nSourceOL
-    read(project,*)  aux, nSurfaceSource
-    read(project,*)  aux, nSourceOS
+    read(project,*)  aux, nDirichletX
+    read(project,*)  aux, nDirichletY
+    read(project,*)  aux, nPointLoad
+    read(project,*)  aux, nLoadOP
+    read(project,*)  aux, nLineLoad
+    read(project,*)  aux, nLoadOL
+    read(project,*)  aux, nSurfaceLoad
+    read(project,*)  aux, nLoadOS
     call debugLog('    Number of Elements.............................: ', nElem)
     call debugLog('    Are Elements Quadratic.........................: ', isQuadratic)
     call debugLog('    Number of linear elements......................: ', nLinearElem)
     call debugLog('    Number of Triangular elements..................: ', nTriangElem)
     call debugLog('    Number of Rectangular elements.................: ', nRectElem)
     call debugLog('    Number of Nodes................................: ', nPoint)
-    call debugLog('    Number of Dirichlet conditions.................: ', nDirichlet)
-    call debugLog('    Number of NormalFluxOnPoints conditions........: ', nNormalFluxOP)
-    call debugLog('    Number of NormalFluxOnLines conditions.........: ', nNormalFluxOL)    
-    call debugLog('    Number of ConvectionOnPoints conditions........: ', nConvectionOP)
-    call debugLog('    Number of ConvectionOnLines conditions.........: ', nConvectionOL)    
-    call debugLog('    Number of Sources on points....................: ', nSourceOP)
-    call debugLog('    Number of points with pointSource..............: ', nPointSource)
-    call debugLog('    Number of Sources on lines.....................: ', nSourceOL)
-    call debugLog('    Number of points with lineSource...............: ', nLineSource)
-    call debugLog('    Number of Sources on surfaces..................: ', nSourceOS)
-    call debugLog('    Number of Surfaces with surfaceSource..........: ', nSurfaceSource)
+    call debugLog('    Number of Dirichlet X conditions...............: ', nDirichletX)    
+    call debugLog('    Number of Dirichlet Y conditions...............: ', nDirichletY)
+    call debugLog('    Number of Loads on points......................: ', nLoadOP)
+    call debugLog('    Number of points with pointLoad................: ', nPointLoad)
+    call debugLog('    Number of Loads on lines.......................: ', nLoadOL)
+    call debugLog('    Number of points with lineLoad.................: ', nLineLoad)
+    call debugLog('    Number of Loads on surfaces....................: ', nLoadOS)
+    call debugLog('    Number of Surfaces with surfaceLoad............: ', nSurfaceLoad)
     call debugLog('    Number of Materials............................: ', nMaterial)
     call debugLog('    Gauss cuadrature order.........................: ', nGauss)
-    problemInput = thermalProblem(nPoint, isQuadratic, nLinearElem, nTriangElem, nRectElem &
-         , nGauss, nMaterial, nPointSource, nLineSource, nSurfaceSource, nDirichlet        &
-         , nNormalFluxOP, nNormalFluxOL, nConvectionOP, nConvectionOL                      )
+    problemInput = structProblem(nPoint, isQuadratic, nLinearElem, nTriangElem, nRectElem &
+         , nGauss, nMaterial, nPointLoad, nLineLoad, nSurfaceLoad, nDirichletX, nDirichletY)
     do i = 1, 6
        read(project,*)
     end do
@@ -136,25 +126,25 @@ contains
   end subroutine initMesh
   subroutine initMaterials(problemInput)
     implicit none
-    type(ThProblemTYPE), intent(inout) :: problemInput
+    type(StructProblemTYPE), intent(inout) :: problemInput
     integer(ikind) :: i, iMat
-    real(rkind) :: kx, ky
+    real(rkind) :: alpha, E, nu, A, t
     do i = 1, 7
        read(project,*)
     end do
-    if(verbose) print'(A)', 'Material         Kx            Ky    '
+    if(verbose) print'(A)', 'Material         alpha        E        nu       A       t    '
     do i = 1, nMaterial
-       read(project,*) iMat, kx, ky
-       call problemInput%addMaterial(kx, ky)
-       if(verbose) print'(4X,I0,7X,2(E10.3,3X))', iMat, kx, ky 
+       read(project,*) iMat, alpha, E, nu, A, t
+       call problemInput%addMaterial(alpha, E, nu, A, t)
+       if(verbose) print'(4X,I0,7X,2(E10.3,3X))', iMat, alpha, E, nu, A, t 
     end do
   end subroutine initMaterials
   subroutine initElements(problemInput)
-    type(ThProblemTYPE), intent(inout) :: problemInput
+    type(StructProblemTYPE), intent(inout) :: problemInput
     integer(ikind) :: i, j, iElem, iMat, iNode, Conectivities(8)
     character(len=13) :: type
     Conectivities = 0
-    do i = 1, 28+nSourceOP+nSourceOL+nSourceOS
+    do i = 1, 28+nLoadOP+nLoadOL+nLoadOS
        read(project,*)
     end do
     if(verbose) print'(A)', 'Element  |      Type      |  material index  |  nNodes  |  connectivities'
@@ -164,56 +154,56 @@ contains
        call problemInput%addElement(type, iNode, iMat, Conectivities)
     end do
   end subroutine initElements
-  subroutine readPointLineSurfaceSources(problemInput)
+  subroutine readPointLineSurfaceLoads(problemInput)
     implicit none
-    type(ThProblemTYPE), intent(inout) :: problemInput
+    type(StructProblemTYPE), intent(inout) :: problemInput
     integer(ikind)                     :: i
-    integer(ikind), dimension(:), allocatable :: iNode, iElem, iSource
-    allocate(iNode(max(nPointSource, nLineSource)))
-    allocate(iElem(nSurfaceSource))
-    allocate(iSource(max(nPointSource, nLineSource, nSurfaceSource)))
+    integer(ikind), dimension(:), allocatable :: iNode, iElem, iLoad
+    allocate(iNode(max(nPointLoad, nLineLoad)))
+    allocate(iElem(nSurfaceLoad))
+    allocate(iLoad(max(nPointLoad, nLineLoad, nSurfaceLoad)))
     do i = 1, 7
        read(project,*)
     end do
-    if(verbose) print'(/,A)', 'pointSources'
-    if(verbose) print'(A)', 'Node    Source'
-    do i = 1, nPointSource
-       read(project,*) iNode(i), iSource(i)
-       if(verbose) print'(I0,5X,I0)', iNode(i), iSource(i)
-       call problemInput%addPointSource(iNode(i), iSource(i))
+    if(verbose) print'(/,A)', 'pointLoads'
+    if(verbose) print'(A)', 'Node    Load'
+    do i = 1, nPointLoad
+       read(project,*) iNode(i), iLoad(i)
+       if(verbose) print'(I0,5X,I0)', iNode(i), iLoad(i)
+       call problemInput%addPointLoad(iNode(i), iLoad(i))
     end do
     do i = 1, 7
        read(project,*)
     end do
-    if(verbose) print'(/,A)', 'lineSources'
-    if(verbose) print'(A)', 'Node   Source'
-    do i = 1, nLineSource
-       read(project,*) iNode(i), iSource(i)
-       if(verbose) print'(I0,5X,I0)', iNode(i), iSource(i)
+    if(verbose) print'(/,A)', 'lineLoads'
+    if(verbose) print'(A)', 'Node   Load'
+    do i = 1, nLineLoad
+       read(project,*) iNode(i), iLoad(i)
+       if(verbose) print'(I0,5X,I0)', iNode(i), iLoad(i)
     end do
     if(isQuadratic == 0) then
-       do i = 1, nLineSource-1
-          call problemInput%addLineSource(iNode(i:i+1), iSource(i))
+       do i = 1, nLineLoad-1
+          call problemInput%addLineLoad(iNode(i:i+1), iLoad(i))
        end do
     else if(isQuadratic == 1) then
-       do i = 1, nLineSource-2
-          call problemInput%addLineSource(iNode(i:i+2), iSource(i))
+       do i = 1, nLineLoad-2
+          call problemInput%addLineLoad(iNode(i:i+2), iLoad(i))
        end do
     end if
     do i = 1, 7
        read(project,*)
     end do
-    if(verbose) print'(/,A)', 'surfaceSources'
-    if(verbose) print'(A)', 'Element   Source'
-    do i = 1, nSurfaceSource
-       read(project,*) iElem(i), iSource(i)
-       if(verbose) print'(I0,5X,I0)', iElem(i), iSource(i)
-       call problemInput%addSurfaceSource(iElem(i), iSource(i))
+    if(verbose) print'(/,A)', 'surfaceLoads'
+    if(verbose) print'(A)', 'Element   Load'
+    do i = 1, nSurfaceLoad
+       read(project,*) iElem(i), iLoad(i)
+       if(verbose) print'(I0,5X,I0)', iElem(i), iLoad(i)
+       call problemInput%addSurfaceLoad(iElem(i), iLoad(i))
     end do
-  end subroutine readPointLineSurfaceSources
+  end subroutine readPointLineSurfaceLoads
   subroutine readBoundaryConditions(problemInput)
     implicit none
-    type(ThProblemTYPE), intent(inout) :: problemInput
+    type(StructProblemTYPE), intent(inout) :: problemInput
     integer(ikind)                   :: i, j, id, elemID, nPointID, iPoint
     integer(ikind), dimension(:), allocatable :: pointID
     real(rkind)                      :: value
@@ -221,58 +211,22 @@ contains
     do i = 1, 7
        read(project,*)
     end do
-    if(verbose) print'(/,A)', 'Dirichlet conditions'
+    if(verbose) print'(/,A)', 'Dirichlet X conditions'
     if(verbose) print'(A)', 'Node    Value'
     do i = 1, nDirichlet
        read(Project,*) id, value
        if(verbose) print'(I0,5X,E10.3)', id, value
-       call problemInput%addDirichletPoint(id, value)
+       call problemInput%addDirichletXPoint(id, value)
     end do
     do i = 1, 7
        read(project,*)
     end do
-    if(isQuadratic == 0) then
-       nPointID = 2
-    else
-       nPointID = 3
-    end if
-    allocate(pointID(nPointID))
-    if(verbose) print'(/,A)', 'Normal Flux On Points conditions'
-    if(verbose) print'(A)', 'Nodes     Value'
-    do i = 1, nNormalFluxOP
-       read(Project,*) iPoint, value
-       if(verbose) print*, iPoint, value
-       call problemInput%addNormalFluxPoint(iPoint, value)
-    end do
-    do i = 1, 7
-       read(project,*)
-    end do
-    if(verbose) print'(/,A)', 'Normal Flux On Lines conditions'
-    if(verbose) print'(A)', 'Elem    Nodes     Value'
-    do i = 1, nNormalFluxOL
-       read(Project,*) elemID, (pointID(j),j=1,nPointID), value
-       if(verbose) print*, elemID, (pointID(j),j=1,nPointID), value
-       call problemInput%addNormalFluxLine(elemID, pointID, value)
-    end do
-    do i = 1, 7
-       read(project,*)
-    end do
-    if(verbose) print'(/,A)', 'Convection On Points conditions'
-    if(verbose) print'(A)', 'Nodes     Coef     Temp'
-    do i = 1, nConvectionOP
-       read(Project,*) iPoint, coef, temp
-       if(verbose) print*, iPoint, coef, temp
-       call problemInput%addConvectionPoint(iPoint, coef, temp)
-    end do
-    do i = 1, 7
-       read(project,*)
-    end do
-    if(verbose) print'(/,A)', 'Convection On Lines conditions'
-    if(verbose) print'(A)', 'Elem    Nodes     Coef     Temp'
-    do i = 1, nConvectionOL
-       read(Project,*) elemID, (pointID(j),j=1,nPointID), coef, temp
-       if(verbose) print*, elemID, (pointID(j),j=1,nPointID), coef, temp
-       call problemInput%addConvectionLine(elemID, pointID, coef, temp)
+    if(verbose) print'(/,A)', 'Dirichlet Y conditions'
+    if(verbose) print'(A)', 'Node    Value'
+    do i = 1, nDirichlet
+       read(Project,*) id, value
+       if(verbose) print'(I0,5X,E10.3)', id, value
+       call problemInput%addDirichletYPoint(id, value)
     end do
     close(project)
   end subroutine readBoundaryConditions
@@ -289,28 +243,31 @@ contains
   end subroutine checknMaterial
   subroutine autoAsignMaterial(problemInput)
     implicit none
-    type(ThProblemTYPE), intent(inout) :: problemInput
+    type(StructProblemTYPE), intent(inout) :: problemInput
     integer(ikind) :: i, iMat
-    real(rkind) :: kx, ky
+    real(rkind) :: alpha, E, nu, A, t
     do i = 1, 7
        read(project,*)
     end do
-    if(verbose) print'(A)', 'Material         Kx            Ky    '
+    if(verbose) print'(A)', 'Material         alpha        E        nu       A       t    '
     do i = 1, nMaterial
        iMat = 1
-       kx = 1
-       ky = 1
-       call problemInput%addMaterial(kx, ky)
-       if(verbose) print'(4X,I0,7X,2(E10.3,3X),A)', iMat, kx, ky, '*AUTO ASIGNED*'
+       alpha = 0.0000016
+       E = 210000000000
+       nu = 0.3
+       A = 1
+       t = 1
+       call problemInput%addMaterial(alpha, E, nu, A, t)
+       if(verbose) print'(4X,I0,7X,2(E10.3,3X),A)', iMat, alpha, E, nu, A, t, '*AUTO ASIGNED*'
     end do
   end subroutine autoAsignMaterial
   subroutine initElementsDefaultMat(problemInput)
     implicit none
-    type(ThProblemTYPE), intent(inout) :: problemInput
-    integer(ikind) :: i, j, iElem, iMat, iSource, iNode, Conectivities(8), auxInt
+    type(StructProblemTYPE), intent(inout) :: problemInput
+    integer(ikind) :: i, j, iElem, iMat, iLoad, iNode, Conectivities(8), auxInt
     character(len=13) :: type
     iMat = 1
-    do i = 1, 28+nSourceOP+nSourceOL+nSourceOS
+    do i = 1, 28+nLoadOP+nLoadOL+nLoadOS
        read(project,*)
     end do
     if(verbose) print'(A)', 'Element  |      Type      |  material index  |  nNodes  |  connectivities'
