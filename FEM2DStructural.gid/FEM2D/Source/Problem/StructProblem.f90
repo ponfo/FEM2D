@@ -88,11 +88,13 @@ contains
        , nLine, nTriang, nQuad, nGauss, nMaterial, nPointLoad                &
        , nLineLoad, nSurfaceLoad, nFixDisplacementX, nFixDisplacementY       )
     if(isQuadratic == 0) then
-       this%stiffness = &
-            sparse(nnz = (nLine*4+nTriang*9+nQuad*16)*nDof, rows = nPoint*nDof)
+       this%stiffness =                                                            &
+            sparse(nnz = (nLine*(2*nDof)**2+nTriang*(3*nDof)**2+nQuad*(4*nDof)**2) &
+            , rows = nPoint*nDof                                                   )
     else if(isQuadratic == 1) then
-       this%stiffness = &
-            sparse(nnz = (nLine*9+nTriang*36+nQuad*64)*nDof, rows = nPoint*nDof)
+       this%stiffness =                                                            &
+            sparse(nnz = (nLine*(3*nDof)**2+nTriang*(6*nDof)**2+nQuad*(8*nDof)**2) &
+            , rows = nPoint*nDof                                                   )
     end if
     call debugLog('    Allocated Stiffness')
     call debugLog('      Estimated nnz: ', this%stiffness%getnnz())

@@ -1,14 +1,18 @@
 module FunctionOnLinesMOD
   use tools
   implicit none
-contains
-  real(rkind) function funcOnLines(i, x, y)
+ contains
+  function funcOnLines(i, x, y)
   implicit none
   integer(ikind), intent(in) :: i
   real(rkind), intent(in) :: x
   real(rkind), intent(in) :: y
-  real(rkind) :: vecFunSource(1)
-  vecFunSource(1)=   10
-  funcOnLines = vecfunSource(i)
+  real(rkind) :: vecFunX(1)
+  real(rkind) :: vecFunY(1)
+  real(rkind), dimension(2) :: funcOnLines
+  vecFunX(1)=       100
+  vecFunX(1)=       0.0
+  funcOnLines(1) = vecFunX(i)
+  funcOnLines(2) = vecFunY(i)
   end function funcOnLines
 end module FunctionOnLinesMOD

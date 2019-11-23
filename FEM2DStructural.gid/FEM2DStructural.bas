@@ -56,7 +56,7 @@ Points_With_Loads_On_Points............: *condnumentities
 Load_Number_On_Points..................: *Gendata(Load_Number_On_Points,int)
 *#---------------------------------------------------------
 *Set Cond Loads_On_Lines *nodes
-Lines_With_Loads_On_Lines..............: *condnumentities
+Points_With_Loads_On_Lines..............: *condnumentities
 *#---------------------------------------------------------
 Load_Number_On_Lines...................: *Gendata(Load_Number_On_Lines,int)
 *#---------------------------------------------------------

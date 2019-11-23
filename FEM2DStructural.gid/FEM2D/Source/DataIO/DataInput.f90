@@ -186,7 +186,7 @@ contains
           call problemInput%addLineLoad(iNode(i:i+1), iLoad(i))
        end do
     else if(isQuadratic == 1) then
-       do i = 1, nLineLoad-2
+       do i = 1, nLineLoad-2, 2
           call problemInput%addLineLoad(iNode(i:i+2), iLoad(i))
        end do
     end if

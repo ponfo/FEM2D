@@ -80,7 +80,7 @@ contains
           allocate(linTriangElem(nTriangElem))
           call debugLog('      Allocated Linear Triangs: ', size(linTriangElem))
           call linTriangElem(1)%setnPoint(3)
-          call linTriangElem(1)%setnDof(1)
+          call linTriangElem(1)%setnDof(2)
           this%triangIntegrator = integrator(nGauss, 'triangle')
           call this%valueTriangle(linTriangElem(1))
        end if
@@ -88,7 +88,7 @@ contains
           allocate(linQuadElem(nQuadElem))
           call debugLog('      Allocated Linear Quads: ', size(linQuadElem))
           call linQuadElem(1)%setnPoint(4)
-          call linQuadElem(1)%setnDof(1)
+          call linQuadElem(1)%setnDof(2)
           this%quadIntegrator = integrator(nGauss, 'quad')
           call this%valueQuad(linQuadElem(1))
        end if
@@ -98,7 +98,7 @@ contains
           allocate(quadTriangElem(nTriangElem))
           call debugLog('      Allocated Quadratic Triangs: ', size(quadTriangElem))
           call quadTriangElem(1)%setnPoint(6)
-          call quadTriangelem(1)%setnDof(1)
+          call quadTriangelem(1)%setnDof(2)
           this%triangIntegrator = integrator(nGauss, 'triangle')
           call this%valueTriangle(quadTriangElem(1))
        end if
@@ -106,7 +106,7 @@ contains
           allocate(quadQuadElem(nQuadElem))
           call debugLog('      Allocated Quadratic Quads: ', size(quadQuadElem))
           call quadQuadElem(1)%setnPoint(8)
-          call quadQuadElem(1)%setnDof(1)
+          call quadQuadElem(1)%setnDof(2)
           this%quadIntegrator = integrator(nGauss, 'quad')
           call this%valueQuad(quadQuadElem(1))
        end if
