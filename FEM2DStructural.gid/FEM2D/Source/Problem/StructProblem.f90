@@ -195,7 +195,7 @@ contains
     call this%domain%applyBC1D(this%stiffness, this%rhs)
 !!$    print*, 'stiffness'
 !!$    call this%stiffness%printNonZeros()
-!!$    print*, 'rhs3'
+!!$    print*, 'rhs'
 !!$    do i = 1, size(this%rhs)
 !!$       print'(A,I0,A,E16.8)', 'rhs(', i, ') = ', this%rhs(i)
 !!$    end do

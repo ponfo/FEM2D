@@ -51,7 +51,7 @@ contains
     this%d12 = factor*poissonCoef
     this%d21 = factor*poissonCoef
     this%d22 = factor*(1-poissonCoef)
-    this%d33 = factor*(1-2*poissonCoef)
+    this%d33 = factor*(1-2*poissonCoef)/2.d0
 !!$    !Tensión plana
 !!$    factor = young/(1-poissonCoef**2)
 !!$    this%d11 = factor

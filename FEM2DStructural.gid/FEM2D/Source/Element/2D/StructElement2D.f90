@@ -16,7 +16,7 @@ contains
     implicit none
     class(StructElement2DTYPE), intent(inout) :: this
     real(rkind), dimension(this%nPoint*this%nDof,this%nPoint*this%nDof) :: getStiffness
-    integer(ikind) :: i, j, k, nPoint, nDof
+    integer(ikind) :: i, j, k, nPoint, nDof, ii, jj
     real(rkind) :: bi, bj, ci, cj
     real(rkind), dimension(:,:,:), allocatable :: jacobian
     real(rkind), dimension(:), allocatable :: jacobianDet
@@ -31,37 +31,53 @@ contains
     end do
     nPoint = this%getnPoint()
     nDof = this%getnDof()
-    do i = 1, nPoint*nDof, nDof
-       do j = 1, nPoint*nDof, nDof
-          getStiffness(i,j)     = 0.d0
-          getStiffness(i+1,j)   = 0.d0
-          getStiffness(i,j+1)   = 0.d0
-          getStiffness(i+1,j+1) = 0.d0
+    do i = 1, nPoint
+       do j = 1, nPoint
+          ii = nDof*i-1
+          jj = nDof*j-1
+          getStiffness(ii,jj)     = 0.d0
+          getStiffness(ii+1,jj)   = 0.d0
+          getStiffness(ii,jj+1)   = 0.d0
+          getStiffness(ii+1,jj+1) = 0.d0
           do k = 1, integrator%ptr%integTerms
-             bi = jacobian(k,2,2)*integrator%ptr%dShapeFunc(k,1,i) &
-                  - jacobian(k,1,2)*integrator%ptr%dShapeFunc(k,2,i)
-             bj = jacobian(k,2,2)*integrator%ptr%dShapeFunc(k,1,j) &
-                  - jacobian(k,1,2)*integrator%ptr%dShapeFunc(k,2,j)
-             ci = jacobian(k,1,1)*integrator%ptr%dShapeFunc(k,2,i) &
-                  -jacobian(k,2,1)*integrator%ptr%dShapeFunc(k,1,i)
-             cj = jacobian(k,1,1)*integrator%ptr%dShapeFunc(k,2,j) &
-                  -jacobian(k,2,1)*integrator%ptr%dShapeFunc(k,1,j)
+             bi = jacobian(k,2,2)*integrator%ptr%dShapeFunc(k,1,ii) &
+                  - jacobian(k,1,2)*integrator%ptr%dShapeFunc(k,2,ii)
+             bj = jacobian(k,2,2)*integrator%ptr%dShapeFunc(k,1,jj) &
+                  - jacobian(k,1,2)*integrator%ptr%dShapeFunc(k,2,jj)
+             ci = jacobian(k,1,1)*integrator%ptr%dShapeFunc(k,2,ii) &
+                  -jacobian(k,2,1)*integrator%ptr%dShapeFunc(k,1,ii)
+             cj = jacobian(k,1,1)*integrator%ptr%dShapeFunc(k,2,jj) &
+                  -jacobian(k,2,1)*integrator%ptr%dShapeFunc(k,1,jj)
              Kij(1,1) = bi*bj*this%material%ptr%d11 + ci*cj*this%material%ptr%d33
              Kij(1,2) = bi*cj*this%material%ptr%d12 + bj*ci*this%material%ptr%d33
              Kij(2,1) = ci*bj*this%material%ptr%d21 + bi*cj*this%material%ptr%d33
              Kij(2,2) = bi*bj*this%material%ptr%d33 + ci*cj*this%material%ptr%d22                   
-             getStiffness(i,j) = getStiffness(i,j)                  &
+             getStiffness(ii,jj) = getStiffness(ii,jj)                    &
                   + integrator%ptr%weight(k)*Kij(1,1)/jacobianDet(k)
-             getStiffness(i,j+1) = getStiffness(i,j+1)                &
+             getStiffness(ii,jj+1) = getStiffness(ii,jj+1)                &
                   + integrator%ptr%weight(k)*Kij(1,2)/jacobianDet(k)
-             getStiffness(i+1,j) = getStiffness(i+1,j)                &
+             getStiffness(ii+1,jj) = getStiffness(ii+1,jj)                &
                   + integrator%ptr%weight(k)*Kij(2,1)/jacobianDet(k)
-             getStiffness(i+1,j+1) = getStiffness(i+1,j+1)              &
+             getStiffness(ii+1,jj+1) = getStiffness(ii+1,jj+1)            &
                   + integrator%ptr%weight(k)*Kij(2,2)/jacobianDet(k)
           end do
+!!$          print*, 'i -> ', i
+!!$          print*, 'j -> ', j
+!!$          print*, 'ii -> ', ii
+!!$          print*, 'jj -> ', jj
+!!$          print*, 'K(i,j) = ', getStiffness(ii,jj)
+!!$          print*, 'K(i,j+1) = ', getStiffness(ii,jj+1)
+!!$          print*, 'K(i+1,j) = ', getStiffness(ii+1,jj)
+!!$          print*, 'K(i+1,j+1) = ', getStiffness(ii+1,jj+1)
        end do
     end do
     getStiffness = getStiffness * this%material%ptr%thickness
+!!$    print*, 'stiffness for element -> ', this%id
+!!$    do i = 1, size(getStiffness,1)
+!!$       do j = 1, size(getStiffness,2)
+!!$          print'(A,I0,A,I0,A,E16.8)', 'stiffness(', i, ',', j, ') = ', getStiffness(i,j)
+!!$       end do
+!!$    end do
   end function getStiffness
 
 end module StructElement2DMOD
