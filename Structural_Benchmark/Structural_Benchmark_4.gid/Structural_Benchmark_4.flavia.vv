@@ -1,0 +1,19 @@
+BeginZE /home/marco/FEM2D/Structural_Benchmark_4.gid/Structural_Benchmark_4.flavia.vv
+   x -0.00872156 0.117853
+   y 0.0910011 -0.0484823
+   z -0.169115 0.169115
+   e 0.0563718
+   v 0 0 0
+   r 1
+   m 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1
+   c 0.05 0.02 0
+   pd 0
+   pno 0
+   pfo 0
+   pf 4
+   pv 0
+   NowUse 2
+   DrawingType 3
+   LightVector 9.60474 80.1136 122.177 0
+EndZE /home/marco/FEM2D/Structural_Benchmark_4.gid/Structural_Benchmark_4.flavia.vv
+

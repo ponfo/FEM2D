@@ -4,7 +4,6 @@ emacs   FEM2D/Source/Lib/Debugger.f90                                \
 	FEM2D/Source/Lib/utilities.f90                               \
 	FEM2D/Source/Lib/quicksort.f90                               \
 	FEM2D/Source/Lib/SparseKit.f90                               \
-                                                                     \ 
 	FEM2D/Source/Point/Point.f90                                 \
 	FEM2D/Source/Point/PointPtr.f90                              \
                                                                      \
