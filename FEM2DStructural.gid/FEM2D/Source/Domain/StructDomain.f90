@@ -40,6 +40,7 @@ module StructDomainMOD
      procedure, public :: addPointLoad
      procedure, public :: addLineLoad
      procedure, public :: addSurfaceLoad
+     procedure, public :: setTemperatureLoad
      procedure, public :: addFixDisplacementX
      procedure, public :: addFixDisplacementY
      !procedure, public :: setTemperatureLoad
@@ -223,6 +224,14 @@ contains
     call this%load%addSurfaceLoad(iElem, iLoad)
   end subroutine addSurfaceLoad
 
+  subroutine setTemperatureLoad(this, stableTemp, temperature)
+    implicit none
+    class(StructDomainTYPE), intent(inout) :: this
+    real(rkind), intent(in) :: stableTemp
+    real(rkind), dimension(:), intent(in) :: temperature
+    call this%load%setTemperatureLoad(stableTemp, temperature)
+  end subroutine setTemperatureLoad
+
   subroutine addFixDisplacementX(this, id, value)
     implicit none
     class(StructDomainTYPE), intent(inout) :: this
@@ -243,7 +252,7 @@ contains
     implicit none
     class(StructDomainTYPE), intent(inout) :: this
     real(rkind), dimension(:), intent(inout) :: rhs
-    call this%load%apply(this%elementList2D, this%point, rhs)
+    call this%load%apply(this%elementList1D, this%elementList2D, this%point, rhs)
   end subroutine applyLoad
 
   subroutine applyBC1D(this, stiffness, rhs)

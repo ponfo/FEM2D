@@ -26,6 +26,8 @@ module DataInputMOD
   integer(ikind)               :: nPointLoad
   integer(ikind)               :: nLineLoad
   integer(ikind)               :: nSurfaceLoad
+  integer(ikind)               :: isThereThermalCoupling
+  real(rkind)                  :: stableTemp
   character(100)               :: projectName
   character(100)               :: path
   character(100)               :: aux
@@ -58,7 +60,10 @@ contains
     call readPointLineSurfaceLoads(problemInput)
     call debugLog('  Reading Boundary Conditions')
     call readBoundaryConditions(problemInput)
+    call debugLog('  Checking if there is thermal-structural coupling')
+    call checkThermalCoupling(problemInput)
     call debugLog('End loading data')
+    close(project)
   end subroutine initFEM2D
   subroutine readProjectData
     implicit none
@@ -228,8 +233,39 @@ contains
        if(verbose) print'(I0,5X,E10.3)', id, value
        call problemInput%addFixDisplacementY(id, value)
     end do
-    close(project)
   end subroutine readBoundaryConditions
+
+  subroutine checkThermalCoupling(problemInput)
+    implicit none
+    type(StructProblemTYPE), intent(inout) :: problemInput
+    read(project,*)
+    read(project,*)
+    read(project,*)
+    read(project,*) aux, isThereThermalCoupling
+    if(isThereThermalCoupling == 1) then
+       read(project,*) aux, stableTemp
+       call setTemperatureLoad(problemInput)
+    end if
+  end subroutine checkThermalCoupling
+
+  subroutine setTemperatureLoad(problemInput)
+    implicit none
+    type(StructProblemTYPE), intent(inout) :: problemInput
+    integer(ikind) :: i, nPoint, auxInt
+    real(rkind), dimension(:), allocatable :: temp
+    open(8, file = 'Temperatures.dat', status = 'old')
+    read(8,*)
+    read(8,*)
+    read(8,*) nPoint
+    allocate(temp(nPoint))
+    read(8,*)
+    do i = 1, nPoint
+       read(8,*) auxInt, temp(i)
+    end do
+    close(8)
+    call problemInput%setTemperatureLoad(stableTemp, temp)
+  end subroutine setTemperatureLoad
+  
   subroutine checknMaterial(nMaterial)
     implicit none
     integer(ikind), intent(inout) :: nMaterial

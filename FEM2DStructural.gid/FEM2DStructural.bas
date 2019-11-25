@@ -220,4 +220,11 @@ Conditions List:
 *NodesNum           *cond(Displacement_Y) 
 *end
 
+################# Thermal Coupling Options ####################
+
+Is_There_Thermal_Coupling: *Gendata(Thermal_Coupling?)
+*if(Gendata(Thermal_Coupling?,int) == 1)
+Stable_Temperature: *Gendata(Stable_temperature)
+*end if
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

@@ -52,5 +52,6 @@ program FEM2DStaticThermal
        , elemID       = heatFlux%quadElemID              &
        , component1   = heatFlux%quadQx                  &
        , component2   = heatFlux%quadQy                  )
+  call printForCoupling(problem%domain%nPoint, problem%dof)
   call finishProgram() 
 end program FEM2DStaticThermal

@@ -30,7 +30,7 @@ module StructProblemMOD
      procedure, public :: addSurfaceLoad
      procedure, public :: addFixDisplacementX
      procedure, public :: addFixDisplacementY
-     !procedure, public :: setTemperatureLoad
+     procedure, public :: setTemperatureLoad
 
      procedure, public :: setUp => assembleSystem
 
@@ -176,13 +176,14 @@ contains
     real(rkind), intent(in) :: value
     call this%domain%addFixDisplacementY(id, value)
   end subroutine addFixDisplacementY
-!!$    
-!!$  subroutine setTemperatureLoad(this, thermalDof)
-!!$    implicit none
-!!$    class(StructProblemTYPE), intent(inout) :: this
-!!$    real(rkind), dimension(this%domain%nPoint) :: thermalDof
-!!$    call this%domain%setTemperatureLoad(thermalDof)
-!!$  end subroutine setTemperatureLoad
+    
+  subroutine setTemperatureLoad(this, stableTemp, temperature)
+    implicit none
+    class(StructProblemTYPE), intent(inout) :: this
+    real(rkind), intent(in) :: stableTemp
+    real(rkind), dimension(:), intent(in) :: temperature
+    call this%domain%setTemperatureLoad(stableTemp, temperature)
+  end subroutine setTemperatureLoad
 
   subroutine assembleSystem(this)
     implicit none

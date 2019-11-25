@@ -2,12 +2,15 @@ module DataOutputMOD
   use tools
   implicit none
   private
-  public :: printResults, finishProgram
+  public :: printResults, printForCoupling, finishProgram
   interface printResults
      procedure :: printResultsVec1
      procedure :: printResults1DVec2
      procedure :: printResults2DVec2
   end interface printResults
+  interface printForCoupling
+     procedure :: printForCoupling
+  end interface printForCoupling
   interface finishProgram
      procedure :: finishProgram
   end interface finishProgram
@@ -118,6 +121,21 @@ contains
     end do
     write(results,'(A)') 'End Values'
   end subroutine printResults2DVec2
+
+  subroutine printForCoupling(nPoint, temperature)
+    implicit none
+    integer(ikind), intent(in) :: nPoint
+    real(rkind), dimension(:), intent(in) :: temperature
+    integer(ikind) :: i
+    open(8, file = 'Temperatures.dat')
+    write(8,'(A)') 'Temperatures for thermal-structural coupling'
+    write(8,'(A)') 'Number of nodes'
+    write(8,'(I0)') nPoint
+    write(8,'(A)')'Node    Temperature'
+    do i = 1, nPoint
+       write(8,'(I7,E16.8)') i, temperature(i)
+    end do
+  end subroutine printForCoupling
 
   subroutine finishProgram()
     implicit none

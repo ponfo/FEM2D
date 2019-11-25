@@ -7,11 +7,9 @@ module FunctionOnPointsMOD
   integer(ikind), intent(in) :: i
   real(rkind), intent(in) :: x
   real(rkind), intent(in) :: y
-  real(rkind) :: vecFunX(1)
-  real(rkind) :: vecFunY(1)
+  real(rkind) :: vecFunX(0)
+  real(rkind) :: vecFunY(0)
   real(rkind), dimension(2) :: funcOnPoints
-  vecFunX(1)=       100
-  vecFunY(1)=       100
   funcOnPoints(1) = vecFunX(i)
   funcOnPoints(2) = vecFunY(i)
   end function funcOnPoints

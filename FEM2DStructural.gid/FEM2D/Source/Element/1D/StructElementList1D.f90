@@ -20,12 +20,14 @@ module StructElementList1DMOD
   type :: StructElementList1DTYPE
      private
      integer(ikind)                                    :: gaussOrder
+     integer(ikind)                                    :: nElem
      type(Element1DPtrTYPE), dimension(:), allocatable :: element
      type(IntegratorTYPE)                              :: integrator
    contains
      procedure, public  :: init
      procedure, public  :: addElement
      procedure, public  :: getGaussOrder
+     procedure, public  :: getnElem
      procedure, public  :: getElement
      procedure, public  :: getIntegrator
      procedure, private :: valueElement
@@ -60,6 +62,7 @@ contains
     call debugLog('    Initiating ElementList1D')
     iElem = 0
     this%gaussOrder = nGauss
+    this%nElem = nElem
     this%integrator = integrator(nGauss, 'line')
     if(isQuadratic == 0) then
        addElementPtr => addElementLin
@@ -135,6 +138,12 @@ contains
     class(StructElementList1DTYPE), intent(inout) :: this
     getGaussOrder = this%gaussOrder
   end function getGaussOrder
+
+  integer(ikind) function getnElem(this)
+    implicit none
+    class(StructElementList1DTYPE), intent(inout) :: this
+    getnElem = this%nElem
+  end function getnElem
 
   type(Element1DPtrTYPE) function getElement(this, i)
     implicit none

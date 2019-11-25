@@ -13,6 +13,7 @@ module Element2DMOD
      procedure(setAreaInterf)       , deferred :: setArea
      procedure(shapeFuncInterf)     , deferred :: shapeFunc
      procedure(dShapeFuncInterf)    , deferred :: dShapeFunc
+     procedure                                 :: dShapeFuncXY
      procedure                                 :: jacobian
      procedure                                 :: jacobianDet
   end type Element2DTYPE
@@ -91,5 +92,25 @@ contains
     real(rkind), dimension(2,2), intent(in) :: jacobian
     jacobianDet = jacobian(1,1)*jacobian(2,2)-jacobian(1,2)*jacobian(2,1)
   end function jacobianDet
+
+  function dShapeFuncXY(this, x, y)
+    implicit none
+    class(Element2DTYPE), intent(inout) :: this
+    real(rkind), intent(in) :: x
+    real(rkind), intent(in) :: y
+    real(rkind), dimension(2, this%nPoint*this%nDof) :: dShapeFuncXY
+    real(rkind), dimension(2, this%nPoint*this%nDof) :: dsf
+    real(rkind), dimension(2,2) :: jacobian
+    integer(ikind) :: i
+    real(rkind) :: jacobianDet
+    jacobian = this%jacobian(x,y)
+    jacobianDet = this%jacobianDet(jacobian)
+    dsf = this%dShapeFunc(x,y)
+    do i = 1, this%nPoint*this%nDof
+       dShapeFuncXY(1,i) = jacobian(2,2)*dsf(1,i) - jacobian(1,2)*dsf(2,i)
+       dShapeFuncXY(2,i) = jacobian(1,1)*dsf(2,i) - jacobian(2,1)*dsf(1,i)
+    end do
+    dShapeFuncXY = dShapeFuncXY/jacobianDet
+  end function dShapeFuncXY
   
 end module Element2DMOD

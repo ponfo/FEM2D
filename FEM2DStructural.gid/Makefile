@@ -51,6 +51,7 @@ OBJECTS := $(BINDIR)/Debugger.o                 \
 	$(BINDIR)/PointLoad.o                   \
 	$(BINDIR)/LineLoad.o                    \
 	$(BINDIR)/SurfaceLoad.o	                \
+	$(BINDIR)/TemperatureLoad.o             \
 	$(BINDIR)/Load.o                        \
                                                 \
 	$(BINDIR)/FixDisplacement.o             \
@@ -160,6 +161,8 @@ $(BINDIR)/PointLoad.o : $(VPATH)/Load/PointLoad.f90
 $(BINDIR)/LineLoad.o : $(VPATH)/Load/LineLoad.f90
 	$(COMPILER) $(FFLAGS) -c $^ -o $@
 $(BINDIR)/SurfaceLoad.o : $(VPATH)/Load/SurfaceLoad.f90
+	$(COMPILER) $(FFLAGS) -c $^ -o $@
+$(BINDIR)/TemperatureLoad.o : $(VPATH)/Load/TemperatureLoad.f90
 	$(COMPILER) $(FFLAGS) -c $^ -o $@
 $(BINDIR)/Load.o : $(VPATH)/Load/Load.f90
 	$(COMPILER) $(FFLAGS) -c $^ -o $@

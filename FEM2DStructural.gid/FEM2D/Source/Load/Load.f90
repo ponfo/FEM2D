@@ -7,19 +7,22 @@ module LoadMOD
   use PointLoadMOD
   use LineLoadMOD
   use SurfaceLoadMOD
+  use TemperatureLoadMOD
 
   use IntegratorMOD
   use IntegratorPtrMOD
 
+  use StructelementList1DMOD
   use StructElementList2DMOD
   implicit none
   private
   public :: LoadTYPE, load
   type LoadTYPE
-     type(PointLoadTYPE)  , dimension(:), allocatable :: pointLoad
-     type(LineLoadTYPE)   , dimension(:), allocatable :: lineLoad
-     type(SurfaceLoadTYPE), dimension(:), allocatable :: surfaceLoad
-     type(IntegratorTYPE)                             :: integrator1D
+     type(PointLoadTYPE)      , dimension(:), allocatable :: pointLoad
+     type(LineLoadTYPE)       , dimension(:), allocatable :: lineLoad
+     type(SurfaceLoadTYPE)    , dimension(:), allocatable :: surfaceLoad
+     type(TemperatureLoadTYPE)                            :: tempLoad
+     type(IntegratorTYPE)                                 :: integrator1D
    contains
      procedure :: init
 
@@ -34,6 +37,8 @@ module LoadMOD
      procedure :: addSurfaceLoad
      procedure :: getnSurfaceLoad
      procedure :: getSurfaceLoad
+
+     procedure :: setTemperatureLoad
 
      procedure :: apply
 
@@ -190,10 +195,19 @@ contains
     getnSurfaceLoad = size(this%surfaceLoad)
   end function getnSurfaceLoad
 
-  subroutine apply(this, elementList, point, rhs)
+  subroutine setTemperatureLoad(this, stableTemp, temperature)
     implicit none
     class(LoadTYPE), intent(inout) :: this
-    type(StructElementList2DTYPE), intent(inout) :: elementList
+    real(rkind), intent(in) :: stableTemp
+    real(rkind), dimension(:), intent(in) :: temperature
+    this%tempLoad = temperatureLoad(stableTemp, temperature)
+  end subroutine setTemperatureLoad
+
+  subroutine apply(this, elementList1D, elementList2D, point, rhs)
+    implicit none
+    class(LoadTYPE), intent(inout) :: this
+    type(StructElementList1DTYPE), intent(inout) :: elementList1D
+    type(StructElementList2DTYPE), intent(inout) :: elementList2D
     type(PointTYPE), dimension(:), intent(inout) :: point
     real(rkind), dimension(:), intent(inout) :: rhs
     integer(ikind) :: i
@@ -204,8 +218,9 @@ contains
        call this%lineLoad(i)%apply(point, rhs)
     end do
     do i = 1, this%getnSurfaceLoad()
-       call this%surfaceLoad(i)%apply(elementList, rhs)
+       call this%surfaceLoad(i)%apply(elementList2D, rhs)
     end do
+    call this%tempLoad%apply(elementList1D, elementList2D, rhs)
   end subroutine apply
 
 end module LoadMOD

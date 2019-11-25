@@ -22,6 +22,7 @@ module StructElementList2DMOD
   type :: StructElementList2DTYPE
      private
      integer(ikind)                                    :: gaussOrder
+     integer(ikind)                                    :: nElem
      type(Element2DPtrTYPE), dimension(:), allocatable :: element
      type(IntegratorTYPE)                              :: triangIntegrator
      type(IntegratorTYPE)                              :: quadIntegrator
@@ -29,6 +30,7 @@ module StructElementList2DMOD
      procedure, public  :: init
      procedure, public  :: addElement
      procedure, public  :: getGaussOrder
+     procedure, public  :: getnElem
      procedure, public  :: getElement
      procedure, public  :: getTriangIntegrator
      procedure, public  :: getQuadIntegrator
@@ -74,6 +76,7 @@ contains
     iQuad = 0
     iElem = 0
     this%gaussOrder = nGauss
+    this%nElem = nTriangElem + nQuadElem
     if(isQuadratic == 0) then
        addElementPtr => addElementLin
        if(nTriangElem > 0) then
@@ -203,6 +206,12 @@ contains
     class(StructElementList2DTYPE), intent(inout) :: this
     getGaussOrder = this%gaussOrder
   end function getGaussOrder
+
+  integer(ikind) function getnElem(this)
+    implicit none
+    class(StructElementList2DTYPE), intent(inout) :: this
+    getnElem = this%nElem
+  end function getnElem
 
   type(Element2DPtrTYPE) function getElement(this, i)
     implicit none
