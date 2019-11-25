@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 16:41:33  Initiating Program
 16:41:33    Reading project data
 16:41:33      Project name: CouplingTestStruct
@@ -51,3 +52,55 @@
 16:41:33    Assembling stiffness matrix and right hand side vector
 16:41:33  Solving linear system
 16:41:33  Done solving
+=======
+10:48:12  Initiating Program
+10:48:12    Reading project data
+10:48:12      Project name: Structural_Benchmark_3
+10:48:12      Path: /home/marco/FEM2D/FEM2DStructural.gid
+10:48:12    Reading mesh data
+10:48:12      Number of Elements.............................: 394
+10:48:12      Are Elements Quadratic.........................: 0
+10:48:12      Number of linear elements......................: 0
+10:48:12      Number of Triangular elements..................: 394
+10:48:12      Number of Rectangular elements.................: 0
+10:48:12      Number of Nodes................................: 241
+10:48:12      Number of Dirichlet X conditions...............: 11
+10:48:12      Number of Dirichlet Y conditions...............: 11
+10:48:12      Number of Loads on points......................: 0
+10:48:12      Number of points with pointLoad................: 0
+10:48:12      Number of Loads on lines.......................: 0
+10:48:12      Number of points with lineLoad.................: 23
+10:48:12      Number of Loads on surfaces....................: 0
+10:48:12      Number of Surfaces with surfaceLoad............: 0
+10:48:12      Number of Materials............................: 1
+10:48:12      Gauss cuadrature order.........................: 3
+10:48:12    Initiating Structural Problem
+10:48:12      Allocated points: 482
+10:48:12      Allocated materials: 1
+10:48:12      Initiating ElementList2D
+10:48:12        Allocated Linear Triangs: 394
+10:48:12          Allocated weights: 4
+10:48:12          Allocated gPoints: 8
+10:48:12        Allocated element pointers: 394
+10:48:12        Initiating boundary conditions 1D
+10:48:12          Allocated Fix Displacement in X: 11
+10:48:12          Allocated Fix Displacement in Y: 11
+10:48:12        Initiating Load
+10:48:12          Allocated pointLoad: 0
+10:48:12          Allocated lineLoad: 22
+10:48:12          Allocated surfaceLoad: 0
+10:48:12          Valueing Integrator1D for load integrations
+10:48:12          Allocated weights: 3
+10:48:12          Allocated gPoints: 3
+10:48:12      Allocated Stiffness
+10:48:12        Estimated nnz: 14184
+10:48:12        Matrix order: 482
+10:48:12      Allocated RHS: 482
+10:48:12      Allocated DOF: 482
+10:48:12    Reading materials properties
+10:48:12    Reading elements
+10:48:12    Reading point and line Loads
+10:48:12    Reading Boundary Conditions
+10:48:12  End loading data
+10:48:12    Assembling stiffness matrix and right hand side vector
+>>>>>>> 51ddf89c630fbedc91bf0be377f78af9c03a8675

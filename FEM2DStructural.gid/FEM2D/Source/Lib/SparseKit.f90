@@ -2466,7 +2466,7 @@ contains
        job = 2
     end do
 !!$    write ( *, '(a)' ) ''
-    write ( *, '(a,i4)' ) '  Number of iterations was ', it
+    write ( *, '(a,i6)' ) '  Number of iterations was ', it
     write ( *, '(a,g14.6)' ) '  Estimated error is ', rnrm2
     return
   end subroutine solve_cg

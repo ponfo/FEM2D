@@ -66,6 +66,9 @@ OBJECTS := $(BINDIR)/Debugger.o                 \
 	$(BINDIR)/Solver.o                      \
 	                                        \
 	$(BINDIR)/DataInput.o                   \
+						\
+	$(BINDIR)/PostProcess.o			\
+						\
 	$(BINDIR)/DataOutput.o                  \
 	$(BINDIR)/main.o
 
@@ -183,6 +186,9 @@ $(BINDIR)/StructProblem.o : $(VPATH)/Problem/StructProblem.f90
 	$(COMPILER) $(FFLAGS) -c $^ -o $@
 
 $(BINDIR)/Solver.o : $(VPATH)/Solver/Solver.f90
+	$(COMPILER) $(FFLAGS) -c $^ -o $@
+
+$(BINDIR)/PostProcess.o : $(VPATH)/PostProcess/StructPostprocess.f90
 	$(COMPILER) $(FFLAGS) -c $^ -o $@
 
 $(BINDIR)/DataInput.o : $(VPATH)/DataIO/DataInput.f90
