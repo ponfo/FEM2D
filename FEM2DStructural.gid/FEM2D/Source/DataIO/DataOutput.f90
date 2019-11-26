@@ -34,6 +34,7 @@ contains
     call init()
     open(results, file = trim(projectName)//'.flavia.res')
     write(results,'(A)')      'GiD Post Result File 1.0'
+    write(results,'(A)')      'Include "Pressure.flavia.res"'
     write(results,*)   'Result "',trim(resultName),'" "',trim(projectName)&
          ,'" ',step,' ',trim(graphType),' ',trim(locationName)
     write(results,*)   'Values'
@@ -107,8 +108,8 @@ contains
     write(results,'(/,3A)') 'GaussPoints "Points'//trim(resultName), '" ElemType ', trim(type)
     write(results,'(A,I0)') 'Number of GaussPoints: ', size(gaussPoints,1)
     write(results,'(A)') 'Natural Coordinates: Given'
-    do i = 1, size(gaussPoints,1)
-       write(results,'(F26.16,2X,F26.16)') gaussPoints(i,1), gaussPoints(i,2)
+    do i = size(gaussPoints,1), 1, -1
+       write(results,'(F26.16,2X,F26.16)') -gaussPoints(i,1), -gaussPoints(i,2)
     end do
     write(results,'(A)') 'End gausspoints'
     write(results,'(5A,I0,6A)') 'Result "', trim(resultName), '" "', trim(projectName), '" ', step &

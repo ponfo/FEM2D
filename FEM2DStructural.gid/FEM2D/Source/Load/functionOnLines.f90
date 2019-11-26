@@ -7,11 +7,9 @@ module FunctionOnLinesMOD
   integer(ikind), intent(in) :: i
   real(rkind), intent(in) :: x
   real(rkind), intent(in) :: y
-  real(rkind) :: vecFunX(1)
-  real(rkind) :: vecFunY(1)
+  real(rkind) :: vecFunX(0)
+  real(rkind) :: vecFunY(0)
   real(rkind), dimension(2) :: funcOnLines
-  vecFunX(1)=       900
-  vecFunY(1)=       0.0
   funcOnLines(1) = vecFunX(i)
   funcOnLines(2) = vecFunY(i)
   end function funcOnLines

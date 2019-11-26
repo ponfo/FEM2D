@@ -25,7 +25,7 @@ program precomp
   read(functionData,*)  
   read(functionData,*)
   read(functionData,*)  aux, nMat
-  do i = 1, 4
+  do i = 1, 5
      read(functionData,*)
   end do
   read(functionData,*)  aux, nLoadOP

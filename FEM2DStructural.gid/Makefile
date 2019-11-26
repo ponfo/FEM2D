@@ -51,6 +51,7 @@ OBJECTS := $(BINDIR)/Debugger.o                 \
 	$(BINDIR)/PointLoad.o                   \
 	$(BINDIR)/LineLoad.o                    \
 	$(BINDIR)/SurfaceLoad.o	                \
+	$(BINDIR)/Pressure.o                    \
 	$(BINDIR)/TemperatureLoad.o             \
 	$(BINDIR)/Load.o                        \
                                                 \
@@ -167,6 +168,8 @@ $(BINDIR)/LineLoad.o : $(VPATH)/Load/LineLoad.f90
 	$(COMPILER) $(FFLAGS) -c $^ -o $@
 $(BINDIR)/SurfaceLoad.o : $(VPATH)/Load/SurfaceLoad.f90
 	$(COMPILER) $(FFLAGS) -c $^ -o $@
+$(BINDIR)/Pressure.o : $(VPATH)/Load/Pressure.f90
+	$(COMPILER) $(FFLAGS) -c $^ -o $@
 $(BINDIR)/TemperatureLoad.o : $(VPATH)/Load/TemperatureLoad.f90
 	$(COMPILER) $(FFLAGS) -c $^ -o $@
 $(BINDIR)/Load.o : $(VPATH)/Load/Load.f90
@@ -174,8 +177,6 @@ $(BINDIR)/Load.o : $(VPATH)/Load/Load.f90
 
 $(BINDIR)/FixDisplacement.o : $(VPATH)/BoundaryCondition/FixDisplacement.f90
 	$(COMPILER) $(FFLAGS) -c $^ -o $@
-#$(BINDIR)/Pressure.o : $(VPATH)/BoundaryCondition/Pressure.f90
-#	$(COMPILER) $(FFLAGS) -c $^ -o $@
 $(BINDIR)/StructBoundaryCondition1D.o : $(VPATH)/BoundaryCondition/StructBoundaryCondition1D.f90
 	$(COMPILER) $(FFLAGS) -c $^ -o $@
 
