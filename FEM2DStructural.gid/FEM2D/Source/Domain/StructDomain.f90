@@ -40,6 +40,7 @@ module StructDomainMOD
      procedure, public :: addPointLoad
      procedure, public :: addLineLoad
      procedure, public :: addSurfaceLoad
+     procedure, public :: addPressure
      procedure, public :: setTemperatureLoad
      procedure, public :: addFixDisplacementX
      procedure, public :: addFixDisplacementY
@@ -62,9 +63,9 @@ module StructDomainMOD
 
 contains
 
-  type(StructDomainTYPE) function constructor(nPoint, isQuadratic            &
-       , nLine, nTriang, nQuad, nGauss, nMaterial, nPointLoad                &
-       , nLineLoad, nSurfaceLoad, nFixDisplacementX, nFixDisplacementY       )
+  type(StructDomainTYPE) function constructor(nPoint, isQuadratic                 &
+       , nLine, nTriang, nQuad, nGauss, nMaterial, nPointLoad                     &
+       , nLineLoad, nSurfaceLoad, nPressure, nFixDisplacementX, nFixDisplacementY )
     implicit none
     integer(ikind), intent(in) :: nPoint
     integer(ikind), intent(in) :: isQuadratic
@@ -76,16 +77,17 @@ contains
     integer(ikind), intent(in) :: nPointLoad
     integer(ikind), intent(in) :: nLineLoad
     integer(ikind), intent(in) :: nSurfaceLoad
+    integer(ikind), intent(in) :: nPressure
     integer(ikind), intent(in) :: nFixDisplacementX
     integer(ikind), intent(in) :: nFixDisplacementY
-    call constructor%init(nPoint, isQuadratic                                &
-       , nLine, nTriang, nQuad, nGauss, nMaterial, nPointLoad                &
-       , nLineLoad, nSurfaceLoad, nFixDisplacementX, nFixDisplacementY       )
+    call constructor%init(nPoint, isQuadratic                                       &
+       , nLine, nTriang, nQuad, nGauss, nMaterial, nPointLoad                       &
+       , nLineLoad, nSurfaceLoad, nPressure,  nFixDisplacementX, nFixDisplacementY  )
   end function constructor
 
-  subroutine init(this, nPoint, isQuadratic                                  &
-       , nLine, nTriang, nQuad, nGauss, nMaterial, nPointLoad                &
-       , nLineLoad, nSurfaceLoad, nFixDisplacementX, nFixDisplacementY       )
+  subroutine init(this, nPoint, isQuadratic                                        &
+       , nLine, nTriang, nQuad, nGauss, nMaterial, nPointLoad                      &
+       , nLineLoad, nSurfaceLoad, nPressure,  nFixDisplacementX, nFixDisplacementY )
     implicit none
     class(StructDomainTYPE), intent(inout) :: this
     integer(ikind), intent(in) :: nPoint
@@ -98,6 +100,7 @@ contains
     integer(ikind), intent(in) :: nPointLoad
     integer(ikind), intent(in) :: nLineLoad
     integer(ikind), intent(in) :: nSurfaceLoad
+    integer(ikind), intent(in) :: nPressure
     integer(ikind), intent(in) :: nFixDisplacementX
     integer(ikind), intent(in) :: nFixDisplacementY
     this%nDof = 2
@@ -117,7 +120,7 @@ contains
     if(nTriang > 0 .or. nQuad > 0) this%elementList2D = &
          structElementList2D(isQuadratic, nTriang, nQuad, nGauss)
     this%bc1D = structBoundaryCondition1D(nFixDisplacementX, nFixDisplacementY)
-    this%load = load(nPointLoad, nLineLoad, nSurfaceLoad, nGauss, isQuadratic)
+    this%load = load(nPointLoad, nLineLoad, nSurfaceLoad, nPressure, nGauss, isQuadratic)
   end subroutine init
 
   subroutine addPoint(this, x, y, z)
@@ -223,6 +226,15 @@ contains
     integer(ikind), intent(in) :: iLoad
     call this%load%addSurfaceLoad(iElem, iLoad)
   end subroutine addSurfaceLoad
+
+  subroutine addPressure(this, elemID, pointID, value)
+    implicit none
+    class(StructDomainTYPE), intent(inout) :: this
+    integer(ikind), intent(in) :: elemID
+    integer(ikind), dimension(:), intent(in) :: pointID
+    real(rkind), intent(in) :: value
+    call this%load%addPressure(elemID, pointID, value)
+  end subroutine addPressure
 
   subroutine setTemperatureLoad(this, stableTemp, temperature)
     implicit none

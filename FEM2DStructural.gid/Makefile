@@ -174,6 +174,8 @@ $(BINDIR)/Load.o : $(VPATH)/Load/Load.f90
 
 $(BINDIR)/FixDisplacement.o : $(VPATH)/BoundaryCondition/FixDisplacement.f90
 	$(COMPILER) $(FFLAGS) -c $^ -o $@
+#$(BINDIR)/Pressure.o : $(VPATH)/BoundaryCondition/Pressure.f90
+#	$(COMPILER) $(FFLAGS) -c $^ -o $@
 $(BINDIR)/StructBoundaryCondition1D.o : $(VPATH)/BoundaryCondition/StructBoundaryCondition1D.f90
 	$(COMPILER) $(FFLAGS) -c $^ -o $@
 

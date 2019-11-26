@@ -48,7 +48,7 @@ contains
     type(PointTYPE), dimension(:), intent(inout) :: point
     real(rkind), dimension(:), intent(inout) :: rhs
     integer(ikind) :: i, j
-    real(rkind) :: x, y
+    real(rkind) :: x, y, dx, dy
     real(rkind), dimension(:,:), allocatable :: integral
     real(rkind), dimension(:), allocatable :: jacobian
     real(rkind), dimension(:,:), allocatable :: valuedLoad
@@ -61,11 +61,15 @@ contains
     do i = 1, this%integrator1D%ptr%integTerms
        x = 0
        y = 0
+       dx = 0
+       dy = 0
        do j = 1, size(this%pointID)
-          x = x + this%integrator1D%ptr%dShapeFunc(j,1,i)*point(this%pointID(j))%getx()
-          y = y + this%integrator1D%ptr%dShapeFunc(j,1,i)*point(this%pointID(j))%gety()
+          x = x + this%integrator1D%ptr%shapeFunc(j,i)*point(this%pointID(j))%getx()
+          y = y + this%integrator1D%ptr%shapeFunc(j,i)*point(this%pointID(j))%gety()
+          dx = dx + this%integrator1D%ptr%dShapeFunc(j,1,i)*point(this%pointID(j))%getx()
+          dy = dy + this%integrator1D%ptr%dShapeFunc(j,1,i)*point(this%pointID(j))%gety()
        end do
-       jacobian(i) = sqrt(x**2+y**2)
+       jacobian(i) = sqrt(dx**2+dy**2)
        valuedLoad(1:2,i) = funcOnLines(this%iLoad, x, y)
        do j = 1, size(this%pointID)
           integral(1,j) = integral(1,j) + this%integrator1D%ptr%weight(i) &

@@ -8,6 +8,7 @@ module LoadMOD
   use LineLoadMOD
   use SurfaceLoadMOD
   use TemperatureLoadMOD
+  use PressureMOD
 
   use IntegratorMOD
   use IntegratorPtrMOD
@@ -21,6 +22,7 @@ module LoadMOD
      type(PointLoadTYPE)      , dimension(:), allocatable :: pointLoad
      type(LineLoadTYPE)       , dimension(:), allocatable :: lineLoad
      type(SurfaceLoadTYPE)    , dimension(:), allocatable :: surfaceLoad
+     type(PressureTYPE)       , dimension(:), allocatable :: pressure
      type(TemperatureLoadTYPE)                            :: tempLoad
      type(IntegratorTYPE)                                 :: integrator1D
    contains
@@ -38,6 +40,10 @@ module LoadMOD
      procedure :: getnSurfaceLoad
      procedure :: getSurfaceLoad
 
+     procedure :: addPressure
+     procedure :: getnPressure
+     procedure :: getPressure
+
      procedure :: setTemperatureLoad
 
      procedure :: apply
@@ -53,6 +59,7 @@ module LoadMOD
   integer(ikind), save :: iPointLoad
   integer(ikind), save :: iLineLoad
   integer(ikind), save :: iSurfaceLoad
+  logical       , save :: isThereTempLoad
 
 contains
 
@@ -88,6 +95,7 @@ contains
     iPointLoad = 0
     iLineLoad = 0
     iSurfaceLoad = 0
+    isThereTempLoad = .false.
     call debugLog('        Valueing Integrator1D for load integrations')
     this%integrator1D = integrator(nGauss, 'line')
     if(isQuadratic == 0) then
@@ -195,12 +203,36 @@ contains
     getnSurfaceLoad = size(this%surfaceLoad)
   end function getnSurfaceLoad
 
+  subroutine addPressure(this, elemID, pointID, value)
+    implicit none
+    class(LoadTYPE), intent(inout) :: this
+    integer(ikind), intent(in) :: elemID
+    integer(ikind), dimension(:), intent(in) :: pointID
+    real(rkind), intent(in) :: value
+    iPressure = iPressure + 1
+    this%pressure(iPressure) = pressure(elemID, pointID, value
+  end subroutine addPressure
+
+  type(PressureTYPE) function getPressure(this, i)
+    implicit none
+    class(LoadTYPE), intent(inout) :: this
+    integer(ikind), intent(in) :: i
+    getPressure = this%pressure(i)
+  end function getPressure
+
+  integer(ikind) function getnPressure(this)
+    implicit none
+    class(LoadTYPE), intent(inout) :: this
+    getnPressure = size(this%surfaceLoad)
+  end function getnPressure
+
   subroutine setTemperatureLoad(this, stableTemp, temperature)
     implicit none
     class(LoadTYPE), intent(inout) :: this
     real(rkind), intent(in) :: stableTemp
     real(rkind), dimension(:), intent(in) :: temperature
     this%tempLoad = temperatureLoad(stableTemp, temperature)
+    isThereTempLoad = .true.
   end subroutine setTemperatureLoad
 
   subroutine apply(this, elementList1D, elementList2D, point, rhs)
@@ -220,7 +252,28 @@ contains
     do i = 1, this%getnSurfaceLoad()
        call this%surfaceLoad(i)%apply(elementList2D, rhs)
     end do
-    !call this%tempLoad%apply(elementList1D, elementList2D, rhs)
+    
+    do i = 1,  this%getnPressure()
+       call this%pressure(i)%apply(elementList2D, rhs)
+    end do
+    if(isThereTempLoad) call this%tempLoad%apply(elementList1D, elementList2D, rhs)
   end subroutine apply
 
+  subroutine initPrintPressure(this)
+    class(LoadTYPE), intent(inout) :: this
+    open(91, file = 'projectData.dat')
+    read(91, '(A)') projectName
+    close(91)
+    open(92, file = 'Pressure.flavia.res')
+    write(92,'(A)') 'GiD Post Result File 2.0'
+    write(92,'(A)') 'GaussPoints "gpPressure" ElemType Linear'
+    write(92,'(A,I0)') 'Number of GaussPoints: ', size(this%integrator1D%gPoint)
+    do i = 1, size(this%integrator1D%gPoint)
+       write(92,'(2I0)') this%integrator1D%gPoint(i,1), 0.0
+    end do
+    write(92,'(A)') 'End GaussPoints'
+    write(92,'(A)') 'Result "Pressure" "', trim(projectName), '" 1 Vector onGaussPoints "gpPressure"'
+    write(92,'(A)') 'Values'
+  end subroutine initPrintPressure
+  
 end module LoadMOD

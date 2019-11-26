@@ -28,6 +28,7 @@ module StructProblemMOD
      procedure, public :: addPointLoad
      procedure, public :: addLineLoad
      procedure, public :: addSurfaceLoad
+     procedure, public :: addPressure
      procedure, public :: addFixDisplacementX
      procedure, public :: addFixDisplacementY
      procedure, public :: setTemperatureLoad
@@ -43,9 +44,9 @@ module StructProblemMOD
 
 contains
 
-  type(StructProblemTYPE) function constructor(nPoint, isQuadratic           &
-       , nLine, nTriang, nQuad, nGauss, nMaterial, nPointLoad                &
-       , nLineLoad, nSurfaceLoad, nFixDisplacementX, nFixDisplacementY       )
+  type(StructProblemTYPE) function constructor(nPoint, isQuadratic                &
+       , nLine, nTriang, nQuad, nGauss, nMaterial, nPointLoad                     &
+       , nLineLoad, nSurfaceLoad, nPressure, nFixDisplacementX, nFixDisplacementY )
     implicit none
     integer(ikind), intent(in) :: nPoint
     integer(ikind), intent(in) :: isQuadratic
@@ -57,16 +58,17 @@ contains
     integer(ikind), intent(in) :: nPointLoad
     integer(ikind), intent(in) :: nLineLoad
     integer(ikind), intent(in) :: nSurfaceLoad
+    integer(ikind), intent(in) :: nPressure
     integer(ikind), intent(in) :: nFixDisplacementX
     integer(ikind), intent(in) :: nFixDisplacementY
-    call constructor%init(nPoint, isQuadratic                                &
-       , nLine, nTriang, nQuad, nGauss, nMaterial, nPointLoad                &
-       , nLineLoad, nSurfaceLoad, nFixDisplacementX, nFixDisplacementY       )
+    call constructor%init(nPoint, isQuadratic                                      &
+       , nLine, nTriang, nQuad, nGauss, nMaterial, nPointLoad                      &
+       , nLineLoad, nSurfaceLoad, nPressure, nFixDisplacementX, nFixDisplacementY  )
   end function constructor
 
-  subroutine init(this, nPoint, isQuadratic                                  &
-       , nLine, nTriang, nQuad, nGauss, nMaterial, nPointLoad                &
-       , nLineLoad, nSurfaceLoad, nFixDisplacementX, nFixDisplacementY       )
+  subroutine init(this, nPoint, isQuadratic                                       &
+       , nLine, nTriang, nQuad, nGauss, nMaterial, nPointLoad                     &
+       , nLineLoad, nSurfaceLoad, nPressure, nFixDisplacementX, nFixDisplacementY )
     implicit none
     class(StructProblemTYPE), intent(inout) :: this
     integer(ikind), intent(in) :: nPoint
@@ -79,14 +81,15 @@ contains
     integer(ikind), intent(in) :: nPointLoad
     integer(ikind), intent(in) :: nLineLoad
     integer(ikind), intent(in) :: nSurfaceLoad
+    integer(ikind), intent(in) :: nPressure
     integer(ikind), intent(in) :: nFixDisplacementX
     integer(ikind), intent(in) :: nFixDisplacementY
     integer(ikind)             :: nDof
     call debugLog('  Initiating Structural Problem')
     nDof = 2
-    this%domain = structDomain(nPoint, isQuadratic                           &
-       , nLine, nTriang, nQuad, nGauss, nMaterial, nPointLoad                &
-       , nLineLoad, nSurfaceLoad, nFixDisplacementX, nFixDisplacementY       )
+    this%domain = structDomain(nPoint, isQuadratic                                &
+       , nLine, nTriang, nQuad, nGauss, nMaterial, nPointLoad                     &
+       , nLineLoad, nSurfaceLoad, nPressure, nFixDisplacementX, nFixDisplacementY )
     if(isQuadratic == 0) then
        this%stiffness =                                                            &
             sparse(nnz = (nLine*(2*nDof)**2+nTriang*(3*nDof)**2+nQuad*(4*nDof)**2) &
@@ -160,6 +163,15 @@ contains
     integer(ikind), intent(in) :: iLoad
     call this%domain%addSurfaceLoad(iElem, iLoad)
   end subroutine addSurfaceLoad
+
+  subroutine addPressure(this, elemID, pointID, value)
+    implicit none
+    class(StructProblemTYPE), intent(inout) :: this
+    integer(ikind), intent(in) :: elemID
+    integer(ikind), dimension(:), intent(in) :: pointID
+    real(rkind), intent(in) :: value
+    call this%domain%addPressure(elemID, pointID, value)
+  end subroutine addPressure
 
   subroutine addFixDisplacementX(this, id, value)
     implicit none
