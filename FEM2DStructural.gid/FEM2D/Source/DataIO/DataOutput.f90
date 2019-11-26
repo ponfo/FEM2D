@@ -108,8 +108,8 @@ contains
     write(results,'(/,3A)') 'GaussPoints "Points'//trim(resultName), '" ElemType ', trim(type)
     write(results,'(A,I0)') 'Number of GaussPoints: ', size(gaussPoints,1)
     write(results,'(A)') 'Natural Coordinates: Given'
-    do i = size(gaussPoints,1), 1, -1
-       write(results,'(F26.16,2X,F26.16)') -gaussPoints(i,1), -gaussPoints(i,2)
+    do i = 1, size(gaussPoints,1)
+       write(results,'(F26.16,2X,F26.16)') gaussPoints(i,1), gaussPoints(i,2)
     end do
     write(results,'(A)') 'End gausspoints'
     write(results,'(5A,I0,6A)') 'Result "', trim(resultName), '" "', trim(projectName), '" ', step &
