@@ -17,6 +17,7 @@ module DataInputMOD
   integer(ikind)               :: iPoint
   integer(ikind)               :: nDirichletX
   integer(ikind)               :: nDirichletY
+  integer(ikind)               :: nPressureLine
   integer(ikind)               :: nMaterial
   integer(ikind)               :: nGauss
   integer(ikind)               :: isQuadratic
@@ -94,6 +95,7 @@ contains
     read(project,*)  aux, nGauss    
     read(project,*)  aux, nDirichletX
     read(project,*)  aux, nDirichletY
+    read(project,*)  aux, nPressureLine
     read(project,*)  aux, nPointLoad
     read(project,*)  aux, nLoadOP
     read(project,*)  aux, nLineLoad
@@ -108,6 +110,7 @@ contains
     call debugLog('    Number of Nodes................................: ', nPoint)
     call debugLog('    Number of Dirichlet X conditions...............: ', nDirichletX)    
     call debugLog('    Number of Dirichlet Y conditions...............: ', nDirichletY)
+    call debugLog('    Number of Lines With Pressure..................: ', nPressureLine)
     call debugLog('    Number of Loads on points......................: ', nLoadOP)
     call debugLog('    Number of points with pointLoad................: ', nPointLoad)
     call debugLog('    Number of Loads on lines.......................: ', nLoadOL)
@@ -117,7 +120,8 @@ contains
     call debugLog('    Number of Materials............................: ', nMaterial)
     call debugLog('    Gauss cuadrature order.........................: ', nGauss)
     problemInput = structProblem(nPoint, isQuadratic, nLinearElem, nTriangElem, nRectElem &
-         , nGauss, nMaterial, nPointLoad, nLineLoad, nSurfaceLoad, nDirichletX, nDirichletY)
+         , nGauss, nMaterial, nPointLoad, nLineLoad, nSurfaceLoad, nPressureLine, nDirichletX&
+         , nDirichletY)
     do i = 1, 6
        read(project,*)
     end do
@@ -232,6 +236,16 @@ contains
        read(Project,*) id, value
        if(verbose) print'(I0,5X,E10.3)', id, value
        call problemInput%addFixDisplacementY(id, value)
+    end do
+    do i = 1, 7
+       read(project,*)
+    end do
+    if(verbose) print'(/,A)', 'Pressure On Lines conditions'
+    if(verbose) print'(A)', 'Elem    Nodes     Value'
+    do i = 1, nPressureLine
+       read(Project,*) elemID, (pointID(j),j=1,nPointID), value
+       if(verbose) print*, elemID, (pointID(j),j=1,nPointID), value
+       call problemInput%addPressure(elemID, pointID, value)
     end do
   end subroutine readBoundaryConditions
 
