@@ -7,6 +7,7 @@ module DataOutputMOD
      procedure :: printResultsVec1
      procedure :: printResults1DVec2
      procedure :: printResults2DVec2
+     procedure :: printResults2DVec1
   end interface printResults
   interface finishProgram
      procedure :: finishProgram
@@ -124,7 +125,43 @@ contains
     end do
     write(results,'(A)') 'End Values'
   end subroutine printResults2DVec2
-
+  subroutine printResults2DVec1(resultName, type, step, graphType, locationName, gaussPoints &
+       , resultNumber, elemID, component1)
+    implicit none
+    character(*), intent(in) :: resultName
+    character(*), intent(in) :: type
+    integer(ikind), intent(in) :: step
+    character(*), intent(in) :: graphType
+    character(*), intent(in) :: locationName
+    real(rkind), dimension(:,:), intent(in) :: gaussPoints
+    integer(ikind), intent(in) :: resultNumber
+    integer(ikind), dimension(resultNumber), intent(in) :: elemID
+    real(rkind), dimension(:), intent(in) :: component1
+    real(rkind) :: prom(2)
+    integer(ikind) :: i, j, k, count, numberGP
+    if(resultNumber == 0) return
+    call init()
+    write(results,'(/,3A)') 'GaussPoints "Points'//trim(resultName), '" ElemType ', trim(type)
+    write(results,'(A,I0)') 'Number of GaussPoints: ', size(gaussPoints,1)
+    write(results,'(A)') 'Natural Coordinates: Given'
+    do i = 1, size(gaussPoints,1)
+       write(results,'(F26.16,2X,F26.16)') gaussPoints(i,1), gaussPoints(i,2)
+    end do
+    write(results,'(A)') 'End gausspoints'
+    write(results,'(5A,I0,6A)') 'Result "', trim(resultName), '" "', trim(projectName), '" ', step &
+         , ' ', trim(graphType), ' ', trim(locationName), ' "Points'//trim(resultName) , '"'
+    write(results,'(A)') 'Values'
+    count = 0
+    do i = 1, resultNumber
+       count = count + 1
+       write(results,'(I0,2X,F26.16,2X,F26.16)') elemID(i), component1(count)
+       do j = 2, size(gaussPoints,1)
+          count = count + 1
+          write(results,'(6X,F26.16,2X,F26.16)') component1(count)
+       end do
+    end do
+    write(results,'(A)') 'End Values'
+  end subroutine printResults2DVec1
   subroutine finishProgram()
     implicit none
     close(results)
@@ -135,3 +172,8 @@ contains
     print'(A,I0,A,I0,A,I0)', 'Hour: ', date_time(5), ":", date_time(6), ":", date_time(7)
   end subroutine finishProgram
 end module DataOutputMOD
+
+
+
+
+

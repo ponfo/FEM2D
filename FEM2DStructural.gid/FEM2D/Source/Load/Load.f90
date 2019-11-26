@@ -220,7 +220,7 @@ contains
     do i = 1, this%getnSurfaceLoad()
        call this%surfaceLoad(i)%apply(elementList2D, rhs)
     end do
-    call this%tempLoad%apply(elementList1D, elementList2D, rhs)
+    !call this%tempLoad%apply(elementList1D, elementList2D, rhs)
   end subroutine apply
 
 end module LoadMOD

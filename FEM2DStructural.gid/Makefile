@@ -67,7 +67,9 @@ OBJECTS := $(BINDIR)/Debugger.o                 \
 	                                        \
 	$(BINDIR)/DataInput.o                   \
 						\
-	$(BINDIR)/PostProcess.o			\
+	$(BINDIR)/NormalStress.o		\
+	$(BINDIR)/ShearStress.o 		\
+	$(BINDIR)/Strain.o     		 	\
 						\
 	$(BINDIR)/DataOutput.o                  \
 	$(BINDIR)/main.o
@@ -188,7 +190,11 @@ $(BINDIR)/StructProblem.o : $(VPATH)/Problem/StructProblem.f90
 $(BINDIR)/Solver.o : $(VPATH)/Solver/Solver.f90
 	$(COMPILER) $(FFLAGS) -c $^ -o $@
 
-$(BINDIR)/PostProcess.o : $(VPATH)/PostProcess/StructPostprocess.f90
+$(BINDIR)/NormalStress.o : $(VPATH)/PostProcess/NormalStress.f90
+	$(COMPILER) $(FFLAGS) -c $^ -o $@
+$(BINDIR)/ShearStress.o : $(VPATH)/PostProcess/ShearStress.f90
+	$(COMPILER) $(FFLAGS) -c $^ -o $@
+$(BINDIR)/Strain.o : $(VPATH)/PostProcess/Strain.f90
 	$(COMPILER) $(FFLAGS) -c $^ -o $@
 
 $(BINDIR)/DataInput.o : $(VPATH)/DataIO/DataInput.f90

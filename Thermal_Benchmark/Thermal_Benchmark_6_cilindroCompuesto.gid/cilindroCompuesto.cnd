@@ -1,0 +1,31 @@
+NUMBER: 1 CONDITION: Fix_Temperature_On_Lines
+CONDTYPE: over lines
+QUESTION: Temperature#UNITS#
+VALUE: 0.0Cel
+END CONDITION
+NUMBER: 2 CONDITION: Fix_Temperature_On_Points
+CONDTYPE: over points
+CONDMESHTYPE: over nodes
+QUESTION: Temperature#UNITS#
+VALUE: 0.0Cel
+END CONDITION
+NUMBER: 3 CONDITION: Normal_Flux
+CONDTYPE: over lines
+QUESTION: Flux#UNITS#
+VALUE: 0.0N/m/s
+END CONDITION
+NUMBER: 4 CONDITION: Convection_Line
+CONDTYPE: over lines
+QUESTION: Coeficient
+VALUE: 0.0
+QUESTION: Temperature#UNITS#
+VALUE: 0.0Cel
+END CONDITION
+NUMBER: 5 CONDITION: Source
+CONDTYPE: over surfaces
+CONDMESHTYPE: over body elements
+QUESTION: Source_Number
+VALUE: 1
+QUESTION: Source
+VALUE: 0.0
+END CONDITION

@@ -1,0 +1,61 @@
+1:9:17  Initiating Program
+1:9:17    Reading project data
+1:9:17      Project name: problema1d
+1:9:17      Path: /home/marco/FEM2DIUA/FEM2D.gid
+1:9:17    Reading mesh data
+1:9:17      Number of Elements................: 255146
+1:9:17      Are Elements Quadratic............: 1
+1:9:17      Number of Triangular elements.....: 255146
+1:9:17      Number of Rectangular elements....: 0
+1:9:17      Number of Nodes...................: 511625
+1:9:17      Number of Dirichlet conditions....: 667
+1:9:17      Number of NormalFlux conditions...: 333
+1:9:17      Number of Convection conditions...: 0
+1:9:17      Number of Sources on points.......: 0
+1:9:17      Number of points with pointSource.: 0
+1:9:17      Number of Sources on lines........: 0
+1:9:17      Number of points with lineSource..: 0
+1:9:17      Number of Sources on surfaces.....: 1
+1:9:17      Number of Materials...............: 1
+1:9:17      Gauss cuadrature order............: 3
+1:9:17    Initiating Problem
+1:9:17      Initiating Domain
+1:9:17      Initiating ElementList
+1:9:17        Initiating FEMIntegrator
+1:9:17        Valuing line elements
+1:9:17          Allocated weights: 3
+1:9:17          Allocated gPoints: 3
+1:9:17        Allocated Quadratic Triangs: 255146
+1:9:17        Valuing triangular elements
+1:9:17          Allocated weights: 4
+1:9:17          Allocated gPoints: 8
+1:9:17        Allocated element pointers: 255146
+1:9:17      Allocated points: 511625
+1:9:17      Allocated materials: 1
+1:9:17        Initiating boundary conditions
+1:9:17          Allocated pointSource: 0
+1:9:17          Allocated lineSource: 0
+1:9:17          Allocated dirichletPoints: 667
+1:9:17          Allocated normalFluxLines: 333
+1:9:17          Allocated convectionLines: 0
+1:9:17      Initiating stiffness
+1:9:17      Initiating RHS
+1:9:17        Allocated RHS: 511625
+1:9:17      Allocated DOF: 511625
+1:9:19    Reading materials properties
+1:9:19    Reading elements
+1:9:20    Reading point and line Sources
+1:9:20    Reading Boundary Conditions
+1:9:20  End loading data
+1:9:20  Initiating assembly
+1:9:20    Assembling Stiffness
+1:9:20      Solving integral
+1:9:27      Setting Boundary conditions
+1:9:27    Assembling RHS
+1:9:27      Integrating sources
+1:9:28      Setting Boundary Conditions
+1:9:28  End of assembly
+1:9:28  Solving linear system
+1:11:3  Done solving
+1:11:3  Calculating heat flux
+1:11:4  Done calculating flux
