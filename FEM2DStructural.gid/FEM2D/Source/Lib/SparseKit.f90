@@ -2493,9 +2493,7 @@ contains
     real(rkind) :: pq
     real(rkind) :: rho
     real(rkind) :: rho_old
-    !$ call omp_set_num_threads(4)
      x = 0.d0
-    !$OMP PARALLEL DO PRIVATE(i,j)
     do i = 1, size(M%AI)-1
        do j = M%AI(i), M%AI(i+1)-1
           if ( i == M%AJ(j) ) then
@@ -2503,17 +2501,14 @@ contains
           end if
        end do
     end do
-    !$OMP END PARALLEL DO
     it_max = 10000
     tol = 1.0D-15
     it = 0
     call vecdiv(M%n,b,diag,x)
     bb = sqrt (dot_product(b,b))
-    !$OMP PARALLEL DO PRIVATE(i)
     do i = 1, M%n
        r(i) = b(i)                                
     end do
-    !$OMP END PARALLEL DO
     y = M * x
     call vecsum(M%n,1.d0,r,-y,r)
     do
@@ -2524,14 +2519,11 @@ contains
           beta = rho / rho_old
           call vecsum(M%n,beta,p,z,z)
        end if
-       !$OMP PARALLEL DO PRIVATE(i)
        do i = 1, M%n
           p(i) = z(i)
        end do
-       !$OMP END PARALLEL DO
        call assign(M%n,q,0.d0)
        y = M * p
-       !y = sparse_vect_prod(M,p)
        call vecsum(M%n,1.d0,y,q,q)
        alpha = rho / dot_product(p,q)
        call vecsum(M%n,alpha,p,x,x)

@@ -80,10 +80,10 @@ contains
     count = 0
     do i = 1, resultNumber
        count = count + 1
-       write(results,'(I0,2X,F26.16,2X,F26.16)') elemID(i), component1(count)
+       write(results,'(I0,2X,E26.16)') elemID(i), component1(count)
        do j = 2, size(gaussPoints)
           count = count + 1
-          write(results,'(6X,F26.16,2X,F26.16)') component1(count)
+          write(results,'(6X,E26.16)') component1(count)
        end do
     end do
     write(results,'(A)') 'End Values'
@@ -118,10 +118,10 @@ contains
     count = 0
     do i = 1, resultNumber
        count = count + 1
-       write(results,'(I0,2X,F26.16,2X,F26.16)') elemID(i), component1(count), component2(count)
+       write(results,'(I0,2X,E26.16,2X,E26.16)') elemID(i), component1(count), component2(count)
        do j = 2, size(gaussPoints,1)
           count = count + 1
-          write(results,'(6X,F26.16,2X,F26.16)') component1(count), component2(count)
+          write(results,'(6X,E26.16,2X,E26.16)') component1(count), component2(count)
        end do
     end do
     write(results,'(A)') 'End Values'
@@ -155,10 +155,10 @@ contains
     count = 0
     do i = 1, resultNumber
        count = count + 1
-       write(results,'(I0,2X,F26.16,2X,F26.16)') elemID(i), component1(count)
+       write(results,'(I0,2X,E26.16)') elemID(i), component1(count)
        do j = 2, size(gaussPoints,1)
           count = count + 1
-          write(results,'(6X,F26.16,2X,F26.16)') component1(count)
+          write(results,'(6X,E26.16)') component1(count)
        end do
     end do
     write(results,'(A)') 'End Values'

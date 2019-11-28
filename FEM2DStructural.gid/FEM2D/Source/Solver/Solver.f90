@@ -22,6 +22,6 @@ contains
     problem%dof = bicGrad(problem%stiffness, problem%rhs)
     call cpu_time(finish)
     call debugLog('Done solving')
-    print*, 'Solver time = ', (finish-start)/4
+    print*, 'Solver time = ', (finish-start)!/4
   end subroutine staticSolver
 end module SolverMOD

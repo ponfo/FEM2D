@@ -4,7 +4,7 @@ COMPILER	:=  gfortran
 VPATH		:=  $(PWD)/FEM2D/Source
 BINDIR		:=  $(PWD)/FEM2D/Bin
 OBJECTDIR	:=  $(PWD)/FEM2D/Objects
-FFLAGS		:=  -g -O3 -fopenmp -J$(OBJECTDIR)
+FFLAGS		:=  -g -O3 -fopenmp -static -fcheck=all -fbounds-check -J$(OBJECTDIR)
 FFLAGSDebug 	:=  -g -Wall -static -fcheck=all -fbounds-check -J$(OBJECTDIR)
 
 OBJECTS := $(BINDIR)/Debugger.o                 \
@@ -19,7 +19,7 @@ OBJECTS := $(BINDIR)/Debugger.o                 \
 	$(BINDIR)/IntegratorPtr.o               \
                                                 \
 	$(BINDIR)/Material.o                    \
-	$(BINDIR)/ThMaterial.o                  \
+	$(BINDIR)/StructMaterial.o              \
 	$(BINDIR)/MaterialPtr.o                 \
                                                 \
 	$(BINDIR)/Geometry.o                    \
@@ -28,50 +28,50 @@ OBJECTS := $(BINDIR)/Debugger.o                 \
 	$(BINDIR)/Element.o                     \
                                                 \
 	$(BINDIR)/Element1D.o                   \
-	$(BINDIR)/ThElement1D.o                 \
+	$(BINDIR)/StructElement1D.o             \
 	$(BINDIR)/Element1DPtr.o                \
-	$(BINDIR)/ThLinLineElement.o            \
-	$(BINDIR)/ThQuadLineElement.o           \
-	$(BINDIR)/ThElementList1D.o             \
+	$(BINDIR)/StructLinLineElement.o        \
+	$(BINDIR)/StructQuadLineElement.o       \
+	$(BINDIR)/StructElementList1D.o         \
                                                 \
 	$(BINDIR)/Element2D.o                   \
-	$(BINDIR)/ThElement2D.o                 \
+	$(BINDIR)/StructElement2D.o             \
 	$(BINDIR)/Element2DPtr.o                \
 	$(BINDIR)/TriangElement.o               \
-	$(BINDIR)/ThLinTriangElement.o          \
-	$(BINDIR)/ThQuadTriangElement.o         \
+	$(BINDIR)/StructLinTriangElement.o      \
+	$(BINDIR)/StructQuadTriangElement.o     \
 	$(BINDIR)/QuadElement.o                 \
-	$(BINDIR)/ThLinQuadElement.o            \
-	$(BINDIR)/ThQuadQuadElement.o           \
-	$(BINDIR)/ThElementList2D.o             \
+	$(BINDIR)/StructLinQuadElement.o        \
+	$(BINDIR)/StructQuadQuadElement.o       \
+	$(BINDIR)/StructElementList2D.o         \
                                                 \
 	$(BINDIR)/functionOnPoints.o            \
 	$(BINDIR)/functionOnLines.o             \
 	$(BINDIR)/functionOnSurfaces.o          \
-	$(BINDIR)/PointSource.o                 \
-	$(BINDIR)/LineSource.o                  \
-	$(BINDIR)/SurfaceSource.o               \
-	$(BINDIR)/Source.o                      \
+	$(BINDIR)/PointLoad.o                   \
+	$(BINDIR)/LineLoad.o                    \
+	$(BINDIR)/SurfaceLoad.o	                \
+	$(BINDIR)/Pressure.o                    \
+	$(BINDIR)/TemperatureLoad.o             \
+	$(BINDIR)/Load.o                        \
                                                 \
-	$(BINDIR)/DirichletPoint.o              \
-	$(BINDIR)/NormalFluxPoint.o             \
-	$(BINDIR)/ConvectionPoint.o             \
-	$(BINDIR)/ThBoundaryCondition1D.o       \
-	$(BINDIR)/NormalFluxLine.o              \
-	$(BINDIR)/ConvectionLine.o              \
-	$(BINDIR)/ThBoundaryCondition2D.o       \
+	$(BINDIR)/FixDisplacement.o             \
+	$(BINDIR)/StructBoundaryCondition1D.o   \
                                                 \
 	$(BINDIR)/Domain.o                      \
-	$(BINDIR)/ThDomain.o                    \
+	$(BINDIR)/StructDomain.o                \
                                                 \
 	$(BINDIR)/Problem.o                     \
-	$(BINDIR)/ThProblem.o                   \
+	$(BINDIR)/StructProblem.o               \
                                                 \
 	$(BINDIR)/Solver.o                      \
 	                                        \
-	$(BINDIR)/HeatFlux.o                    \
-	                                        \
 	$(BINDIR)/DataInput.o                   \
+						\
+	$(BINDIR)/NormalStress.o		\
+	$(BINDIR)/ShearStress.o 		\
+	$(BINDIR)/Strain.o     		 	\
+						\
 	$(BINDIR)/DataOutput.o                  \
 	$(BINDIR)/main.o
 
@@ -109,7 +109,7 @@ $(BINDIR)/IntegratorPtr.o : $(VPATH)/Integrator/IntegratorPtr.f90
 
 $(BINDIR)/Material.o : $(VPATH)/Material/Material.f90
 	$(COMPILER) $(FFLAGS) -c $^ -o $@
-$(BINDIR)/ThMaterial.o : $(VPATH)/Material/ThMaterial.f90
+$(BINDIR)/StructMaterial.o : $(VPATH)/Material/StructMaterial.f90
 	$(COMPILER) $(FFLAGS) -c $^ -o $@
 $(BINDIR)/MaterialPtr.o : $(VPATH)/Material/MaterialPtr.f90
 	$(COMPILER) $(FFLAGS) -c $^ -o $@
@@ -124,82 +124,80 @@ $(BINDIR)/Element.o : $(VPATH)/Element/Element.f90
 
 $(BINDIR)/Element1D.o : $(VPATH)/Element/1D/Element1D.f90
 	$(COMPILER) $(FFLAGS) -c $^ -o $@
-$(BINDIR)/ThElement1D.o : $(VPATH)/Element/1D/ThElement1D.f90
+$(BINDIR)/StructElement1D.o : $(VPATH)/Element/1D/StructElement1D.f90
 	$(COMPILER) $(FFLAGS) -c $^ -o $@
 $(BINDIR)/Element1DPtr.o : $(VPATH)/Element/1D/Element1DPtr.f90
 	$(COMPILER) $(FFLAGS) -c $^ -o $@
-$(BINDIR)/ThLinLineElement.o : $(VPATH)/Element/1D/ThLinLineElement.f90
+$(BINDIR)/StructLinLineElement.o : $(VPATH)/Element/1D/StructLinLineElement.f90
 	$(COMPILER) $(FFLAGS) -c $^ -o $@
-$(BINDIR)/ThQuadLineElement.o : $(VPATH)/Element/1D/ThQuadLineElement.f90
+$(BINDIR)/StructQuadLineElement.o : $(VPATH)/Element/1D/StructQuadLineElement.f90
 	$(COMPILER) $(FFLAGS) -c $^ -o $@
-$(BINDIR)/ThElementList1D.o : $(VPATH)/Element/1D/ThElementList1D.f90
+$(BINDIR)/StructElementList1D.o : $(VPATH)/Element/1D/StructElementList1D.f90
 	$(COMPILER) $(FFLAGS) -c $^ -o $@
 
 $(BINDIR)/Element2D.o : $(VPATH)/Element/2D/Element2D.f90
 	$(COMPILER) $(FFLAGS) -c $^ -o $@
-$(BINDIR)/ThElement2D.o : $(VPATH)/Element/2D/ThElement2D.f90
+$(BINDIR)/StructElement2D.o : $(VPATH)/Element/2D/StructElement2D.f90
 	$(COMPILER) $(FFLAGS) -c $^ -o $@
 $(BINDIR)/Element2DPtr.o : $(VPATH)/Element/2D/Element2DPtr.f90
 	$(COMPILER) $(FFLAGS) -c $^ -o $@
 $(BINDIR)/TriangElement.o : $(VPATH)/Element/2D/TriangElement.f90
 	$(COMPILER) $(FFLAGS) -c $^ -o $@
-$(BINDIR)/ThLinTriangElement.o : $(VPATH)/Element/2D/ThLinTriangElement.f90
+$(BINDIR)/StructLinTriangElement.o : $(VPATH)/Element/2D/StructLinTriangElement.f90
 	$(COMPILER) $(FFLAGS) -c $^ -o $@
-$(BINDIR)/ThQuadTriangElement.o : $(VPATH)/Element/2D/ThQuadTriangElement.f90
+$(BINDIR)/StructQuadTriangElement.o : $(VPATH)/Element/2D/StructQuadTriangElement.f90
 	$(COMPILER) $(FFLAGS) -c $^ -o $@
 $(BINDIR)/QuadElement.o : $(VPATH)/Element/2D/QuadElement.f90
 	$(COMPILER) $(FFLAGS) -c $^ -o $@
-$(BINDIR)/ThLinQuadElement.o : $(VPATH)/Element/2D/ThLinQuadElement.f90
+$(BINDIR)/StructLinQuadElement.o : $(VPATH)/Element/2D/StructLinQuadElement.f90
 	$(COMPILER) $(FFLAGS) -c $^ -o $@
-$(BINDIR)/ThQuadQuadElement.o : $(VPATH)/Element/2D/ThQuadQuadElement.f90
+$(BINDIR)/StructQuadQuadElement.o : $(VPATH)/Element/2D/StructQuadQuadElement.f90
 	$(COMPILER) $(FFLAGS) -c $^ -o $@
-$(BINDIR)/ThElementList2D.o : $(VPATH)/Element/2D/ThElementList2D.f90
-	$(COMPILER) $(FFLAGS) -c $^ -o $@
-
-$(BINDIR)/functionOnPoints.o : $(VPATH)/Source/functionOnPoints.f90
-	$(COMPILER) $(FFLAGS) -c $^ -o $@
-$(BINDIR)/functionOnLines.o : $(VPATH)/Source/functionOnLines.f90
-	$(COMPILER) $(FFLAGS) -c $^ -o $@
-$(BINDIR)/functionOnSurfaces.o : $(VPATH)/Source/functionOnSurfaces.f90
-	$(COMPILER) $(FFLAGS) -c $^ -o $@
-$(BINDIR)/PointSource.o : $(VPATH)/Source/PointSource.f90
-	$(COMPILER) $(FFLAGS) -c $^ -o $@
-$(BINDIR)/LineSource.o : $(VPATH)/Source/LineSource.f90
-	$(COMPILER) $(FFLAGS) -c $^ -o $@
-$(BINDIR)/SurfaceSource.o : $(VPATH)/Source/SurfaceSource.f90
-	$(COMPILER) $(FFLAGS) -c $^ -o $@
-$(BINDIR)/Source.o : $(VPATH)/Source/Source.f90
+$(BINDIR)/StructElementList2D.o : $(VPATH)/Element/2D/StructElementList2D.f90
 	$(COMPILER) $(FFLAGS) -c $^ -o $@
 
-$(BINDIR)/DirichletPoint.o : $(VPATH)/BoundaryCondition/DirichletPoint.f90
+$(BINDIR)/functionOnPoints.o : $(VPATH)/Load/functionOnPoints.f90
 	$(COMPILER) $(FFLAGS) -c $^ -o $@
-$(BINDIR)/NormalFluxPoint.o : $(VPATH)/BoundaryCondition/NormalFluxPoint.f90
+$(BINDIR)/functionOnLines.o : $(VPATH)/Load/functionOnLines.f90
 	$(COMPILER) $(FFLAGS) -c $^ -o $@
-$(BINDIR)/ConvectionPoint.o : $(VPATH)/BoundaryCondition/ConvectionPoint.f90
+$(BINDIR)/functionOnSurfaces.o : $(VPATH)/Load/functionOnSurfaces.f90
 	$(COMPILER) $(FFLAGS) -c $^ -o $@
-$(BINDIR)/ThBoundaryCondition1D.o : $(VPATH)/BoundaryCondition/ThBoundaryCondition1D.f90
+$(BINDIR)/PointLoad.o : $(VPATH)/Load/PointLoad.f90
 	$(COMPILER) $(FFLAGS) -c $^ -o $@
-$(BINDIR)/NormalFluxLine.o : $(VPATH)/BoundaryCondition/NormalFluxLine.f90
+$(BINDIR)/LineLoad.o : $(VPATH)/Load/LineLoad.f90
 	$(COMPILER) $(FFLAGS) -c $^ -o $@
-$(BINDIR)/ConvectionLine.o : $(VPATH)/BoundaryCondition/ConvectionLine.f90
+$(BINDIR)/SurfaceLoad.o : $(VPATH)/Load/SurfaceLoad.f90
 	$(COMPILER) $(FFLAGS) -c $^ -o $@
-$(BINDIR)/ThBoundaryCondition2D.o : $(VPATH)/BoundaryCondition/ThBoundaryCondition2D.f90
+$(BINDIR)/Pressure.o : $(VPATH)/Load/Pressure.f90
+	$(COMPILER) $(FFLAGS) -c $^ -o $@
+$(BINDIR)/TemperatureLoad.o : $(VPATH)/Load/TemperatureLoad.f90
+	$(COMPILER) $(FFLAGS) -c $^ -o $@
+$(BINDIR)/Load.o : $(VPATH)/Load/Load.f90
+	$(COMPILER) $(FFLAGS) -c $^ -o $@
+
+$(BINDIR)/FixDisplacement.o : $(VPATH)/BoundaryCondition/FixDisplacement.f90
+	$(COMPILER) $(FFLAGS) -c $^ -o $@
+$(BINDIR)/StructBoundaryCondition1D.o : $(VPATH)/BoundaryCondition/StructBoundaryCondition1D.f90
 	$(COMPILER) $(FFLAGS) -c $^ -o $@
 
 $(BINDIR)/Domain.o : $(VPATH)/Domain/Domain.f90
 	$(COMPILER) $(FFLAGS) -c $^ -o $@
-$(BINDIR)/ThDomain.o : $(VPATH)/Domain/ThDomain.f90
+$(BINDIR)/StructDomain.o : $(VPATH)/Domain/StructDomain.f90
 	$(COMPILER) $(FFLAGS) -c $^ -o $@
 
 $(BINDIR)/Problem.o : $(VPATH)/Problem/Problem.f90
 	$(COMPILER) $(FFLAGS) -c $^ -o $@
-$(BINDIR)/ThProblem.o : $(VPATH)/Problem/ThProblem.f90
+$(BINDIR)/StructProblem.o : $(VPATH)/Problem/StructProblem.f90
 	$(COMPILER) $(FFLAGS) -c $^ -o $@
 
 $(BINDIR)/Solver.o : $(VPATH)/Solver/Solver.f90
 	$(COMPILER) $(FFLAGS) -c $^ -o $@
 
-$(BINDIR)/HeatFlux.o : $(VPATH)/PostProcess/HeatFlux.f90
+$(BINDIR)/NormalStress.o : $(VPATH)/PostProcess/NormalStress.f90
+	$(COMPILER) $(FFLAGS) -c $^ -o $@
+$(BINDIR)/ShearStress.o : $(VPATH)/PostProcess/ShearStress.f90
+	$(COMPILER) $(FFLAGS) -c $^ -o $@
+$(BINDIR)/Strain.o : $(VPATH)/PostProcess/Strain.f90
 	$(COMPILER) $(FFLAGS) -c $^ -o $@
 
 $(BINDIR)/DataInput.o : $(VPATH)/DataIO/DataInput.f90

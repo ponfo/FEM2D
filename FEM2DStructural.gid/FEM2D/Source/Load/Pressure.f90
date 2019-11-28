@@ -78,10 +78,10 @@ contains
     do i = 1, size(this%pointID)
        globalPointID(i) = element%getPointID(this%pointID(i))
     end do
-    print*, 'pressure for element', this%elemID
     do i = 1, this%integrator1D%ptr%integTerms
        dx = 0
        dy = 0
+       if(size(globalPointID) > 2) call swap(globalPointID(2), globalPointID(3))
        do j = 1, size(this%pointID)
           dx = dx + this%integrator1D%ptr%dShapeFunc(j,1,i)*point(globalPointID(j))%getx()
           dy = dy + this%integrator1D%ptr%dShapeFunc(j,1,i)*point(globalPointID(j))%gety()
@@ -116,7 +116,15 @@ contains
     integer(ikind) :: i
     write(92,'(I0,2E16.8)') element%getPointID(this%pointID(1)), valuex(1), valuey(1)
   end subroutine printPressure
-    
-    
 
+  subroutine swap(a,b)
+    implicit none
+    integer(ikind), intent(inout) :: a
+    integer(ikind), intent(inout) :: b
+    integer(ikind) :: aux
+    aux = b
+    b = a
+    a = aux
+  end subroutine swap
+  
 end module PressureMOD

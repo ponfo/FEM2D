@@ -8,7 +8,7 @@ contains
   real(rkind), intent(in) :: x
   real(rkind), intent(in) :: y
   real(rkind) :: vecFunSource(1)
-  vecFunSource(1)=  3.0
+  vecFunSource(1)=   50
   funcOnSurfaces = vecfunSource(i)
   end function funcOnSurfaces
 end module FunctionOnSurfacesMOD

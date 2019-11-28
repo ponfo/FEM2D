@@ -131,7 +131,7 @@ contains
           eta = integrator%ptr%gPoint(iGauss,2)
           jacobian = element2D%jacobian(xi, eta)
           jacobianDet = element2D%jacobianDet(jacobian)
-          allocate(dsf(2,nPoint))
+          allocate(dsf(2,nPoint*nDof))
           dsf = integrator%ptr%dShapeFunc(iGauss,:,:)
           NSx = 0.d0
           NSy = 0.d0
