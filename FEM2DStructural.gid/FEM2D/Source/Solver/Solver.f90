@@ -15,6 +15,7 @@ contains
     implicit none
     class(StructProblemTYPE), intent(inout) :: problem
     real(rkind) :: start, finish
+    integer(ikind) :: i
     call debugLog('Solving linear system')
     print*, 'Solving linear system'
     call cpu_time(start)

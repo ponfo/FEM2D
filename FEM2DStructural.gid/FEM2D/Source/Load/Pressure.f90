@@ -99,6 +99,8 @@ contains
     do i = 1, size(this%pointID)
        rhs(2*globalPointID(i)-1) = rhs(2*globalPointID(i)-1) + integral(1,i)
        rhs(2*globalPointID(i)) = rhs(2*globalPointID(i)) + integral(2,i)
+       print'(A,I0,A,E16.8)', 'added pressure term in row ', 2*globalPointID(i)-1, ' -> ', integral(1,i)
+       print'(A,I0,A,E16.8)', 'added pressure term in row ', 2*globalPointID(i), ' -> ', integral(2,i)
     end do
     call this%printPressure(element, valuex, valuey)
     deallocate(integral)

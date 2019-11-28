@@ -254,8 +254,8 @@ contains
                 do jj = 1, nDof
                    call this%stiffness%append(                                            &
                         val = localStiffness(i*nDof-(nDof-ii),j*nDof-(nDof-jj))          &
-                        , row = element2D%getPointID(i)*nDof-(nDof-ii)                    &
-                        , col = element2D%getPointID(j)*nDof-(nDof-jj)                    )
+                        , row = element2D%getPointID(i)*nDof-(nDof-ii)                   &
+                        , col = element2D%getPointID(j)*nDof-(nDof-jj)                   )
                 end do
              end do
           end do

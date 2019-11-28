@@ -2407,7 +2407,7 @@ contains
     real ( kind = 8 ) z(n)
     it = 0
     it_max = 10000
-    tol = 1.0D-15
+    tol = 1.0D-30
     bnrm2 = sqrt ( sum ( b(1:n)**2 ) )
     x(1:n) = b(1:n) / a(diag(1:n))
 !!$    write ( *, '(a)' ) ''

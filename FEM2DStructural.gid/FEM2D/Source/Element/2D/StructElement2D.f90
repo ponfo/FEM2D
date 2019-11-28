@@ -72,12 +72,12 @@ contains
        end do
     end do
     getStiffness = getStiffness * this%material%ptr%thickness
-!!$    print*, 'stiffness for element -> ', this%id
-!!$    do i = 1, size(getStiffness,1)
-!!$       do j = 1, size(getStiffness,2)
-!!$          print'(A,I0,A,I0,A,E16.8)', 'stiffness(', i, ',', j, ') = ', getStiffness(i,j)
-!!$       end do
-!!$    end do
+    print*, 'stiffness for element -> ', this%id
+    do i = 1, size(getStiffness,1)
+       do j = 1, size(getStiffness,2)
+          print'(A,I0,A,I0,A,E16.8)', 'stiffness(', i, ',', j, ') = ', getStiffness(i,j)
+       end do
+    end do
   end function getStiffness
 
 end module StructElement2DMOD
