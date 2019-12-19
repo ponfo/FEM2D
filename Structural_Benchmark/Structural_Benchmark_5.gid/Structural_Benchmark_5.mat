@@ -4,7 +4,7 @@ VALUE: 1m^2
 QUESTION: Thickness
 VALUE: 1
 QUESTION: Young_Modulus#UNITS#
-VALUE: 2.9e11Pa
+VALUE: 200000000000Pa
 QUESTION: Poisson's_Ratio
 VALUE: 0.3
 QUESTION: Thermal_Expansion#UNITS#

@@ -1,6 +1,6 @@
-BeginZE /home/marco/Benchmarks Thermal/Structural_Benchmark_3.gid/Structural_Benchmark_3.flavia.vv
-   x -0.0422994 0.162299
-   y 0.183484 -0.063484
+BeginZE /home/facundo/Documents/FEM2D-LastVersion/FEM2D/Structural_Benchmark/Structural_Benchmark_3.gid/Structural_Benchmark_3.flavia.vv
+   x -0.0984274 0.218427
+   y 0.147178 -0.027178
    z -0.261534 0.261534
    e 0.087178
    v 0 0 0
@@ -15,5 +15,5 @@ BeginZE /home/marco/Benchmarks Thermal/Structural_Benchmark_3.gid/Structural_Ben
    NowUse 2
    DrawingType 3
    LightVector 9.60474 80.1136 122.177 0
-EndZE /home/marco/Benchmarks Thermal/Structural_Benchmark_3.gid/Structural_Benchmark_3.flavia.vv
+EndZE /home/facundo/Documents/FEM2D-LastVersion/FEM2D/Structural_Benchmark/Structural_Benchmark_3.gid/Structural_Benchmark_3.flavia.vv
 

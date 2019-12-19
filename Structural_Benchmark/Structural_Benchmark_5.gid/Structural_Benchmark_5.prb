@@ -4,7 +4,7 @@ VALUE: Structural 1D and 2D
 QUESTION: Load_Number_On_Points
 VALUE: 0
 QUESTION: Load_Number_On_Lines
-VALUE: 2
+VALUE: 0
 QUESTION: Load_Number_On_Surfaces
 VALUE: 0
 QUESTION: Gauss_Order

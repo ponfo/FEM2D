@@ -1,0 +1,58 @@
+14:56:37  Initiating Program
+14:56:37    Reading project data
+14:56:37      Project name: Benchmark_LectOH2019
+14:56:37      Path: /home/facundo/Documents/FEM2D-LastVersion/FEM2D/FEM2DStructural.gid
+14:56:37    Reading mesh data
+14:56:37      Number of Elements.............................: 1733
+14:56:37      Are Elements Quadratic.........................: 1
+14:56:37      Number of linear elements......................: 0
+14:56:37      Number of Triangular elements..................: 0
+14:56:37      Number of Rectangular elements.................: 1733
+14:56:37      Number of Nodes................................: 5372
+14:56:37      Number of Dirichlet X conditions...............: 159
+14:56:37      Number of Dirichlet Y conditions...............: 159
+14:56:37      Number of Lines With Pressure..................: 0
+14:56:37      Number of Loads on points......................: 0
+14:56:37      Number of points with pointLoad................: 0
+14:56:37      Number of Loads on lines.......................: 1
+14:56:37      Number of points with lineLoad.................: 159
+14:56:37      Number of Loads on surfaces....................: 0
+14:56:37      Number of Surfaces with surfaceLoad............: 0
+14:56:37      Number of Materials............................: 1
+14:56:37      Gauss cuadrature order.........................: 3
+14:56:37    Initiating Structural Problem
+14:56:37      Allocated points: 10744
+14:56:37      Allocated materials: 1
+14:56:37      Initiating ElementList2D
+14:56:37        Allocated Quadratic Quads: 1733
+14:56:37          Allocated weights: 9
+14:56:37          Allocated gPoints: 18
+14:56:37        Allocated element pointers: 1733
+14:56:37        Initiating boundary conditions 1D
+14:56:37          Allocated Fix Displacement in X: 159
+14:56:37          Allocated Fix Displacement in Y: 159
+14:56:37        Initiating Load
+14:56:37          Allocated pointLoad: 0
+14:56:37          Allocated lineLoad: 79
+14:56:37          Allocated surfaceLoad: 0
+14:56:37          Allocated pressure: 0
+14:56:37          Valueing Integrator1D for load integrations
+14:56:37          Allocated weights: 3
+14:56:37          Allocated gPoints: 3
+14:56:37      Allocated Stiffness
+14:56:37        Estimated nnz: 443648
+14:56:37        Matrix order: 10744
+14:56:37      Allocated RHS: 10744
+14:56:37      Allocated DOF: 10744
+14:56:37    Reading materials properties
+14:56:37    Reading elements
+14:56:37    Reading point and line Loads
+14:56:37    Reading Boundary Conditions
+14:56:37    Checking if there is thermal-structural coupling
+14:56:37  End loading data
+14:56:37    Assembling stiffness matrix and right hand side vector
+14:56:37  Solving linear system
+14:56:39  Done solving
+14:56:39  Calculating normal stress
+14:56:39  Calculating shear stress
+14:56:39  Calculating strain

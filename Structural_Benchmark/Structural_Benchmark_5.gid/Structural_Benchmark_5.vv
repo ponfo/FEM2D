@@ -1,6 +1,6 @@
-BeginZE /home/marco/FEM2D/Structural_Benchmark/Structural_Benchmark_5.gid/Structural_Benchmark_5.vv
-   x -8.19332 8.19332
-   y 9.50167 -9.50167
+BeginZE /home/facundo/Documents/FEM2D-LastVersion/FEM2D/Structural_Benchmark/Structural_Benchmark_5.gid/Structural_Benchmark_5.vv
+   x -13.6553 13.6553
+   y 7.38083 -7.38083
    z -21.7945 21.7945
    e 7.26483
    v 0 0 0
@@ -15,5 +15,5 @@ BeginZE /home/marco/FEM2D/Structural_Benchmark/Structural_Benchmark_5.gid/Struct
    NowUse 1
    DrawingType 0
    LightVector 9.60474 80.1136 122.177 0
-EndZE /home/marco/FEM2D/Structural_Benchmark/Structural_Benchmark_5.gid/Structural_Benchmark_5.vv
+EndZE /home/facundo/Documents/FEM2D-LastVersion/FEM2D/Structural_Benchmark/Structural_Benchmark_5.gid/Structural_Benchmark_5.vv
 

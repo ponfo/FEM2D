@@ -1,17 +1,11 @@
-<<<<<<< HEAD
 BeginZE /home/facundo/Documents/FEM2D-LastVersion/FEM2D/Structural_Benchmark/Structural_Benchmark_4.gid/Structural_Benchmark_4.vv
-   x -0.0622227 0.162223
-   y 0.0806573 -0.0406573
-=======
-BeginZE /home/marco/FEM2D/Structural_Benchmark/Structural_Benchmark_4.gid/Structural_Benchmark_4.vv
-   x -0.00937685 0.110377
-   y 0.0667364 -0.0433275
->>>>>>> ce1859b5bcd1c797e201510c3b1e75efb1f91bf8
+   x -0.0581857 0.158186
+   y 0.0784753 -0.0384753
    z -0.169115 0.169115
    e 0.0563718
-   v 2.18557e-08 1.91069e-15 -8.74228e-08
-   r -1
-   m 1 -1.74846e-07 -7.64274e-15 0 1.74846e-07 1 4.37114e-08 0 0 -4.37114e-08 1 0 0 0 0 1
+   v 0 0 0
+   r 1
+   m 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1
    c 0.05 0.02 0
    pd 0
    pno 0

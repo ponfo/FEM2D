@@ -1,0 +1,64 @@
+15:30:41  Initiating Program
+15:30:41    Reading project data
+15:30:41      Project name: Benchmark1Thermal
+15:30:41      Path: /home/facundo/Documents/FEM2D-LastVersion/FEM2D/FEM2DThermal.gid
+15:30:41    Reading mesh data
+15:30:41      Number of Elements.............................: 9174
+15:30:41      Are Elements Quadratic.........................: 1
+15:30:41      Number of linear elements......................: 0
+15:30:41      Number of Triangular elements..................: 9174
+15:30:41      Number of Rectangular elements.................: 0
+15:30:41      Number of Nodes................................: 18789
+15:30:41      Number of Dirichlet conditions.................: 41
+15:30:41      Number of NormalFluxOnPoints conditions........: 0
+15:30:41      Number of NormalFluxOnLines conditions.........: 0
+15:30:41      Number of ConvectionOnPoints conditions........: 0
+15:30:41      Number of ConvectionOnLines conditions.........: 0
+15:30:41      Number of Sources on points....................: 0
+15:30:41      Number of points with pointSource..............: 0
+15:30:41      Number of Sources on lines.....................: 0
+15:30:41      Number of points with lineSource...............: 0
+15:30:41      Number of Sources on surfaces..................: 1
+15:30:41      Number of Surfaces with surfaceSource..........: 9174
+15:30:41      Number of Materials............................: 1
+15:30:41      Gauss cuadrature order.........................: 3
+15:30:41    Initiating Thermal Problem
+15:30:41      Initiating Thermal Domain
+15:30:41      Allocated points: 18789
+15:30:41      Allocated materials: 1
+15:30:41      Initiating ElementList2D
+15:30:41        Allocated Quadratic Triangs: 9174
+15:30:41          Allocated weights: 4
+15:30:41          Allocated gPoints: 8
+15:30:41        Allocated element pointers: 9174
+15:30:41        Initiating boundary conditions 1D
+15:30:41          Allocated dirichletPoints: 41
+15:30:41          Allocated normalFluxPoint: 0
+15:30:41          Allocated convectionPoint: 0
+15:30:41        Initiating boundary conditions 2D
+15:30:41          Allocated normalFluxLines: 0
+15:30:41          Allocated convectionLines: 0
+15:30:41          Valueing Integrator1D for boundary integrations
+15:30:41          Allocated weights: 3
+15:30:41          Allocated gPoints: 3
+15:30:41        Initiating Source
+15:30:41          Allocated pointSource: 0
+15:30:41          Allocated lineSource: 0
+15:30:41          Allocated surfaceSource: 9174
+15:30:41          Valueing Integrator1D for source integrations
+15:30:41          Allocated weights: 3
+15:30:41          Allocated gPoints: 3
+15:30:41      Allocated Stiffness
+15:30:41        Estimated nnz: 330264
+15:30:41        Matrix order: 18789
+15:30:41      Allocated RHS: 18789
+15:30:41      Allocated DOF: 18789
+15:30:41    Reading materials properties
+15:30:41    Reading elements
+15:30:41    Reading point and line Sources
+15:30:41    Reading Boundary Conditions
+15:30:41  End loading data
+15:30:41    Assembling stiffness matrix and right hand side vector
+15:30:42  Solving linear system
+15:30:43  Done solving
+15:30:43  Calculating heat flux

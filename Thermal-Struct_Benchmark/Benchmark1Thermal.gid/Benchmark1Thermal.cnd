@@ -1,0 +1,60 @@
+NUMBER: 1 CONDITION: Fix_Temperature_On_Lines
+CONDTYPE: over lines
+QUESTION: Temperature#UNITS#
+VALUE: 0.0Cel
+END CONDITION
+NUMBER: 2 CONDITION: Fix_Temperature_On_Points
+CONDTYPE: over points
+CONDMESHTYPE: over nodes
+QUESTION: Temperature#UNITS#
+VALUE: 0.0Cel
+END CONDITION
+NUMBER: 3 CONDITION: Normal_Flux_On_Lines
+CONDTYPE: over lines
+QUESTION: Flux#UNITS#
+VALUE: 0.0N/m/s
+END CONDITION
+NUMBER: 4 CONDITION: Normal_Flux_On_Points
+CONDTYPE: over points
+CONDMESHTYPE: over nodes
+QUESTION: Flux#UNITS#
+VALUE: 0.0N/m/s
+END CONDITION
+NUMBER: 5 CONDITION: Convection_On_Lines
+CONDTYPE: over lines
+QUESTION: Coeficient
+VALUE: 0.0
+QUESTION: Temperature#UNITS#
+VALUE: 0.0Cel
+END CONDITION
+NUMBER: 6 CONDITION: Convection_On_Points
+CONDTYPE: over points
+CONDMESHTYPE: over nodes
+QUESTION: Coeficient
+VALUE: 0.0
+QUESTION: Temperature#UNITS#
+VALUE: 0.0Cel
+END CONDITION
+NUMBER: 7 CONDITION: Source_On_Points
+CONDTYPE: over points
+CONDMESHTYPE: over nodes
+QUESTION: Source_Number_On_Points
+VALUE: 1
+QUESTION: SourceOP
+VALUE: 0.0
+END CONDITION
+NUMBER: 8 CONDITION: Source_On_Lines
+CONDTYPE: over lines
+QUESTION: Source_Number_On_Lines
+VALUE: 1
+QUESTION: SourceOL
+VALUE: 0.0
+END CONDITION
+NUMBER: 9 CONDITION: Source_On_Surfaces
+CONDTYPE: over surfaces
+CONDMESHTYPE: over body elements
+QUESTION: Source_Number_On_Surfaces
+VALUE: 1
+QUESTION: SourceOS
+VALUE: 0.0
+END CONDITION

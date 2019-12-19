@@ -4,11 +4,15 @@ VALUE: Structural 1D and 2D
 QUESTION: Load_Number_On_Points
 VALUE: 0
 QUESTION: Load_Number_On_Lines
-VALUE: 1
+VALUE: 0
 QUESTION: Load_Number_On_Surfaces
 VALUE: 0
 QUESTION: Gauss_Order
 VALUE: 3
+QUESTION: Thermal_Coupling?
+VALUE: 0
+QUESTION: Stable_Temperature
+VALUE: 18
 END PROBLEM DATA
 INTERVAL DATA
 END INTERVAL DATA

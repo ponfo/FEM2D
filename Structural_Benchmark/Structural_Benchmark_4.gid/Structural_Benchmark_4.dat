@@ -17,6 +17,7 @@ Materials_Number.......................: 1
 Gauss_Order............................: 3
 Fix_Displacement_X_Number..............: 81
 Fix_Displacement_Y_Number..............: 81
+Pressure_On_Lines_Condition_elements...: 0
 Points_With_Loads_On_Points............: 0
 Load_Number_On_Points..................: 0
 Points_With_Loads_On_Lines..............: 81
@@ -14189,7 +14190,7 @@ Materials List:
 
 Material | Thermal expansion | Young's modulus | Poisson's ratio |  Area  |  Thickness
 ------------------------------------------------------------------------------------------
-    1          1.6000e-06         2.1000e+11       3.0000e-01    1.0000e+00  1.0000e+00
+    1          1.6000e-06         2.1000e+11       3.0000e-01    1.0000e+00  1.0000e-01
 
 ################### Loads On Points ######################
 
@@ -19080,6 +19081,13 @@ Conditions List:
  3978           0.0000e+00 
  4069           0.0000e+00 
  4173           0.0000e+00 
+
+##################### Pressure On Lines ####################
+
+Conditions List:
+
+ Element |       Nodes      |   Pressure
+--------------------------------------------
 
 ################# Thermal Coupling Options ####################
 
