@@ -71,6 +71,7 @@ OBJECTS := $(BINDIR)/Debugger.o                 \
 	                                        \
 	$(BINDIR)/HeatFlux.o                    \
 	                                        \
+	$(BINDIR)/IOData.o                      \
 	$(BINDIR)/DataInput.o                   \
 	$(BINDIR)/DataOutput.o                  \
 	$(BINDIR)/main.o
@@ -202,6 +203,8 @@ $(BINDIR)/Solver.o : $(VPATH)/Solver/Solver.f90
 $(BINDIR)/HeatFlux.o : $(VPATH)/PostProcess/HeatFlux.f90
 	$(COMPILER) $(FFLAGS) -c $^ -o $@
 
+$(BINDIR)/IOData.o : $(VPATH)/DataIO/IOData.f90
+	$(COMPILER) $(FFLAGS) -c $^ -o $@
 $(BINDIR)/DataInput.o : $(VPATH)/DataIO/DataInput.f90
 	$(COMPILER) $(FFLAGS) -c $^ -o $@
 $(BINDIR)/DataOutput.o : $(VPATH)/DataIO/DataOutput.f90

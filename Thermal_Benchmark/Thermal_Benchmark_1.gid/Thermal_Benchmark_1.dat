@@ -1,5 +1,5 @@
 ###########################################################
-              PROGRAM POISSON'S 2D ANALYSIS
+            PROGRAM POISSON'S 1D AND 2D ANALYSIS
 ###########################################################
 
 ##################### PROBLEM DATA ########################
@@ -22,7 +22,7 @@ Normal_Flux_Line_Condition_Elements....: 0
 Convection_Lines_Condition_Elements....: 25
 Points_With_Point_Source...............: 0
 Source_Number_On_Points................: 0
-Lines_With_Line_Source.................: 0
+Points_With_Line_Source.................: 0
 Source_Number_On_Lines.................: 0
 Surfaces_With_Surface_Source...........: 0
 Source_Number_On_Surfaces..............: 0

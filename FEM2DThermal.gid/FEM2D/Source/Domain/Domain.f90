@@ -15,7 +15,6 @@ module DomainMOD
      integer(ikind)                                :: nElem
      type(PointTYPE)   , dimension(:), allocatable :: point
    contains
-     
      procedure, public :: getnPoint
      procedure, public :: getnLine
      procedure, public :: getnTriang
