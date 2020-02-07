@@ -3,11 +3,11 @@ module TriangElementMOD
   use PointMOD
   use PointPtrMOD
   use Element2DMOD
-  use ThElement2DMOD
+  use ThermalElement2DMOD
   implicit none
   private
   public :: TriangElementTYPE
-  type, extends(ThElement2DTYPE), abstract :: TriangElementTYPE
+  type, extends(ThermalElement2DTYPE), abstract :: TriangElementTYPE
      private
    contains
      procedure, public :: setArea

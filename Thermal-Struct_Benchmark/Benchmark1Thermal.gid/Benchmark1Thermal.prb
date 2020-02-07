@@ -6,7 +6,7 @@ VALUE: 0
 QUESTION: Source_Number_On_Lines
 VALUE: 0
 QUESTION: Source_Number_On_Surfaces
-VALUE: 1
+VALUE: 0
 QUESTION: Gauss_Order
 VALUE: 3
 END PROBLEM DATA

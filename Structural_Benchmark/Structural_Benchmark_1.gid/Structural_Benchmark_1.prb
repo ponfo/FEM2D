@@ -9,6 +9,10 @@ QUESTION: Load_Number_On_Surfaces
 VALUE: 0
 QUESTION: Gauss_Order
 VALUE: 3
+QUESTION: Thermal_Coupling?
+VALUE: 0
+QUESTION: Stable_Temperature
+VALUE: 18
 END PROBLEM DATA
 INTERVAL DATA
 END INTERVAL DATA

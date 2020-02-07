@@ -72,7 +72,7 @@ contains
        element1D = elementList1D%getElement(iElem)
        integrator = element1D%getIntegrator()
        nPoint = element1D%getnPoint()
-       if(.not.allocated(jacobianDet)) allocate(jacobianDet(integrator%ptr%integTerms))
+       allocate(jacobianDet(integrator%ptr%integTerms))
        do k = 1, integrator%ptr%integTerms
           jacobianDet(k) = element1D%jacobian(integrator%ptr%gPoint(k,1))
        end do
@@ -84,6 +84,7 @@ contains
           end do
           rhs(pointID) = rhs(pointID) + int
        end do
+       deallocate(jacobianDet)
     end do
     if(allocated(jacobianDet)) deallocate(jacobianDet)
     nElem = elementList2D%getnElem()
@@ -92,10 +93,11 @@ contains
        integrator = element2D%getIntegrator()
        nPoint = element2D%getnPoint()
        nDof = element2D%getnDof()
-       if(.not.allocated(jacobian)) allocate(jacobian(integrator%ptr%integTerms,2,2))
-       if(.not.allocated(jacobianDet)) allocate(jacobianDet(integrator%ptr%integTerms))
+       allocate(jacobian(integrator%ptr%integTerms,2,2))
+       allocate(jacobianDet(integrator%ptr%integTerms))
        do k = 1, integrator%ptr%integTerms
-          jacobian(k,1:2,1:2) = element2D%jacobian(integrator%ptr%gPoint(k,1),integrator%ptr%gPoint(k,2))
+          jacobian(k,1:2,1:2) = &
+               element2D%jacobian(integrator%ptr%gPoint(k,1),integrator%ptr%gPoint(k,2))
           jacobianDet(k) = element2D%jacobianDet(jacobian(k,1:2,1:2))
        end do
        do iPoint = 1, nPoint
@@ -121,6 +123,8 @@ contains
           print'(A,I0,A,E16.8)', 'added temp term in row ', nDof*pointID-1, ' -> ', int1
           print'(A,I0,A,E16.8)', 'added temp term in row ', nDof*pointID, ' -> ', int2
        end do
+       deallocate(jacobian)
+       deallocate(jacobianDet)
     end do
     if(allocated(jacobian)) deallocate(jacobian)
     if(allocated(jacobianDet)) deallocate(jacobianDet)
@@ -143,9 +147,9 @@ contains
           alpha = element1D%ptr%material%ptr%thermalCoef
           temp = this%temperature(element1D%getPointID(iPoint))
           !Deformación plana
-          !this%strain = (1+element1D%ptr%material%ptr%poissonCoef)*alpha*(temp-this%stableTemp)
+          this%strain = (1+element1D%ptr%material%ptr%poissonCoef)*alpha*(temp-this%stableTemp)
           !Tensión plana
-          this%strain(element1D%getPointID(iPoint)) = alpha*(temp-this%stableTemp)
+          !this%strain(element1D%getPointID(iPoint)) = alpha*(temp-this%stableTemp)
        end do
     end do
     nElem = elementList2D%getnElem()
@@ -156,11 +160,11 @@ contains
           alpha = element2D%ptr%material%ptr%thermalCoef
           temp = this%temperature(element2D%getPointID(iPoint))
           !Deformación plana
-          !this%strain = (1+element2D%ptr%material%ptr%poissonCoef)*alpha*(temp-this%stableTemp)
+          this%strain = (1+element2D%ptr%material%ptr%poissonCoef)*alpha*(temp-this%stableTemp)
           !Tensión plana
-          this%strain(element2D%getPointID(iPoint)) = alpha*(temp-this%stableTemp)
-          print'(A,I0,A,E16.8)', 'dT on node ', element2D%getPointID(iPoint), ' -> ', (temp-this%stableTemp)
-          print'(A,I0,A,E16.8)', 'strain on node ', element2D%getPointID(iPoint), ' -> ', this%strain(element2D%getPointID(iPoint))
+          !this%strain(element2D%getPointID(iPoint)) = alpha*(temp-this%stableTemp)
+          !print'(A,I0,A,E16.8)', 'dT on node ', element2D%getPointID(iPoint), ' -> ', (temp-this%stableTemp)
+          !print'(A,I0,A,E16.8)', 'strain on node ', element2D%getPointID(iPoint), ' -> ', this%strain(element2D%getPointID(iPoint))
        end do
     end do
   end subroutine getTemperatureStrain

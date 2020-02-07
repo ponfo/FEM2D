@@ -325,6 +325,7 @@ contains
     if(verbose) print'(A)', 'Element  |      Type      |  material index  |  nNodes  |  connectivities'
     do i = 1, nElem
        read(project,*) iElem, type, iMat, iNode, (Conectivities(j),j=1,iNode)
+       iMat = 1
        if(verbose) print'(I5,A15,I18,I14,5X,*(I5,X))', iElem, type, iMat, iNode, (Conectivities(j),j=1,iNode)
        call io%addElement(type, iNode, iMat, Conectivities)
     end do

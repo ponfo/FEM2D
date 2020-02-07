@@ -4,7 +4,7 @@ module ConvectionLineMOD
   use PointPtrMOD
   use IntegratorMOD
   use IntegratorPtrMOD
-  use ThElementList2DMOD
+  use ThermalElementList2DMOD
   use Element2DPtrMOD
   implicit none
   private
@@ -91,7 +91,7 @@ contains
   subroutine apply(this, elementList, stiffness, rhs)
     implicit none
     class(ConvectionLineTYPE), intent(inout) :: this
-    type(ThElementList2DTYPE), intent(inout) :: elementList
+    type(ThermalElementList2DTYPE), intent(inout) :: elementList
     class(Sparse), intent(inout) :: stiffness
     real(rkind), dimension(:), intent(inout) :: rhs
     type(Element2DPtrTYPE) :: element

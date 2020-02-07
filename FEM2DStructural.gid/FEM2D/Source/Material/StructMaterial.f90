@@ -45,20 +45,20 @@ contains
     this%thermalCoef = thermalCoef
     this%area        = area
     this%thickness   = thickness
-!!$    !Deformación plana:
-!!$    factor = young/((1+poissonCoef)*(1-2*poissonCoef))
-!!$    this%d11 = factor*(1-poissonCoef)
-!!$    this%d12 = factor*poissonCoef
-!!$    this%d21 = factor*poissonCoef
-!!$    this%d22 = factor*(1-poissonCoef)
-!!$    this%d33 = factor*(1-2*poissonCoef)/2.d0
-    !Tensión plana
-    factor = young/(1-poissonCoef**2)
-    this%d11 = factor
+    !Deformación plana:
+    factor = young/((1+poissonCoef)*(1-2*poissonCoef))
+    this%d11 = factor*(1-poissonCoef)
     this%d12 = factor*poissonCoef
     this%d21 = factor*poissonCoef
-    this%d22 = factor
-    this%d33 = factor*(1-poissonCoef)/2.d0
+    this%d22 = factor*(1-poissonCoef)
+    this%d33 = factor*(1-2*poissonCoef)/2.d0
+    !Tensión plana
+!!$    factor = young/(1-poissonCoef**2)
+!!$    this%d11 = factor
+!!$    this%d12 = factor*poissonCoef
+!!$    this%d21 = factor*poissonCoef
+!!$    this%d22 = factor
+!!$    this%d33 = factor*(1-poissonCoef)/2.d0
   end subroutine init
 
 end module StructMaterialMOD

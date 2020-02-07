@@ -2,6 +2,7 @@ program FEM2DStaticThermal
   use tools
   use DataInputMOD
   use IODataMOD
+  use SolverMOD
   use DataOutputMOD
   implicit none
   type(IODataTYPE) :: io
@@ -9,7 +10,7 @@ program FEM2DStaticThermal
   print'(A)', 'Initiating FEM2DThermal'
   call initFEM2D(io)
   call io%setUp()
-  call io%solveStatic()
+  call staticSolver(io)
   call io%postProcess()
   call printResults(resultName = 'Temperature'    &
        , step         = 1                         &

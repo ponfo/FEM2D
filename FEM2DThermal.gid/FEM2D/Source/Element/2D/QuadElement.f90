@@ -3,11 +3,11 @@ module QuadElementMOD
   use PointMOD
   use PointPtrMOD
   use Element2DMOD
-  use ThElement2DMOD
+  use ThermalElement2DMOD
   implicit none
   private
   public :: QuadElementTYPE
-  type, extends(ThElement2DTYPE), abstract :: QuadElementTYPE
+  type, extends(ThermalElement2DTYPE), abstract :: QuadElementTYPE
    contains
      procedure, public :: setArea
   end type QuadElementTYPE

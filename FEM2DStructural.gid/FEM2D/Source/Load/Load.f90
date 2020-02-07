@@ -261,7 +261,7 @@ contains
        call this%surfaceLoad(i)%apply(elementList2D, rhs)
     end do
     call this%initPrintPressure()
-    print*, this%getnPressure()
+    !print*, this%getnPressure()
     do i = 1,  this%getnPressure()
        call this%pressure(i)%apply(elementList2D, point, rhs)
     end do

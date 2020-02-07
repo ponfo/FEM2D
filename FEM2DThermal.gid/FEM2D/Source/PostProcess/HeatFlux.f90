@@ -6,7 +6,7 @@ module HeatFluxMOD
   use PointPtrMOD
 
   use MaterialPtrMOD
-  use ThMaterialMOD
+  use ThermalMaterialMOD
 
   use IntegratorMOD
   use IntegratorPtrMOD
@@ -14,7 +14,7 @@ module HeatFluxMOD
   use Element1DPtrMOD
   use Element2DPtrMOD
 
-  use ThProblemMOD
+  use ThermalProblemMOD
   implicit none
   private
   public :: HeatFluxTYPE
@@ -47,7 +47,7 @@ contains
   subroutine calculateFlux(this, problem)
     implicit none
     class(HeatFluxTYPE), intent(inout) :: this
-    class(ThProblemTYPE), intent(inout) :: problem
+    class(ThermalProblemTYPE), intent(inout) :: problem
     integer(ikind) :: iElem, iGauss, i, triangElemCount, quadElemCount
     integer(ikind) :: nElem, nPoint, nLine, nTriang, nQuad
     integer(ikind) :: nGauss, nGaussPointLine, nGaussPointTriang, nGaussPointQuad
@@ -153,7 +153,7 @@ contains
   subroutine valueGPoints1D(this, problem)
     implicit none
     class(HeatFluxTYPE), intent(inout) :: this
-    class(ThProblemTYPE), intent(inout) :: problem
+    class(ThermalProblemTYPE), intent(inout) :: problem
     type(IntegratorPtrTYPE) :: integrator
     integrator = problem%domain%elementList1D%getIntegrator()
     if(allocated(integrator%ptr%gPoint)) then
@@ -165,7 +165,7 @@ contains
   subroutine valueGPointsTriang(this, problem)
     implicit none
     class(HeatFluxTYPE), intent(inout) :: this
-    class(ThProblemTYPE), intent(inout) :: problem
+    class(ThermalProblemTYPE), intent(inout) :: problem
     type(IntegratorPtrTYPE) :: integrator
     integrator = problem%domain%elementList2D%getTriangIntegrator()
     if(allocated(integrator%ptr%gPoint)) then
@@ -177,7 +177,7 @@ contains
   subroutine valueGPointsQuad(this, problem)
     implicit none
     class(HeatFluxTYPE), intent(inout) :: this
-    class(ThProblemTYPE), intent(inout) :: problem
+    class(ThermalProblemTYPE), intent(inout) :: problem
     type(IntegratorPtrTYPE) :: integrator
     integrator = problem%domain%elementList2D%getQuadIntegrator()
     if(allocated(integrator%ptr%gPoint)) then

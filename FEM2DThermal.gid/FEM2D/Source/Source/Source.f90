@@ -11,7 +11,7 @@ module SourceMOD
   use IntegratorMOD
   use IntegratorPtrMOD
 
-  use ThElementList2DMOD
+  use ThermalElementList2DMOD
   implicit none
   private
   public :: SourceTYPE, source
@@ -193,7 +193,7 @@ contains
   subroutine apply(this, elementList, point, rhs)
     implicit none
     class(SourceTYPE), intent(inout) :: this
-    type(ThElementList2DTYPE), intent(inout) :: elementList
+    type(ThermalElementList2DTYPE), intent(inout) :: elementList
     type(PointTYPE), dimension(:), intent(inout) :: point
     real(rkind), dimension(:), intent(inout) :: rhs
     integer(ikind) :: i

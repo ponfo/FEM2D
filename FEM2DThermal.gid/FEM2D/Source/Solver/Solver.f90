@@ -1,8 +1,7 @@
 module SolverMOD
   use tools
   use DebuggerMOD
-  use ProblemMOD
-  use ThProblemMOD
+  use IODataMOD
   use SparseKit
   implicit none
   private
@@ -11,15 +10,15 @@ module SolverMOD
      procedure :: staticSolver
   end interface staticSolver
 contains
-  subroutine staticSolver(problem)
+  subroutine staticSolver(io)
     implicit none
-    class(ThProblemTYPE), intent(inout) :: problem
+    class(IODataTYPE), intent(inout) :: io
     real(rkind) :: start, finish
     call debugLog('Solving linear system')
     print*, 'Solving linear system'
     call cpu_time(start)
-    !problem%dof = CGOMP(problem%stiffness, problem%rhs)
-    problem%dof = bicGrad(problem%stiffness, problem%rhs)
+    !io%problem%dof = CGOMP(io%problem%stiffness, io%problem%rhs)
+    io%problem%dof = bicGrad(io%problem%stiffness, io%problem%rhs)
     call cpu_time(finish)
     call debugLog('Done solving')
     print*, 'Solver time = ', (finish-start)/4

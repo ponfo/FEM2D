@@ -3,7 +3,7 @@ module NormalFluxLineMOD
   use IntegratorMOD
   use IntegratorPtrMOD
   use PointPtrMOD
-  use ThElementList2DMOD
+  use ThermalElementList2DMOD
   use Element2DPtrMOD
   implicit none
   private
@@ -79,7 +79,7 @@ contains
   subroutine apply(this, elementList, rhs)
     implicit none
     class(NormalFluxLineTYPE), intent(inout) :: this
-    type(ThElementList2DTYPE), intent(inout) :: elementList
+    type(ThermalElementList2DTYPE), intent(inout) :: elementList
     real(rkind), dimension(:), intent(inout) :: rhs
     type(Element2DPtrTYPE) :: element
     integer(ikind) :: i, j, id

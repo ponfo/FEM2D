@@ -19,7 +19,7 @@ OBJECTS := $(BINDIR)/Debugger.o                 \
 	$(BINDIR)/IntegratorPtr.o               \
                                                 \
 	$(BINDIR)/Material.o                    \
-	$(BINDIR)/ThMaterial.o                  \
+	$(BINDIR)/ThermalMaterial.o             \
 	$(BINDIR)/MaterialPtr.o                 \
                                                 \
 	$(BINDIR)/Geometry.o                    \
@@ -28,22 +28,22 @@ OBJECTS := $(BINDIR)/Debugger.o                 \
 	$(BINDIR)/Element.o                     \
                                                 \
 	$(BINDIR)/Element1D.o                   \
-	$(BINDIR)/ThElement1D.o                 \
+	$(BINDIR)/ThermalElement1D.o            \
 	$(BINDIR)/Element1DPtr.o                \
-	$(BINDIR)/ThLinLineElement.o            \
-	$(BINDIR)/ThQuadLineElement.o           \
-	$(BINDIR)/ThElementList1D.o             \
+	$(BINDIR)/ThermalLinLineElement.o       \
+	$(BINDIR)/ThermalQuadLineElement.o      \
+	$(BINDIR)/ThermalElementList1D.o        \
                                                 \
 	$(BINDIR)/Element2D.o                   \
-	$(BINDIR)/ThElement2D.o                 \
+	$(BINDIR)/ThermalElement2D.o            \
 	$(BINDIR)/Element2DPtr.o                \
 	$(BINDIR)/TriangElement.o               \
-	$(BINDIR)/ThLinTriangElement.o          \
-	$(BINDIR)/ThQuadTriangElement.o         \
+	$(BINDIR)/ThermalLinTriangElement.o     \
+	$(BINDIR)/ThermalQuadTriangElement.o    \
 	$(BINDIR)/QuadElement.o                 \
-	$(BINDIR)/ThLinQuadElement.o            \
-	$(BINDIR)/ThQuadQuadElement.o           \
-	$(BINDIR)/ThElementList2D.o             \
+	$(BINDIR)/ThermalLinQuadElement.o       \
+	$(BINDIR)/ThermalQuadQuadElement.o      \
+	$(BINDIR)/ThermalElementList2D.o        \
                                                 \
 	$(BINDIR)/functionOnPoints.o            \
 	$(BINDIR)/functionOnLines.o             \
@@ -56,24 +56,24 @@ OBJECTS := $(BINDIR)/Debugger.o                 \
 	$(BINDIR)/DirichletPoint.o              \
 	$(BINDIR)/NormalFluxPoint.o             \
 	$(BINDIR)/ConvectionPoint.o             \
-	$(BINDIR)/ThBoundaryCondition1D.o       \
+	$(BINDIR)/ThermalBoundaryCondition1D.o  \
 	$(BINDIR)/NormalFluxLine.o              \
 	$(BINDIR)/ConvectionLine.o              \
-	$(BINDIR)/ThBoundaryCondition2D.o       \
+	$(BINDIR)/ThermalBoundaryCondition2D.o  \
                                                 \
 	$(BINDIR)/Domain.o                      \
-	$(BINDIR)/ThDomain.o                    \
+	$(BINDIR)/ThermalDomain.o               \
                                                 \
 	$(BINDIR)/Problem.o                     \
-	$(BINDIR)/ThProblem.o                   \
-                                                \
-	$(BINDIR)/Solver.o                      \
+	$(BINDIR)/ThermalProblem.o              \
 	                                        \
 	$(BINDIR)/HeatFlux.o                    \
 	                                        \
 	$(BINDIR)/IOData.o                      \
 	$(BINDIR)/DataInput.o                   \
 	$(BINDIR)/DataOutput.o                  \
+                                                \
+	$(BINDIR)/Solver.o                      \
 	$(BINDIR)/main.o
 
 main: $(OBJECTS)
@@ -110,7 +110,7 @@ $(BINDIR)/IntegratorPtr.o : $(VPATH)/Integrator/IntegratorPtr.f90
 
 $(BINDIR)/Material.o : $(VPATH)/Material/Material.f90
 	$(COMPILER) $(FFLAGS) -c $^ -o $@
-$(BINDIR)/ThMaterial.o : $(VPATH)/Material/ThMaterial.f90
+$(BINDIR)/ThermalMaterial.o : $(VPATH)/Material/ThermalMaterial.f90
 	$(COMPILER) $(FFLAGS) -c $^ -o $@
 $(BINDIR)/MaterialPtr.o : $(VPATH)/Material/MaterialPtr.f90
 	$(COMPILER) $(FFLAGS) -c $^ -o $@
@@ -125,36 +125,36 @@ $(BINDIR)/Element.o : $(VPATH)/Element/Element.f90
 
 $(BINDIR)/Element1D.o : $(VPATH)/Element/1D/Element1D.f90
 	$(COMPILER) $(FFLAGS) -c $^ -o $@
-$(BINDIR)/ThElement1D.o : $(VPATH)/Element/1D/ThElement1D.f90
+$(BINDIR)/ThermalElement1D.o : $(VPATH)/Element/1D/ThermalElement1D.f90
 	$(COMPILER) $(FFLAGS) -c $^ -o $@
 $(BINDIR)/Element1DPtr.o : $(VPATH)/Element/1D/Element1DPtr.f90
 	$(COMPILER) $(FFLAGS) -c $^ -o $@
-$(BINDIR)/ThLinLineElement.o : $(VPATH)/Element/1D/ThLinLineElement.f90
+$(BINDIR)/ThermalLinLineElement.o : $(VPATH)/Element/1D/ThermalLinLineElement.f90
 	$(COMPILER) $(FFLAGS) -c $^ -o $@
-$(BINDIR)/ThQuadLineElement.o : $(VPATH)/Element/1D/ThQuadLineElement.f90
+$(BINDIR)/ThermalQuadLineElement.o : $(VPATH)/Element/1D/ThermalQuadLineElement.f90
 	$(COMPILER) $(FFLAGS) -c $^ -o $@
-$(BINDIR)/ThElementList1D.o : $(VPATH)/Element/1D/ThElementList1D.f90
+$(BINDIR)/ThermalElementList1D.o : $(VPATH)/Element/1D/ThermalElementList1D.f90
 	$(COMPILER) $(FFLAGS) -c $^ -o $@
 
 $(BINDIR)/Element2D.o : $(VPATH)/Element/2D/Element2D.f90
 	$(COMPILER) $(FFLAGS) -c $^ -o $@
-$(BINDIR)/ThElement2D.o : $(VPATH)/Element/2D/ThElement2D.f90
+$(BINDIR)/ThermalElement2D.o : $(VPATH)/Element/2D/ThermalElement2D.f90
 	$(COMPILER) $(FFLAGS) -c $^ -o $@
 $(BINDIR)/Element2DPtr.o : $(VPATH)/Element/2D/Element2DPtr.f90
 	$(COMPILER) $(FFLAGS) -c $^ -o $@
 $(BINDIR)/TriangElement.o : $(VPATH)/Element/2D/TriangElement.f90
 	$(COMPILER) $(FFLAGS) -c $^ -o $@
-$(BINDIR)/ThLinTriangElement.o : $(VPATH)/Element/2D/ThLinTriangElement.f90
+$(BINDIR)/ThermalLinTriangElement.o : $(VPATH)/Element/2D/ThermalLinTriangElement.f90
 	$(COMPILER) $(FFLAGS) -c $^ -o $@
-$(BINDIR)/ThQuadTriangElement.o : $(VPATH)/Element/2D/ThQuadTriangElement.f90
+$(BINDIR)/ThermalQuadTriangElement.o : $(VPATH)/Element/2D/ThermalQuadTriangElement.f90
 	$(COMPILER) $(FFLAGS) -c $^ -o $@
 $(BINDIR)/QuadElement.o : $(VPATH)/Element/2D/QuadElement.f90
 	$(COMPILER) $(FFLAGS) -c $^ -o $@
-$(BINDIR)/ThLinQuadElement.o : $(VPATH)/Element/2D/ThLinQuadElement.f90
+$(BINDIR)/ThermalLinQuadElement.o : $(VPATH)/Element/2D/ThermalLinQuadElement.f90
 	$(COMPILER) $(FFLAGS) -c $^ -o $@
-$(BINDIR)/ThQuadQuadElement.o : $(VPATH)/Element/2D/ThQuadQuadElement.f90
+$(BINDIR)/ThermalQuadQuadElement.o : $(VPATH)/Element/2D/ThermalQuadQuadElement.f90
 	$(COMPILER) $(FFLAGS) -c $^ -o $@
-$(BINDIR)/ThElementList2D.o : $(VPATH)/Element/2D/ThElementList2D.f90
+$(BINDIR)/ThermalElementList2D.o : $(VPATH)/Element/2D/ThermalElementList2D.f90
 	$(COMPILER) $(FFLAGS) -c $^ -o $@
 
 $(BINDIR)/functionOnPoints.o : $(VPATH)/Source/functionOnPoints.f90
@@ -178,23 +178,23 @@ $(BINDIR)/NormalFluxPoint.o : $(VPATH)/BoundaryCondition/NormalFluxPoint.f90
 	$(COMPILER) $(FFLAGS) -c $^ -o $@
 $(BINDIR)/ConvectionPoint.o : $(VPATH)/BoundaryCondition/ConvectionPoint.f90
 	$(COMPILER) $(FFLAGS) -c $^ -o $@
-$(BINDIR)/ThBoundaryCondition1D.o : $(VPATH)/BoundaryCondition/ThBoundaryCondition1D.f90
+$(BINDIR)/ThermalBoundaryCondition1D.o : $(VPATH)/BoundaryCondition/ThermalBoundaryCondition1D.f90
 	$(COMPILER) $(FFLAGS) -c $^ -o $@
 $(BINDIR)/NormalFluxLine.o : $(VPATH)/BoundaryCondition/NormalFluxLine.f90
 	$(COMPILER) $(FFLAGS) -c $^ -o $@
 $(BINDIR)/ConvectionLine.o : $(VPATH)/BoundaryCondition/ConvectionLine.f90
 	$(COMPILER) $(FFLAGS) -c $^ -o $@
-$(BINDIR)/ThBoundaryCondition2D.o : $(VPATH)/BoundaryCondition/ThBoundaryCondition2D.f90
+$(BINDIR)/ThermalBoundaryCondition2D.o : $(VPATH)/BoundaryCondition/ThermalBoundaryCondition2D.f90
 	$(COMPILER) $(FFLAGS) -c $^ -o $@
 
 $(BINDIR)/Domain.o : $(VPATH)/Domain/Domain.f90
 	$(COMPILER) $(FFLAGS) -c $^ -o $@
-$(BINDIR)/ThDomain.o : $(VPATH)/Domain/ThDomain.f90
+$(BINDIR)/ThermalDomain.o : $(VPATH)/Domain/ThermalDomain.f90
 	$(COMPILER) $(FFLAGS) -c $^ -o $@
 
 $(BINDIR)/Problem.o : $(VPATH)/Problem/Problem.f90
 	$(COMPILER) $(FFLAGS) -c $^ -o $@
-$(BINDIR)/ThProblem.o : $(VPATH)/Problem/ThProblem.f90
+$(BINDIR)/ThermalProblem.o : $(VPATH)/Problem/ThermalProblem.f90
 	$(COMPILER) $(FFLAGS) -c $^ -o $@
 
 $(BINDIR)/Solver.o : $(VPATH)/Solver/Solver.f90

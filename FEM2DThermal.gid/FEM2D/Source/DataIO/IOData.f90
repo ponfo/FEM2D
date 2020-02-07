@@ -2,7 +2,7 @@ module IODataMOD
   use tools
   use DebuggerMOD
 
-  use ThProblemMOD
+  use ThermalProblemMOD
 
   use DomainMOD
 
@@ -11,21 +11,19 @@ module IODataMOD
 
   use SparseKit
   
-  use ThMaterialMOD
+  use ThermalMaterialMOD
   use MaterialPtrMOD
 
   use SourceMOD
 
-  use ThBoundaryCondition1DMOD
-  use ThBoundaryCondition2DMOD
+  use ThermalBoundaryCondition1DMOD
+  use ThermalBoundaryCondition2DMOD
 
   use Element1DPtrMOD
   use Element2DPtrMOD
   
-  use ThElementList1DMOD
-  use ThElementList2DMOD
-  
-  use SolverMOD
+  use ThermalElementList1DMOD
+  use ThermalElementList2DMOD
   
   use HeatFluxMOD
 
@@ -33,8 +31,8 @@ module IODataMOD
   private
   public :: IODataTYPE
   type :: IODataTYPE
-     type(ThProblemTYPE) :: problem
-     type(HeatFluxTYPE)  :: heatFlux
+     type(ThermalProblemTYPE) :: problem
+     type(HeatFluxTYPE)       :: heatFlux
    contains
      procedure, public  :: initThermalProblem
      
@@ -52,7 +50,6 @@ module IODataMOD
      procedure, public  :: addConvectionLine
 
      procedure, public  :: setUp
-     procedure, public  :: solveStatic
      procedure, public  :: postProcess
 
      procedure, private :: addElement1D
@@ -86,8 +83,8 @@ contains
     integer(ikind), intent(in) :: nNormalFluxLine
     integer(ikind), intent(in) :: nConvectionPoint
     integer(ikind), intent(in) :: nConvectionLine
-    call debugLog('  Initiating Thermal Problem')
-    call debugLog('    Initiating Thermal Domain')
+    call debugLog('  Initiating Thermalermal Problem')
+    call debugLog('    Initiating Thermalermal Domain')
     this%problem%domain%nPoint = nPoint
     this%problem%domain%nLine = nLine
     this%problem%domain%nTriang = nTriang
@@ -277,12 +274,6 @@ contains
     class(IODataTYPE), intent(inout) :: this
     call this%problem%setUp()
   end subroutine setUp
-
-  subroutine solveStatic(this)
-    implicit none
-    class(IODataTYPE), intent(inout) :: this
-    call staticSolver(this%problem)
-  end subroutine solveStatic
 
   subroutine postProcess(this)
     implicit none
