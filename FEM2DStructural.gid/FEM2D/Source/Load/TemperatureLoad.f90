@@ -115,8 +115,8 @@ contains
              d21 = element2D%ptr%material%ptr%d21
              d22 = element2D%ptr%material%ptr%d22
              thickness = element2D%ptr%material%ptr%thickness
-             int1 = int1 + bi*(d11*strain+d12*strain)*thickness/jacobianDet(k)
-             int2 = int2 + ci*(d12*strain+d22*strain)*thickness/jacobianDet(k)
+             int1 = int1 + integrator%ptr%weight(k)*bi*(d11*strain+d12*strain)*thickness
+             int2 = int2 + integrator%ptr%weight(k)*ci*(d12*strain+d22*strain)*thickness
           end do
           rhs(pointID*nDof-1) = rhs(pointID*nDof-1) + int1
           rhs(pointID*nDof) = rhs(pointID*nDof) + int2
