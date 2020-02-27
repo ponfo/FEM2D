@@ -1,6 +1,6 @@
-BeginZE /home/facundo/Documents/FEM2D-LastVersion/FEM2D/Thermal-Struct_Benchmark/Benchmark2Struct.gid/Benchmark2Struct.vv
-   x -4.04452 6.04452
-   y 4.22661 -1.22661
+BeginZE /home/marco/Gid/problemtypes/FEM2D/Thermal-Struct_Benchmark/Benchmark2Struct.gid/Benchmark2Struct.vv
+   x -2.65579 4.79094
+   y 3.30612 -0.435532
    z -5.61249 5.61249
    e 1.87083
    v 0 0 0
@@ -15,5 +15,5 @@ BeginZE /home/facundo/Documents/FEM2D-LastVersion/FEM2D/Thermal-Struct_Benchmark
    NowUse 1
    DrawingType 0
    LightVector 9.60474 80.1136 122.177 0
-EndZE /home/facundo/Documents/FEM2D-LastVersion/FEM2D/Thermal-Struct_Benchmark/Benchmark2Struct.gid/Benchmark2Struct.vv
+EndZE /home/marco/Gid/problemtypes/FEM2D/Thermal-Struct_Benchmark/Benchmark2Struct.gid/Benchmark2Struct.vv
 
