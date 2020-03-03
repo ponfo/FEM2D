@@ -297,14 +297,14 @@ contains
     class(Sparse), intent(inout) :: this
     logical :: mask
     integer(ikind) :: i, j, k
-!!$    allocate(rowVector(maxval(this%rowCounter)))
-!!$    allocate(valueVector(maxval(this%rowCounter)))
+    allocate(rowVector(maxval(this%rowCounter)))
+    allocate(valueVector(maxval(this%rowCounter)))
     this%counter = 1
     repeats = 0
     do i = 1, this%n
        rowVector = this%triplet%col(this%counter+repeats:this%counter+repeats+this%rowCounter(i)-1)
        valueVector = this%triplet%A(this%counter+repeats:this%counter+repeats+this%rowCounter(i)-1)
-       call quicksort(rowVector, valueVector, 1, this%rowCounter(i))
+       !call quicksort(rowVector, valueVector, 1, this%rowCounter(i))
        j = 0
        do while(j < this%rowCounter(i))
           j = j + 1
@@ -327,10 +327,11 @@ contains
           end do
           this%counter = this%counter + 1
        end do
+       call quicksort(auxAJ, auxA, this%counter-this%rowCounter(i), this%counter-1)
     end do
     this%counter = this%counter - 1
-!!$    deallocate(rowVector)
-!!$    deallocate(valueVector)
+    deallocate(rowVector)
+    deallocate(valueVector)
   end subroutine HandleDuplicates
   !***************************************************
   ! get:
@@ -2407,7 +2408,7 @@ contains
     real ( kind = 8 ) z(n)
     it = 0
     it_max = 10000
-    tol = 1.0D-15
+    tol = 1.0D-30
     bnrm2 = sqrt ( sum ( b(1:n)**2 ) )
     x(1:n) = b(1:n) / a(diag(1:n))
 !!$    write ( *, '(a)' ) ''
@@ -2466,7 +2467,7 @@ contains
        job = 2
     end do
 !!$    write ( *, '(a)' ) ''
-    write ( *, '(a,i4)' ) '  Number of iterations was ', it
+    write ( *, '(a,i6)' ) '  Number of iterations was ', it
     write ( *, '(a,g14.6)' ) '  Estimated error is ', rnrm2
     return
   end subroutine solve_cg
@@ -2493,9 +2494,7 @@ contains
     real(rkind) :: pq
     real(rkind) :: rho
     real(rkind) :: rho_old
-    !$ call omp_set_num_threads(4)
      x = 0.d0
-    !$OMP PARALLEL DO PRIVATE(i,j)
     do i = 1, size(M%AI)-1
        do j = M%AI(i), M%AI(i+1)-1
           if ( i == M%AJ(j) ) then
@@ -2503,17 +2502,14 @@ contains
           end if
        end do
     end do
-    !$OMP END PARALLEL DO
     it_max = 10000
     tol = 1.0D-15
     it = 0
     call vecdiv(M%n,b,diag,x)
     bb = sqrt (dot_product(b,b))
-    !$OMP PARALLEL DO PRIVATE(i)
     do i = 1, M%n
        r(i) = b(i)                                
     end do
-    !$OMP END PARALLEL DO
     y = M * x
     call vecsum(M%n,1.d0,r,-y,r)
     do
@@ -2524,14 +2520,11 @@ contains
           beta = rho / rho_old
           call vecsum(M%n,beta,p,z,z)
        end if
-       !$OMP PARALLEL DO PRIVATE(i)
        do i = 1, M%n
           p(i) = z(i)
        end do
-       !$OMP END PARALLEL DO
        call assign(M%n,q,0.d0)
        y = M * p
-       !y = sparse_vect_prod(M,p)
        call vecsum(M%n,1.d0,y,q,q)
        alpha = rho / dot_product(p,q)
        call vecsum(M%n,alpha,p,x,x)
