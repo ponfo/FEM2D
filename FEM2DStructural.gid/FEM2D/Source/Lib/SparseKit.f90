@@ -297,14 +297,14 @@ contains
     class(Sparse), intent(inout) :: this
     logical :: mask
     integer(ikind) :: i, j, k
-!!$    allocate(rowVector(maxval(this%rowCounter)))
-!!$    allocate(valueVector(maxval(this%rowCounter)))
+    allocate(rowVector(maxval(this%rowCounter)))
+    allocate(valueVector(maxval(this%rowCounter)))
     this%counter = 1
     repeats = 0
     do i = 1, this%n
        rowVector = this%triplet%col(this%counter+repeats:this%counter+repeats+this%rowCounter(i)-1)
        valueVector = this%triplet%A(this%counter+repeats:this%counter+repeats+this%rowCounter(i)-1)
-       call quicksort(rowVector, valueVector, 1, this%rowCounter(i))
+       !call quicksort(rowVector, valueVector, 1, this%rowCounter(i))
        j = 0
        do while(j < this%rowCounter(i))
           j = j + 1
@@ -327,10 +327,11 @@ contains
           end do
           this%counter = this%counter + 1
        end do
+       call quicksort(auxAJ, auxA, this%counter-this%rowCounter(i), this%counter-1)
     end do
     this%counter = this%counter - 1
-!!$    deallocate(rowVector)
-!!$    deallocate(valueVector)
+    deallocate(rowVector)
+    deallocate(valueVector)
   end subroutine HandleDuplicates
   !***************************************************
   ! get:
