@@ -4,7 +4,7 @@ COMPILER	:=  ifort
 VPATH		:=  $(PWD)/FEM2D/Source
 BINDIR		:=  $(PWD)/FEM2D/Bin
 OBJECTDIR	:=  $(PWD)/FEM2D/Objects
-FFLAGS		:=  -Ofast -free -static -check bounds -traceback -module $(OBJECTDIR)
+FFLAGS		:=  -Ofast -qopenmp -free -check bounds -mkl -liomp5 -lpthread -ldl -traceback -module $(OBJECTDIR)
 FFLAGSDebug 	:=  -O0 -fpp -check bounds -traceback -warn nounused -module $(OBJECTDIR)
 
 OBJECTS := $(BINDIR)/Debugger.o                 \
@@ -72,12 +72,12 @@ OBJECTS := $(BINDIR)/Debugger.o                 \
 	$(BINDIR)/DataInput.o                   \
 						\
 	$(BINDIR)/DataOutput.o                  \
-                                                \
+						\
 	$(BINDIR)/Solver.o                      \
 	$(BINDIR)/main.o
 
 main: $(OBJECTS)
-	$(COMPILER) $(FFLAGS) $(OBJECTS) -o main
+	$(COMPILER) $(FFLAGS) $(OBJECTS) -lm -o main
 
 precomp:
 	$(COMPILER) $(VPATH)/Lib/Debugger.f90 \
@@ -87,7 +87,7 @@ debug: $(OBJECTS)
 	$(COMPILER) $(FFLAGSDebug) $(OBJECTS) -o main
 
 $(BINDIR)/main.o : main.f90
-	$(COMPILER) $(FFLAGS) -c $^ -o $@ 
+	$(COMPILER) $(FFLAGS) -c $^ -o $@
 
 $(BINDIR)/Debugger.o : $(VPATH)/Lib/Debugger.f90
 	$(COMPILER) $(FFLAGS) -c $^ -o $@
