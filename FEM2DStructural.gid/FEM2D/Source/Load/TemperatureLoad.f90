@@ -120,8 +120,8 @@ contains
           end do
           rhs(pointID*nDof-1) = rhs(pointID*nDof-1) + int1
           rhs(pointID*nDof) = rhs(pointID*nDof) + int2
-          print'(A,I0,A,E16.8)', 'added temp term in row ', nDof*pointID-1, ' -> ', int1
-          print'(A,I0,A,E16.8)', 'added temp term in row ', nDof*pointID, ' -> ', int2
+          !print'(A,I0,A,E16.8)', 'added temp term in row ', nDof*pointID-1, ' -> ', int1
+          !print'(A,I0,A,E16.8)', 'added temp term in row ', nDof*pointID, ' -> ', int2
        end do
        deallocate(jacobian)
        deallocate(jacobianDet)
